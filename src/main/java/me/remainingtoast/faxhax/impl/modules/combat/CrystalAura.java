@@ -43,13 +43,12 @@ public class CrystalAura extends Module {
     Setting.Boolean announce;
 
     private final List<Entity> entities = new ArrayList<>();
-//    private final List<BlockPos> blocks = new ArrayList<>();
     private final List<EndCrystalEntity> crystals = new ArrayList<>();
     private final HashMap<BlockPos, Integer> blacklist = new HashMap<>();
     private final HashMap<Entity, BlockPos> bestBlocks = new HashMap<>();
+    private final HashMap<BlockPos, Double> bestDamage = new HashMap<>();
 
     private int breaks = 0;
-    private double bestDamage = 0.0;
 
     public CrystalAura() {
         super("CrystalAura", Category.COMBAT);
@@ -59,7 +58,7 @@ public class CrystalAura extends Module {
         breakBool = aBoolean("Break", true);
         breakRange = aDouble("BreakRange", 4.0,0.0,10.0);
         maxBreaks = aInteger("MaxBreaks", 2,0,20);
-        maxSelfDamage = aDouble("MaxSelfDamage", 0,1,36);
+        maxSelfDamage = aDouble("MaxSelfDamage", 10,0,36);
         antiSuicide = aBoolean("AntiSuicide", true);
         players = aBoolean("Players", true);
         hostile = aBoolean("Hostile", true);
@@ -122,10 +121,10 @@ public class CrystalAura extends Module {
             ).ifPresent(blockPos -> {
                 double damage = DamageUtil.getExplosiveDamage(blockPos.add(0.5, 1.0, 0.5), target);
                 bestBlocks.putIfAbsent(target, blockPos);
-                bestDamage = damage;
-                while (bestDamage < damage && damage < maxSelfDamage.getValue()){
-                    bestBlocks.replace(target, blockPos);
-                    bestDamage = damage;
+                bestDamage.putIfAbsent(blockPos, damage);
+                while (bestDamage.get(blockPos) < damage && damage < maxSelfDamage.getValue()){
+                    bestBlocks.put(target, blockPos);
+                    bestDamage.put(blockPos, damage);
                 }
             });
         }
@@ -134,8 +133,7 @@ public class CrystalAura extends Module {
     private void placeCrystals(){
         for(Entity entity : entities){
             findBestBlock(entity);
-            if(!bestBlocks.isEmpty()
-                    && bestDamage >= minDamage.getValue()
+            if(!bestBlocks.isEmpty() && bestDamage.get(bestBlocks.get(entity)) >= minDamage.getValue()
             ) {
                 placeCrystal(bestBlocks.get(entity));
             }
