@@ -15,7 +15,7 @@ public class TitleScreenMixin {
             method = {"render"},
             cancellable = true)
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci){
-
+        //TODO CUSTOM TITLE SCREEN
     }
 
 }
