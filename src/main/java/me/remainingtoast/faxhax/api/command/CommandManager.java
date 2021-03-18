@@ -38,7 +38,7 @@ public class CommandManager {
        }
     }
 
-    public static void initialiseCommandManager(){
+    public static void initializeCommandManager(){
         COMMANDS.add(new HelpCommand());
         COMMANDS.add(new PrefixCommand());
 

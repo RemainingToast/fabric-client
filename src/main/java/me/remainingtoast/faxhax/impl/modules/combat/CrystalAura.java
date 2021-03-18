@@ -1,28 +1,29 @@
 package me.remainingtoast.faxhax.impl.modules.combat;
 
 import me.remainingtoast.faxhax.FaxHax;
+import me.remainingtoast.faxhax.api.events.PacketEvent;
 import me.remainingtoast.faxhax.api.module.Module;
 import me.remainingtoast.faxhax.api.setting.Setting;
 import me.remainingtoast.faxhax.api.util.DamageUtil;
+import me.zero.alpine.listener.EventHandler;
+import me.zero.alpine.listener.Listener;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
-import net.minecraft.entity.mob.HoglinEntity;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.network.packet.s2c.play.LookAtS2CPacket;
+import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
+import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.*;
 
+import java.security.KeyStore;
 import java.util.*;
 
 import static java.lang.Math.*;
@@ -83,6 +84,25 @@ public class CrystalAura extends Module {
         if(announce.getValue()) message(toggleMessage());
     }
 
+    @Override
+    protected void onEnable() {
+        FaxHax.EVENTS.subscribe(listener);
+    }
+
+    @Override
+    protected void onDisable() {
+        FaxHax.EVENTS.unsubscribe(listener);
+    }
+
+    @EventHandler
+    private Listener<PacketEvent.Receive> listener = new Listener<>(event -> {
+        assert mc.player != null;
+        if(event.getPacket() instanceof EntityVelocityUpdateS2CPacket) {
+            if (((EntityVelocityUpdateS2CPacket) event.getPacket()).getId() == mc.player.getEntityId()) event.cancel();
+        } else if(event.getPacket() instanceof ExplosionS2CPacket) event.cancel();
+    });
+
+
     private void clearCache(){
         bestBlocks.clear();
         crystals.clear();
@@ -109,7 +129,7 @@ public class CrystalAura extends Module {
         }
     }
 
-    private void findBestBlock(Entity entity){
+    private HashMap<Entity, BlockPos> findBestBlock(Entity entity){
         if(entity instanceof LivingEntity){
             LivingEntity target = (LivingEntity) entity;
             BlockPos.findClosest(
@@ -123,19 +143,24 @@ public class CrystalAura extends Module {
                 bestBlocks.putIfAbsent(target, blockPos);
                 bestDamage.putIfAbsent(blockPos, damage);
                 while (bestDamage.get(blockPos) < damage && damage < maxSelfDamage.getValue()){
-                    bestBlocks.put(target, blockPos);
-                    bestDamage.put(blockPos, damage);
+                    bestBlocks.putIfAbsent(target, blockPos);
+                    bestDamage.putIfAbsent(blockPos, damage);
                 }
             });
         }
+        return bestBlocks;
     }
 
     private void placeCrystals(){
         for(Entity entity : entities){
-            findBestBlock(entity);
-            if(!bestBlocks.isEmpty() && bestDamage.get(bestBlocks.get(entity)) >= minDamage.getValue()
-            ) {
-                placeCrystal(bestBlocks.get(entity));
+            for(Entity entry : findBestBlock(entity).keySet()){
+                if(entry == entity) {
+                    BlockPos pos = bestBlocks.get(entry);
+                    double damage = bestDamage.get(pos);
+                    if(!bestBlocks.isEmpty() && damage >= minDamage.getValue()) {
+                        placeCrystal(pos);
+                    }
+                }
             }
         }
     }

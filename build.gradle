@@ -21,14 +21,13 @@ repositories {
 }
 
 dependencies {
-    //to change the versions see the gradle.properties file
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    compile "com.lukflug:panelstudio:${project.panelstudio_version}"
+    implementation "com.github.ZeroMemes:Alpine:${project.alpine_version}"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:0.32.0+1.16"
-
-    compile "com.lukflug:panelstudio:0.1.8"
-    modCompile "com.lukflug:panelstudio-mc16:0.1.9"
+//    modCompile "com.lukflug:panelstudio-mc16:${project.panelstudiomc16_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fapi_version}"
 }
 
 processResources {
@@ -58,7 +57,8 @@ shadowJar {
         include(dependency('org.yaml:snakeyaml'))
         include(dependency('net.jodah:typetools'))
         include(dependency('com.lukflug:panelstudio'))
-        include(dependency('com.lukflug:panelstudio-mc16'))
+//        include(dependency('com.lukflug:panelstudio-mc16'))
+        include(dependency('com.github.ZeroMemes:Alpine'))
     }
     classifier = 'release'
 }

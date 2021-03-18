@@ -3,6 +3,7 @@ package me.remainingtoast.faxhax.api.module;
 import me.remainingtoast.faxhax.FaxHax;
 import me.remainingtoast.faxhax.impl.modules.combat.CrystalAura;
 import me.remainingtoast.faxhax.impl.modules.misc.FakePlayer;
+import me.remainingtoast.faxhax.impl.modules.misc.PacketLogger;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
@@ -16,6 +17,7 @@ public class ModuleManager {
     public static void initializeModuleManager(){
         MODS.add(new CrystalAura());
         MODS.add(new FakePlayer());
+        MODS.add(new PacketLogger());
 
         FaxHax.LOGGER.info("Successfully loaded " + MODS.size() + " modules");
     }

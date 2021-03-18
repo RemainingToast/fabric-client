@@ -4,7 +4,10 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import me.remainingtoast.faxhax.FaxHax;
+import me.remainingtoast.faxhax.api.command.Command;
+import me.remainingtoast.faxhax.api.command.CommandManager;
 import me.remainingtoast.faxhax.api.config.ConfigManager;
 import net.minecraft.client.gui.screen.CommandSuggestor;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -46,10 +49,16 @@ public abstract class CommandSuggestorMixin {
             if(parse == null && FaxHax.mc.player != null) parse = commandDispatcher.parse(stringReader, FaxHax.mc.player.networkHandler.getCommandSource());
             i = textField.getCursor();
             if(i >= 1 && !completingSuggestions){
-                pendingSuggestions = commandDispatcher.getCompletionSuggestions(parse, i);
+//                pendingSuggestions = commandDispatcher.getCompletionSuggestions(parse, i);
+                SuggestionsBuilder suggestionsBuilder = new SuggestionsBuilder(string, 1);
+                for(Command command : CommandManager.COMMANDS){
+                    suggestionsBuilder.suggest(command.name);
+                }
+                pendingSuggestions = suggestionsBuilder.buildFuture();
                 pendingSuggestions.thenRun(() -> {
                     if (pendingSuggestions.isDone()) {
                         show();
+
                     }
                 });
             }

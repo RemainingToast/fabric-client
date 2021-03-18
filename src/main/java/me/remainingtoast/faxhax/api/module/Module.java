@@ -58,7 +58,10 @@ public class Module {
     }
 
     public void onCommand(String[] args){
-        if(args.length == 1) toggle();
+        if(args.length == 1) {
+            toggle();
+            message(PREFIX + name + "has been " + ((enabled) ? Formatting.GREEN + "enabled" : Formatting.RED + "disabled"));
+        }
         else if(args.length >= 3){
             try {
                 switch (args[1]) {
