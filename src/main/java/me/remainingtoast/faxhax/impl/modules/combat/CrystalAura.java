@@ -7,8 +7,10 @@ import me.remainingtoast.faxhax.api.util.DamageUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
+import net.minecraft.entity.mob.HoglinEntity;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -21,10 +23,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static java.lang.Math.*;
 
@@ -112,31 +111,23 @@ public class CrystalAura extends Module {
     }
 
     private void findBestBlock(Entity entity){
-        assert mc.player != null;
-        assert mc.world != null;
         if(entity instanceof LivingEntity){
             LivingEntity target = (LivingEntity) entity;
-            BlockPos blockPos = mc.player.getBlockPos();
-            for(double x = blockPos.getX() - placeRange.getValue(); x < blockPos.getX() + placeRange.getValue(); x++){
-                for(double z = blockPos.getZ() - placeRange.getValue(); z < blockPos.getZ() + placeRange.getValue(); z++){
-                    for(double y = blockPos.getY() - 3; y < blockPos.getY() + 3; y++){
-                        BlockPos pos = new BlockPos(floor(x), floor(y), floor(z));
-                        double damage = DamageUtil.getExplosiveDamage(pos.add(0.5, 1.0, 0.5), target);
-                        if(canPlace(pos) || !blacklist.containsKey(pos)) {
-                            if(bestBlocks.isEmpty()){
-                                bestBlocks.put(target, pos);
-//                                blocks.add(pos);
-                                bestDamage = damage;
-                            }
-                            if (bestDamage < damage && damage < maxSelfDamage.getValue()){
-                                bestBlocks.put(target, pos);
-//                                blocks.add(pos);
-                                bestDamage = damage;
-                            }
-                        }
-                    }
+            BlockPos.findClosest(
+                    target.getBlockPos(),
+                    (int) placeRange.getValue(),
+                    (int) placeRange.getValue(),
+                    (blockPos1 -> canPlace(blockPos1) && !blacklist.containsKey(blockPos1)
+                )
+            ).ifPresent(blockPos -> {
+                double damage = DamageUtil.getExplosiveDamage(blockPos.add(0.5, 1.0, 0.5), target);
+                bestBlocks.putIfAbsent(target, blockPos);
+                bestDamage = damage;
+                while (bestDamage < damage && damage < maxSelfDamage.getValue()){
+                    bestBlocks.replace(target, blockPos);
+                    bestDamage = damage;
                 }
-            }
+            });
         }
     }
 
