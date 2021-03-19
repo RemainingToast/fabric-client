@@ -20,6 +20,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Mixin(CommandSuggestor.class)
@@ -49,16 +52,16 @@ public abstract class CommandSuggestorMixin {
             if(parse == null && FaxHax.mc.player != null) parse = commandDispatcher.parse(stringReader, FaxHax.mc.player.networkHandler.getCommandSource());
             i = textField.getCursor();
             if(i >= 1 && !completingSuggestions){
-//                pendingSuggestions = commandDispatcher.getCompletionSuggestions(parse, i);
-                SuggestionsBuilder suggestionsBuilder = new SuggestionsBuilder(string, 1);
+                SuggestionsBuilder builder = new SuggestionsBuilder(string, 1);
+                List<String> names = new ArrayList<>();
                 for(Command command : CommandManager.COMMANDS){
-                    suggestionsBuilder.suggest(command.name);
+                    names.add(command.name);
                 }
-                pendingSuggestions = suggestionsBuilder.buildFuture();
+                names.sort(Comparator.naturalOrder());
+                pendingSuggestions = CommandSource.suggestMatching(names.stream(), builder);
                 pendingSuggestions.thenRun(() -> {
                     if (pendingSuggestions.isDone()) {
                         show();
-
                     }
                 });
             }

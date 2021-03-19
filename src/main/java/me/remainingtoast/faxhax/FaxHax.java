@@ -43,7 +43,6 @@ public class FaxHax implements ModInitializer {
 
         String endTime = (System.currentTimeMillis() - startTime) + "ms";
 
-
         LOGGER.info("FaxHax has successfully loaded in " + endTime);
     }
 
