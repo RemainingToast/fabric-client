@@ -22,6 +22,8 @@ public class FaxHax implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        long startTime = System.currentTimeMillis();
+
         LOGGER.info("Welcome to FaxHax " + VERSION);
 
         // Minecraft
@@ -39,7 +41,9 @@ public class FaxHax implements ModInitializer {
         // 2b2t Australia
         addServer();
 
-        LOGGER.info("Initialization has now completed.");
+        long endTime = System.currentTimeMillis() - startTime;
+
+        LOGGER.info("FaxHax has successfully loaded in " + endTime + "ms");
     }
 
     @Override

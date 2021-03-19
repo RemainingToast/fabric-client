@@ -14,19 +14,13 @@ repositories {
         name = "jitpack.io"
         url = "https://jitpack.io"
     }
-    maven {
-        name = 'lukflug'
-        url = 'https://lukflug.github.io/maven'
-    }
 }
 
 dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    compile "com.lukflug:panelstudio:${project.panelstudio_version}"
     implementation "com.github.ZeroMemes:Alpine:${project.alpine_version}"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-//    modCompile "com.lukflug:panelstudio-mc16:${project.panelstudiomc16_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fapi_version}"
 }
 
@@ -56,8 +50,6 @@ shadowJar {
     dependencies {
         include(dependency('org.yaml:snakeyaml'))
         include(dependency('net.jodah:typetools'))
-        include(dependency('com.lukflug:panelstudio'))
-//        include(dependency('com.lukflug:panelstudio-mc16'))
         include(dependency('com.github.ZeroMemes:Alpine'))
     }
     classifier = 'release'

@@ -1,9 +1,9 @@
 package me.remainingtoast.faxhax.api.setting;
 
-import com.lukflug.panelstudio.settings.EnumSetting;
-import com.lukflug.panelstudio.settings.NumberSetting;
-import com.lukflug.panelstudio.settings.Toggleable;
 import me.remainingtoast.faxhax.api.module.Module;
+import me.remainingtoast.faxhax.api.setting.types.BooleanSetting;
+import me.remainingtoast.faxhax.api.setting.types.EnumSetting;
+import me.remainingtoast.faxhax.api.setting.types.NumberSetting;
 import me.remainingtoast.faxhax.api.util.FaxColor;
 
 import java.awt.*;
@@ -17,7 +17,11 @@ public class Setting {
     private final Module.Category faxCategory;
     private final Type type;
 
-    public Setting(final String name, final Module parent, final Module.Category faxCategory, final Type type) {
+    public Setting(
+            final String name,
+            final Module parent,
+            final Module.Category faxCategory,
+            final Type type) {
         this.name = name;
         this.configName = name.replace(" ", "");
         this.parent = parent;
@@ -59,7 +63,13 @@ public class Setting {
         private final int min;
         private final int max;
 
-        public Integer(final String name, final Module parent, final Module.Category faxCategory, final int value, final int min, final int max) {
+        public Integer(
+                final String name,
+                final Module parent,
+                final Module.Category faxCategory,
+                final int value,
+                final int min,
+                final int max) {
             super(name, parent, faxCategory, Type.INTEGER);
             this.value = value;
             this.min = min;
@@ -114,7 +124,13 @@ public class Setting {
         private final double min;
         private final double max;
 
-        public Double(final String name, final Module parent, final Module.Category faxCategory, final double value, final double min, final double max) {
+        public Double(
+                final String name,
+                final Module parent,
+                final Module.Category faxCategory,
+                final double value,
+                final double min,
+                final double max) {
             super(name, parent, faxCategory, Type.DOUBLE);
             this.value = value;
             this.min = min;
@@ -163,11 +179,15 @@ public class Setting {
         }
     }
 
-    public static class Boolean extends Setting implements Toggleable {
+    public static class Boolean extends Setting implements BooleanSetting {
 
         private boolean value;
 
-        public Boolean(final String name, final Module parent, final Module.Category faxCategory, final boolean value) {
+        public Boolean(
+                final String name,
+                final Module parent,
+                final Module.Category faxCategory,
+                final boolean value) {
             super(name, parent, faxCategory, Type.BOOLEAN);
             this.value = value;
         }
@@ -186,7 +206,7 @@ public class Setting {
         }
 
         @Override
-        public boolean isOn() {
+        public boolean enabled() {
             return this.value;
         }
     }
@@ -227,7 +247,7 @@ public class Setting {
         }
     }
 
-    public static class ColorSetting extends Setting implements com.lukflug.panelstudio.settings.ColorSetting {
+    public static class ColorSetting extends Setting implements me.remainingtoast.faxhax.api.setting.types.ColorSetting {
 
         private boolean rainbow;
         private FaxColor value;
