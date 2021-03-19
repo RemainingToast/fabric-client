@@ -41,9 +41,10 @@ public class FaxHax implements ModInitializer {
         // 2b2t Australia
         addServer();
 
-        long endTime = System.currentTimeMillis() - startTime;
+        String endTime = (System.currentTimeMillis() - startTime) + "ms";
 
-        LOGGER.info("FaxHax has successfully loaded in " + endTime + "ms");
+
+        LOGGER.info("FaxHax has successfully loaded in " + endTime);
     }
 
     @Override

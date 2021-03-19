@@ -7,6 +7,7 @@ import me.remainingtoast.faxhax.api.setting.SettingManager;
 import me.remainingtoast.faxhax.api.util.FaxColor;
 import me.remainingtoast.faxhax.mixin.ChatHudMixin;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -268,5 +269,13 @@ public class Module {
             return false;
         }
         return true;
+    }
+
+    public void openScreen(Screen screen){
+        if(ModuleManager.isWhitelistedScreen(screen)) mc.openScreen(screen);
+    }
+
+    public void closeScreen(){
+        mc.openScreen(null);
     }
 }

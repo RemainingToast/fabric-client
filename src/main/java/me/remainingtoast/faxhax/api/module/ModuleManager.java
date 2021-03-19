@@ -1,9 +1,13 @@
 package me.remainingtoast.faxhax.api.module;
 
 import me.remainingtoast.faxhax.FaxHax;
+import me.remainingtoast.faxhax.api.gui.GuiScreen;
+import me.remainingtoast.faxhax.impl.modules.client.ClickGUI;
 import me.remainingtoast.faxhax.impl.modules.combat.CrystalAura;
 import me.remainingtoast.faxhax.impl.modules.misc.FakePlayer;
 import me.remainingtoast.faxhax.impl.modules.misc.PacketLogger;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
@@ -15,11 +19,15 @@ public class ModuleManager {
     public static List<Module> MODS = new ArrayList<>();
 
     public static void initializeModuleManager(){
+        long startTime = System.currentTimeMillis();
+
         MODS.add(new CrystalAura());
         MODS.add(new FakePlayer());
         MODS.add(new PacketLogger());
+        MODS.add(new ClickGUI());
 
-        FaxHax.LOGGER.info("Successfully loaded " + MODS.size() + " modules");
+        String endTime = (System.currentTimeMillis() - startTime) + "ms";
+        FaxHax.LOGGER.info("Successfully loaded " + MODS.size() + " modules in "+endTime);
     }
 
     public static Module getModule(String name){
@@ -38,13 +46,18 @@ public class ModuleManager {
     }
 
     public static void onKey(long window, int keyCode, int scancode){
-        if(FaxHax.mc.currentScreen != null) return;
-        for(Module mod : MODS){
-            if(mod.key == InputUtil.fromKeyCode(keyCode, scancode)){
-                if(GLFW.glfwGetKey(window, keyCode) == 0){ // Release
-                    mod.toggle();
+        if(isWhitelistedScreen(FaxHax.mc.currentScreen)){
+            for(Module mod : MODS){
+                if(mod.key == InputUtil.fromKeyCode(keyCode, scancode)){
+                    if(GLFW.glfwGetKey(window, keyCode) == 0){ // Release
+                        mod.toggle();
+                    }
                 }
             }
         }
+    }
+
+    public static boolean isWhitelistedScreen(Screen screen){
+        return screen instanceof GuiScreen || screen == null;
     }
 }
