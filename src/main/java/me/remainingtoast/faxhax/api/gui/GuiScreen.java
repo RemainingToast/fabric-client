@@ -1,17 +1,20 @@
 package me.remainingtoast.faxhax.api.gui;
 
 import me.remainingtoast.faxhax.api.module.Module;
+import me.remainingtoast.faxhax.api.util.FaxColor;
 import me.remainingtoast.faxhax.api.util.TwoDRenderUtil;
+import me.remainingtoast.faxhax.impl.modules.client.ClickGUI;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 
+import java.awt.*;
 import java.util.HashMap;
 
 public class GuiScreen extends Screen {
 
-    private final MinecraftClient mc = MinecraftClient.getInstance();
+    public static final MinecraftClient mc = MinecraftClient.getInstance();
 
     private final HashMap<Module.Category, Panel> panels = new HashMap<>();
 
@@ -23,7 +26,8 @@ public class GuiScreen extends Screen {
     protected void init() {
         int x = 10;
         for(Module.Category category : Module.Category.values()){
-            panels.putIfAbsent(category, new Panel(category, x += 70, 10));
+            panels.putIfAbsent(category, new Panel(category, x, 10));
+            x += 80;
         }
     }
 
@@ -61,10 +65,13 @@ public class GuiScreen extends Screen {
             TwoDRenderUtil.drawTextBox(
                     matrices,
                     category.name(),
-                    x,
-                    y,
-                    50,
-                    20,
+                    new Rectangle(
+                            x,
+                            y,
+                            70,
+                            10
+                    ),
+                    -1,
                     0,
                     -1
             );

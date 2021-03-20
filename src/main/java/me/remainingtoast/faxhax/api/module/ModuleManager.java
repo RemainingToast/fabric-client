@@ -6,13 +6,12 @@ import me.remainingtoast.faxhax.impl.modules.client.ClickGUI;
 import me.remainingtoast.faxhax.impl.modules.combat.CrystalAura;
 import me.remainingtoast.faxhax.impl.modules.misc.FakePlayer;
 import me.remainingtoast.faxhax.impl.modules.misc.PacketLogger;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ModuleManager {
 
@@ -46,18 +45,17 @@ public class ModuleManager {
     }
 
     public static void onKey(long window, int keyCode, int scancode){
-        if(isWhitelistedScreen(FaxHax.mc.currentScreen)){
-            for(Module mod : MODS){
-                if(mod.key == InputUtil.fromKeyCode(keyCode, scancode)){
-                    if(GLFW.glfwGetKey(window, keyCode) == 0){ // Release
+        for(Module mod : MODS){
+            if(mod.key == InputUtil.fromKeyCode(keyCode, scancode)){
+                if(GLFW.glfwGetKey(window, keyCode) == 0){ // Release
+                    if((mod.name.equals("ClickGUI")
+                            && Objects.equals(mod.mc.currentScreen,
+                            new GuiScreen())) || mod.mc.currentScreen == null
+                    ){
                         mod.toggle();
                     }
                 }
             }
         }
-    }
-
-    public static boolean isWhitelistedScreen(Screen screen){
-        return screen instanceof GuiScreen || screen == null;
     }
 }

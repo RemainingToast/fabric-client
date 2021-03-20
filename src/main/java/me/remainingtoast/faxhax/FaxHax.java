@@ -35,8 +35,6 @@ public class FaxHax implements ModInitializer {
         // Commands
         CommandManager.initializeCommandManager();
 
-        // Friends
-
         // 2b2t Australia
         addServer();
 

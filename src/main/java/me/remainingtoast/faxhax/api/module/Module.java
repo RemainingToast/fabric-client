@@ -271,10 +271,6 @@ public class Module {
         return true;
     }
 
-    public void openScreen(Screen screen){
-        if(ModuleManager.isWhitelistedScreen(screen)) mc.openScreen(screen);
-    }
-
     public void closeScreen(){
         mc.openScreen(null);
     }
