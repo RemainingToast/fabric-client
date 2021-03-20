@@ -39,12 +39,12 @@ public class TwoDRenderUtil extends DrawableHelper {
 
     public static void drawCenteredTextBox(MatrixStack matrices, String text, Rectangle rect, int bgColor, int textColor){
         drawRect(matrices, rect.x - 2, rect.y - 2, rect.width, rect.height, bgColor);
-        drawCenteredString(matrices, mc.textRenderer, text, (int) rect.getCenterX(), rect.y - 1, textColor);
+        drawCenteredString(matrices, mc.textRenderer, text, (int) rect.getCenterX(), rect.y, textColor);
     }
 
     public static void drawTextBox(MatrixStack matrices, String text, Rectangle rect, int bgColor, int textColor){
         drawRect(matrices, rect.x - 2, rect.y - 2, rect.width, rect.height, bgColor);
-        drawText(matrices, text, rect.x + 1, rect.y - 1, textColor);
+        drawText(matrices, text, rect.x + 1, rect.y, textColor);
     }
 
     public static boolean mouseOverRect(double mouseX, double mouseY, Rectangle rect){

@@ -27,11 +27,11 @@ public class GuiScreen extends Screen {
 
     @Override
     protected void init() {
-        panels.add(new Panel(Module.Category.COMBAT, 20, 20));
-        panels.add(new Panel(Module.Category.PLAYER, 120, 20));
-        panels.add(new Panel(Module.Category.MOVEMENT, 240, 20));
-        panels.add(new Panel(Module.Category.MISC, 360, 20));
-        panels.add(new Panel(Module.Category.CLIENT, 480, 20));
+        int x = 20;
+        for(Module.Category panel : Module.Category.values()){
+            panels.add(new Panel(panel, x, 20));
+            x += 90;
+        }
     }
 
     @Override
@@ -90,11 +90,11 @@ public class GuiScreen extends Screen {
         private int x;
         private int y;
 
-        private final int width = 100;
-        private final int height = 15;
+        private final int width = 80;
+        private final int height = 12;
 
         private final Module.Category category;
-        private boolean expanded = false;
+        private boolean expanded = true;
 
         public Panel(Module.Category category, int x, int y){
             this.category = category;
@@ -113,7 +113,7 @@ public class GuiScreen extends Screen {
                             width,
                             height
                     ),
-                    0xFF00FF00,
+                    0x8000FF00,
                     0xFFFFFFFF
             );
             if(mouseOverRect(mouseX, mouseY, new Rectangle(x, y, width, height))){
@@ -123,12 +123,12 @@ public class GuiScreen extends Screen {
             }
             if(expanded){
                 for(Module mod : ModuleManager.getModulesInCategory(category)){
-                    if(mouseOverRect(mouseX, mouseY, iteratedRect(level)) && leftClicked) mod.toggle();
+                    if(mouseOverRect(mouseX, mouseY, moduleRect(level)) && leftClicked) mod.toggle();
                     drawTextBox(
                             matrices,
                             mod.name,
-                            iteratedRect(level),
-                            0xFF000000,
+                            moduleRect(level),
+                            (mod.enabled) ? 0x8000FF00 : 0x50000000,
                             0xFFFFFFFF
                     );
                     level++;
@@ -139,9 +139,9 @@ public class GuiScreen extends Screen {
                     x - 2,
                     y - 2,
                     width,
-                    yIteration(level - 1),
+                    level + (height * level),
                     1,
-                    0xFF00FF00
+                    0x8000FF00
             );
         }
 
@@ -149,11 +149,11 @@ public class GuiScreen extends Screen {
             return y + iteration + (height * iteration);
         }
 
-        private Rectangle iteratedRect(int iteration){
+        private Rectangle moduleRect(int iteration){
             return new Rectangle(
-                    x,
+                    x + 1,
                     yIteration(iteration),
-                    width,
+                    width - 2,
                     height
             );
         }
