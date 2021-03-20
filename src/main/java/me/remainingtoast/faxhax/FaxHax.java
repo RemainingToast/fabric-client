@@ -35,8 +35,7 @@ public class FaxHax implements ModInitializer {
         // Commands
         CommandManager.initializeCommandManager();
 
-        //Config
-//        ConfigManager.initializeConfigManager();
+        // Friends
 
         // 2b2t Australia
         addServer();
@@ -59,7 +58,7 @@ public class FaxHax implements ModInitializer {
         for (int i = 0; i < servers.size(); i++) {
             ServerInfo server = servers.get(i);
 
-            if (server.address.contains("2b2t.com.au") || server.address.contains("test.2b2t.org")) {
+            if (server.address.contains("2b2t.com.au")) {
                 contains = true;
                 break;
             }
@@ -67,7 +66,6 @@ public class FaxHax implements ModInitializer {
 
         if (!contains) {
             servers.add(new ServerInfo("2b2t Australia", "2b2t.com.au", false));
-            servers.add(new ServerInfo("2b2t 1.16", "test.2b2t.org", false));
             servers.saveFile();
         }
     }
