@@ -10,6 +10,7 @@ import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,6 +37,16 @@ public class ModuleManager {
                 return mod;
         }
         return null;
+    }
+
+    public static List<Module> getModulesInCategory(Module.Category category){
+        List<Module> output = new ArrayList<>();
+        Iterator<Module> iter = MODS.iterator();
+        while(iter.hasNext()){
+            Module mod = iter.next();
+            if(mod.category == category) output.add(mod);
+        }
+        return output;
     }
 
     public static void onTick(){

@@ -22,10 +22,12 @@ public class TwoDRenderUtil extends DrawableHelper {
         matrices.pop();
     }
 
+    /**
+     * @param color
+     * format 0xAARRGGBB
+     */
     public static void drawRect(MatrixStack matrices, int x, int y, int width, int height, int color){
         fill(matrices, x, y, x + width, y + height, color);
-        matrices.push();
-        matrices.pop();
     }
 
     public static void drawHollowRect(MatrixStack matrices, int x, int y, int width, int height, int lineWidth, int color){
@@ -35,14 +37,18 @@ public class TwoDRenderUtil extends DrawableHelper {
         drawRect(matrices, x + width, y, lineWidth, height, color); // right line
     }
 
-    public static void drawTextBox(MatrixStack matrices, String text, Rectangle rect, int outlineColor, int boxColor, int textColor){
-        drawRect(matrices, rect.x - 2, rect.y - 2, rect.width, rect.height, boxColor);
-        drawHollowRect(matrices, rect.x - 2, rect.y - 2, rect.width, rect.height, 1, outlineColor);
-        drawCenteredString(matrices, mc.textRenderer, text, (int) rect.getCenterX(), rect.y + 1, textColor);
+    public static void drawCenteredTextBox(MatrixStack matrices, String text, Rectangle rect, int bgColor, int textColor){
+        drawRect(matrices, rect.x - 2, rect.y - 2, rect.width, rect.height, bgColor);
+        drawCenteredString(matrices, mc.textRenderer, text, (int) rect.getCenterX(), rect.y - 1, textColor);
     }
 
-    public static boolean mouseOverRect(double mouseX, double mouseY, int x, int y, int width, int height){
-        return mouseX >= x && mouseX <= width + x && mouseY >= y && mouseY <= height + y;
+    public static void drawTextBox(MatrixStack matrices, String text, Rectangle rect, int bgColor, int textColor){
+        drawRect(matrices, rect.x - 2, rect.y - 2, rect.width, rect.height, bgColor);
+        drawText(matrices, text, rect.x + 1, rect.y - 1, textColor);
+    }
+
+    public static boolean mouseOverRect(double mouseX, double mouseY, Rectangle rect){
+        return mouseX >= rect.x && mouseX <= rect.width + rect.x && mouseY >= rect.y && mouseY <= rect.height + rect.y;
     }
 
 }

@@ -9,13 +9,8 @@ import java.util.Objects;
 
 public class ClickGUI extends Module {
 
-//    public static Setting.ColorSetting backgroundColor;
-
     public ClickGUI() {
         super("ClickGUI", Category.CLIENT);
-
-//        backgroundColor = aColor("Background", new FaxColor(0, 0, 0));
-
         setKey(344, -1);
     }
 
