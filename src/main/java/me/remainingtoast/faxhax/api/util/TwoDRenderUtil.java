@@ -47,7 +47,7 @@ public class TwoDRenderUtil extends DrawableHelper {
         drawText(matrices, text, rect.x + 2, rect.y, textColor);
     }
 
-    public static void drawSlider(MatrixStack matrices, String text, String value, Rectangle rect, int lineColor, int bgColor, int textColor){
+    public static void drawSettingTextBox(MatrixStack matrices, String text, String value, Rectangle rect, int lineColor, int bgColor, int textColor){
         drawRect(matrices, rect.x - 2, rect.y - 2, rect.width, rect.height, bgColor);
         drawRect(matrices, rect.x - 2, rect.y - 3, 2, rect.height + 1, lineColor);
         drawText(matrices, text, rect.x + 2, rect.y, textColor);

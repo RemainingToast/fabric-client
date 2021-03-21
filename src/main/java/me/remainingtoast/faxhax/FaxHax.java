@@ -52,11 +52,6 @@ public class FaxHax implements ModInitializer {
         String endTime = (System.currentTimeMillis() - startTime) + "ms";
 
         LOGGER.info("FaxHax has successfully loaded in " + endTime);
-
-        // FriendsAPI
-//        FriendManager.INSTANCE.init();
-//
-//        FriendManager.INSTANCE.addFriend(new Profile("null", UUID.randomUUID(), -1L));
     }
 
     public static void addServer() {

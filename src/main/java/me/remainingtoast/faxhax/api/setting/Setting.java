@@ -16,6 +16,7 @@ public class Setting {
     private final Module parent;
     private final Module.Category faxCategory;
     private final Type type;
+    private boolean visible;
 
     public Setting(
             final String name,
@@ -27,6 +28,7 @@ public class Setting {
         this.parent = parent;
         this.type = type;
         this.faxCategory = faxCategory;
+        this.visible = true;
     }
 
     public String getName() {
@@ -47,6 +49,14 @@ public class Setting {
 
     public Module.Category getCategory() {
         return this.faxCategory;
+    }
+
+    public boolean getVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean newValue) {
+        visible = newValue;
     }
 
     public enum Type {
