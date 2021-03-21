@@ -39,22 +39,17 @@ public class FaxHax implements ModInitializer {
         // Commands
         CommandManager.initializeCommandManager();
 
-        // Friends
-        FriendManager.INSTANCE.init();
-
-        FriendManager.INSTANCE.addFriend(new Profile("null", UUID.randomUUID(), -1L));
-
         // 2b2t Australia
         addServer();
 
         String endTime = (System.currentTimeMillis() - startTime) + "ms";
 
         LOGGER.info("FaxHax has successfully loaded in " + endTime);
-    }
 
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
+        // FriendsAPI
+        FriendManager.INSTANCE.init();
+
+        FriendManager.INSTANCE.addFriend(new Profile("null", UUID.randomUUID(), -1L));
     }
 
     public static void addServer() {

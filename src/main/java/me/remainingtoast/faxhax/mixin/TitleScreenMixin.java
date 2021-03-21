@@ -46,4 +46,5 @@ public class TitleScreenMixin {
                 width,
                 height);
     }
+
 }
