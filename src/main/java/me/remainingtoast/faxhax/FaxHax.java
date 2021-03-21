@@ -1,5 +1,7 @@
 package me.remainingtoast.faxhax;
 
+import com.github.fabricutilitymods.friendapi.FriendManager;
+import com.github.fabricutilitymods.friendapi.Profile;
 import me.remainingtoast.faxhax.api.command.CommandManager;
 import me.remainingtoast.faxhax.api.module.ModuleManager;
 import me.zero.alpine.bus.EventManager;
@@ -9,6 +11,8 @@ import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.options.ServerList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.UUID;
 
 public class FaxHax implements ModInitializer {
 
@@ -34,6 +38,11 @@ public class FaxHax implements ModInitializer {
 
         // Commands
         CommandManager.initializeCommandManager();
+
+        // Friends
+        FriendManager.INSTANCE.init();
+
+        FriendManager.INSTANCE.addFriend(new Profile("null", UUID.randomUUID(), -1L));
 
         // 2b2t Australia
         addServer();

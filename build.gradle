@@ -10,6 +10,7 @@ version = project.mod_version
 group = project.maven_group
 
 repositories {
+    jcenter()
     maven {
         name = "jitpack.io"
         url = "https://jitpack.io"
@@ -19,6 +20,7 @@ repositories {
 dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    implementation "com.github.Fabric-Utility-Mods:FriendAPI:1.1"
     implementation "com.github.ZeroMemes:Alpine:${project.alpine_version}"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fapi_version}"
