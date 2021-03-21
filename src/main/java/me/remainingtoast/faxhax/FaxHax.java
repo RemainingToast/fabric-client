@@ -1,9 +1,8 @@
 package me.remainingtoast.faxhax;
 
-import com.github.fabricutilitymods.friendapi.FriendManager;
-import com.github.fabricutilitymods.friendapi.Profile;
 import me.remainingtoast.faxhax.api.command.CommandManager;
 import me.remainingtoast.faxhax.api.module.ModuleManager;
+import me.remainingtoast.faxhax.api.util.AuthUtil;
 import me.zero.alpine.bus.EventManager;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.MinecraftClient;
@@ -11,8 +10,6 @@ import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.options.ServerList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.UUID;
 
 public class FaxHax implements ModInitializer {
 
@@ -28,10 +25,20 @@ public class FaxHax implements ModInitializer {
     public void onInitialize() {
         long startTime = System.currentTimeMillis();
 
-        LOGGER.info("Welcome to FaxHax " + VERSION);
-
         // Minecraft
         mc = MinecraftClient.getInstance();
+
+        // Auth
+        AuthUtil.initializeAuth();
+
+        if(!AuthUtil.isLicensed()) {
+            LOGGER.fatal("[AUTH] This computer (" + AuthUtil.getHardwareUUID() + ") is not licensed!");
+            LOGGER.fatal("[AUTH] Forcing Shutdown!");
+            mc.scheduleStop();
+            return;
+        }
+
+        LOGGER.info("Welcome to FaxHax " + VERSION);
 
         // Modules
         ModuleManager.initializeModuleManager();
@@ -47,9 +54,9 @@ public class FaxHax implements ModInitializer {
         LOGGER.info("FaxHax has successfully loaded in " + endTime);
 
         // FriendsAPI
-        FriendManager.INSTANCE.init();
-
-        FriendManager.INSTANCE.addFriend(new Profile("null", UUID.randomUUID(), -1L));
+//        FriendManager.INSTANCE.init();
+//
+//        FriendManager.INSTANCE.addFriend(new Profile("null", UUID.randomUUID(), -1L));
     }
 
     public static void addServer() {

@@ -18,12 +18,17 @@ repositories {
 }
 
 dependencies {
+    // Fabric
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    implementation "com.github.Fabric-Utility-Mods:FriendAPI:1.1"
-    implementation "com.github.ZeroMemes:Alpine:${project.alpine_version}"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fapi_version}"
+
+    // HWID
+    implementation 'com.github.oshi:oshi-core:5.5.0'
+
+    // Events
+    implementation "com.github.ZeroMemes:Alpine:${project.alpine_version}"
 }
 
 processResources {
@@ -50,9 +55,10 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 shadowJar {
     dependencies {
-        include(dependency('org.yaml:snakeyaml'))
-        include(dependency('net.jodah:typetools'))
-        include(dependency('com.github.ZeroMemes:Alpine'))
+        include(dependency("org.yaml:snakeyaml"))
+        include(dependency("net.jodah:typetools"))
+        include(dependency("com.github.ZeroMemes:Alpine"))
+        include(dependency("com.github.oshi:oshi-core"))
     }
     classifier = 'release'
 }

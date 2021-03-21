@@ -3,6 +3,7 @@ package me.remainingtoast.faxhax.api.module;
 import me.remainingtoast.faxhax.FaxHax;
 import me.remainingtoast.faxhax.api.gui.GuiScreen;
 import me.remainingtoast.faxhax.impl.modules.client.ClickGUI;
+import me.remainingtoast.faxhax.impl.modules.client.MainMenu;
 import me.remainingtoast.faxhax.impl.modules.combat.CrystalAura;
 import me.remainingtoast.faxhax.impl.modules.misc.FakePlayer;
 import me.remainingtoast.faxhax.impl.modules.misc.PacketLogger;
@@ -25,6 +26,7 @@ public class ModuleManager {
         MODS.add(new FakePlayer());
         MODS.add(new PacketLogger());
         MODS.add(new ClickGUI());
+        MODS.add(new MainMenu());
 
         String endTime = (System.currentTimeMillis() - startTime) + "ms";
         FaxHax.LOGGER.info("Successfully loaded " + MODS.size() + " modules in "+endTime);

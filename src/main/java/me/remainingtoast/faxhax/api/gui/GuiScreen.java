@@ -155,7 +155,7 @@ public class GuiScreen extends Screen {
                                             setting.getName(),
                                             moduleRect(level),
                                             0x8000FF00,
-                                            (set.getValue()) ? 0x8000FF00 : 0x50000000,
+                                            (set.getValue()) ? (mouseOverSettingRect) ? 0x9900FF00 : 0x8000FF00 : (mouseOverSettingRect) ? 0x80000000 : 0x50000000,
                                             0xFFFFFFFF
                                     );
                                     if(mouseOverSettingRect && leftClicked) set.setValue(!set.getValue());
@@ -167,7 +167,7 @@ public class GuiScreen extends Screen {
                                             String.valueOf(set.getValue()),
                                             moduleRect(level),
                                             0x8000FF00,
-                                            0x50000000,
+                                            (mouseOverSettingRect) ? 0x80000000 : 0x50000000,
                                             0xFFFFFFFF
                                     );
                                 } else if(setting.getType().equals(Setting.Type.INTEGER)){
@@ -178,7 +178,7 @@ public class GuiScreen extends Screen {
                                             String.valueOf(set.getValue()),
                                             moduleRect(level),
                                             0x8000FF00,
-                                            0x50000000,
+                                            (mouseOverSettingRect) ? 0x80000000 : 0x50000000,
                                             0xFFFFFFFF
                                     );
                                 } else {
@@ -187,7 +187,7 @@ public class GuiScreen extends Screen {
                                             setting.getName(),
                                             moduleRect(level),
                                             0x8000FF00,
-                                            0x50000000,
+                                            (mouseOverSettingRect) ? 0x80000000 : 0x50000000,
                                             0xFFFFFFFF
                                     );
                                 }
