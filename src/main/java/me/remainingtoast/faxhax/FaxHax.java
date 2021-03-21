@@ -74,7 +74,7 @@ public class FaxHax implements ModInitializer {
         }
 
         if (!contains) {
-            servers.add(new ServerInfo("2b2t Australia", "2b2t.com.au", false));
+            servers.add(new ServerInfo("2b2t Queue Skip", "2b2t.com.au", false));
             servers.saveFile();
         }
     }

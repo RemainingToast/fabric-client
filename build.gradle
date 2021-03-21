@@ -26,6 +26,7 @@ dependencies {
 
     // HWID
     implementation 'com.github.oshi:oshi-core:5.5.0'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
 
     // Events
     implementation "com.github.ZeroMemes:Alpine:${project.alpine_version}"
@@ -59,12 +60,12 @@ shadowJar {
         include(dependency("net.jodah:typetools"))
         include(dependency("com.github.ZeroMemes:Alpine"))
         include(dependency("com.github.oshi:oshi-core"))
+        include(dependency("org.slf4j:slf4j-api"))
     }
     classifier = 'release'
 }
 
 remapJar {
-    dependsOn shadowJar
-    mustRunAfter shadowJar
-    input = file("build/libs/${archivesBaseName}-${project.mod_version}.jar")
+    dependsOn(shadowJar)
+    input.set(shadowJar.archivePath)
 }
