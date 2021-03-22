@@ -1,8 +1,6 @@
 package me.remainingtoast.faxhax.mixin;
 
 import me.remainingtoast.faxhax.api.module.ModuleManager;
-import me.remainingtoast.faxhax.api.util.GLSLSandboxShader;
-import me.remainingtoast.faxhax.api.util.ShaderUtil;
 import me.remainingtoast.faxhax.impl.modules.client.MainMenu;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.RotatingCubeMapRenderer;
@@ -14,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import sun.applet.Main;
 
 import static net.minecraft.client.gui.DrawableHelper.drawTexture;
 
@@ -35,7 +32,7 @@ public class TitleScreenMixin {
     }
 
     @Inject(
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/texture/TextureManager;bindTexture(Lnet/minecraft/util/Identifier;)V"),
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/RotatingCubeMapRenderer;render(FF)V"),
             method = {"render"}
     )
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci){
@@ -58,5 +55,6 @@ public class TitleScreenMixin {
                     height
             );
         }
+        // I was using shader here
     }
 }

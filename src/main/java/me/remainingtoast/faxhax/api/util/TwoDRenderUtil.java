@@ -48,7 +48,7 @@ public class TwoDRenderUtil extends DrawableHelper {
     }
 
     public static void drawSettingTextBox(MatrixStack matrices, String text, String value, Rectangle rect, int lineColor, int bgColor, int textColor){
-        drawRect(matrices, rect.x - 2, rect.y - 2, rect.width, rect.height, bgColor);
+        drawRect(matrices, rect.x, rect.y - 2, rect.width, rect.height, bgColor);
         drawRect(matrices, rect.x - 2, rect.y - 3, 2, rect.height + 1, lineColor);
         drawText(matrices, text, rect.x + 2, rect.y, textColor);
         drawText(matrices, value, rect.x + (rect.width - mc.textRenderer.getWidth(value)) - 2, rect.y, textColor);
@@ -57,5 +57,7 @@ public class TwoDRenderUtil extends DrawableHelper {
     public static boolean mouseOverRect(double mouseX, double mouseY, Rectangle rect){
         return mouseX >= rect.x && mouseX <= rect.width + rect.x && mouseY >= rect.y && mouseY <= rect.height + rect.y;
     }
+
+
 
 }

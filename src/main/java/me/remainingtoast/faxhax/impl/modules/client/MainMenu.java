@@ -17,7 +17,7 @@ public class MainMenu extends Module {
 
         modes.add("FaxHax");
 
-        mainMenuMode = aMode("Mode", modes,"FaxHax");
+        mainMenuMode = aMode("Shader", modes,"FaxHax");
 
         setEnabled(true);
     }

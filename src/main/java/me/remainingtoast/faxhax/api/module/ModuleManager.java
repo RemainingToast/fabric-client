@@ -1,8 +1,8 @@
 package me.remainingtoast.faxhax.api.module;
 
 import me.remainingtoast.faxhax.FaxHax;
-import me.remainingtoast.faxhax.api.gui.GuiScreen;
-import me.remainingtoast.faxhax.impl.modules.client.ClickGUI;
+import me.remainingtoast.faxhax.api.gui.ClickGUI;
+import me.remainingtoast.faxhax.impl.modules.client.ClickGUIModule;
 import me.remainingtoast.faxhax.impl.modules.client.MainMenu;
 import me.remainingtoast.faxhax.impl.modules.combat.CrystalAura;
 import me.remainingtoast.faxhax.impl.modules.misc.FakePlayer;
@@ -25,7 +25,7 @@ public class ModuleManager {
         MODS.add(new CrystalAura());
         MODS.add(new FakePlayer());
         MODS.add(new PacketLogger());
-        MODS.add(new ClickGUI());
+        MODS.add(new ClickGUIModule());
         MODS.add(new MainMenu());
 
         String endTime = (System.currentTimeMillis() - startTime) + "ms";
@@ -63,7 +63,7 @@ public class ModuleManager {
                 if(GLFW.glfwGetKey(window, keyCode) == 0){ // Release
                     if((mod.name.equals("ClickGUI")
                             && Objects.equals(mod.mc.currentScreen,
-                            new GuiScreen())) || mod.mc.currentScreen == null
+                            new ClickGUI())) || mod.mc.currentScreen == null
                     ){
                         mod.toggle();
                     }
