@@ -55,6 +55,5 @@ public class TitleScreenMixin {
                     height
             );
         }
-        // I was using shader here
     }
 }

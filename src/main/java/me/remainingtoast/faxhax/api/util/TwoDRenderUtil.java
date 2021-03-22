@@ -1,8 +1,10 @@
 package me.remainingtoast.faxhax.api.util;
 
+import me.remainingtoast.faxhax.api.setting.Setting;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
 

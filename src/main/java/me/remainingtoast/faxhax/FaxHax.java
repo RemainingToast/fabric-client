@@ -1,10 +1,13 @@
 package me.remainingtoast.faxhax;
 
 import me.remainingtoast.faxhax.api.command.CommandManager;
+import me.remainingtoast.faxhax.api.config.ConfigManager;
 import me.remainingtoast.faxhax.api.module.ModuleManager;
 import me.remainingtoast.faxhax.api.util.AuthUtil;
 import me.zero.alpine.bus.EventManager;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.options.ServerList;
@@ -39,6 +42,11 @@ public class FaxHax implements ModInitializer {
         }
 
         LOGGER.info("Welcome to FaxHax " + VERSION);
+
+        // Config
+        ConfigManager.initializeConfigManager();
+
+        ClientLifecycleEvents.CLIENT_STOPPING.register(client -> ConfigManager.shutdown());
 
         // Modules
         ModuleManager.initializeModuleManager();

@@ -4,10 +4,11 @@
   "package": "me.remainingtoast.faxhax.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "ChatHudMixin",
     "ClientConnectionMixin",
     "ClientPlayerEntityMixin",
     "CommandSuggestorMixin",
+    "IChatHudMixin",
+    "IGameRendererMixin",
     "KeyboardMixin",
     "MinecraftClientMixin",
     "TitleScreenMixin"
