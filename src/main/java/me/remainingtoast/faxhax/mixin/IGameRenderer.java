@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(GameRenderer.class)
-public interface IGameRendererMixin {
+public interface IGameRenderer {
 
     @Accessor("shadersEnabled")
     boolean isShadersEnabled();

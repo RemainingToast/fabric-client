@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(HeldItemRenderer.class)
-public abstract class HeldItemRendererMixin {
+public abstract class MixinHeldItemRenderer {
 
     private final CustomFOV fov = (CustomFOV) ModuleManager.getModule("CustomFOV");
 

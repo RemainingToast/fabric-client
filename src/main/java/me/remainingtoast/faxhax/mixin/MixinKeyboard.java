@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(Keyboard.class)
-public class KeyboardMixin {
+@Mixin(net.minecraft.client.Keyboard.class)
+public class MixinKeyboard {
 
     @Inject(
             at = {@At("HEAD")},

@@ -2,7 +2,7 @@ package me.remainingtoast.faxhax.impl.modules.combat;
 
 import me.remainingtoast.faxhax.api.module.Module;
 import me.remainingtoast.faxhax.api.setting.Setting;
-import me.remainingtoast.faxhax.mixin.IMinecraftClientMixin;
+import me.remainingtoast.faxhax.mixin.IMinecraftClient;
 import net.minecraft.item.Items;
 
 public class FastUtil extends Module {
@@ -28,9 +28,9 @@ public class FastUtil extends Module {
         boolean mainCry = mc.player.getMainHandStack().getItem().equals(Items.END_CRYSTAL);
         boolean offCry = mc.player.getOffHandStack().getItem().equals(Items.END_CRYSTAL);
 
-        if((mainExp || offExp) && fastExp.getValue()) ((IMinecraftClientMixin) mc).setItemUseCooldown(0);
-        if((mainCry || offCry) && fastCrystal.getValue()) ((IMinecraftClientMixin) mc).setItemUseCooldown(0);
-        if(!(mainExp || offExp || mainCry || offCry) && fastPlace.getValue()) ((IMinecraftClientMixin) mc).setItemUseCooldown(0);
-        if(fastBreak.getValue()) ((IMinecraftClientMixin) mc).setItemUseCooldown(0);
+        if((mainExp || offExp) && fastExp.getValue()) ((IMinecraftClient) mc).setItemUseCooldown(0);
+        if((mainCry || offCry) && fastCrystal.getValue()) ((IMinecraftClient) mc).setItemUseCooldown(0);
+        if(!(mainExp || offExp || mainCry || offCry) && fastPlace.getValue()) ((IMinecraftClient) mc).setItemUseCooldown(0);
+        if(fastBreak.getValue()) ((IMinecraftClient) mc).setItemUseCooldown(0);
     }
 }

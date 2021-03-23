@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Mixin(CommandSuggestor.class)
-public abstract class CommandSuggestorMixin {
+public abstract class MixinCommandSuggestor {
 
     @Shadow private ParseResults<CommandSource> parse;
 

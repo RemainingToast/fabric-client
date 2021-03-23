@@ -15,8 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static net.minecraft.client.gui.DrawableHelper.drawTexture;
 
-@Mixin(TitleScreen.class)
-public class TitleScreenMixin {
+@Mixin(net.minecraft.client.gui.screen.TitleScreen.class)
+public class MixinTitleScreen {
 
     private final MinecraftClient client = MinecraftClient.getInstance();
     private final MainMenu mainMenuMod = (MainMenu) ModuleManager.getModule("MainMenu");

@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientWorld.class)
-public class ClientWorldMixin {
+public class MixinClientWorld {
 
     @Inject(method = "addPlayer", at = @At("RETURN"))
     private void addPlayer(int id, AbstractClientPlayerEntity player, CallbackInfo info) {

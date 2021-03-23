@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractClientPlayerEntity.class)
-public class AbstractClientPlayerEntityMixin {
+public class MixinAbstractClientPlayerEntity {
 
     @Inject(
             at = {@At("RETURN")},

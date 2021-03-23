@@ -4,7 +4,7 @@ import me.remainingtoast.faxhax.api.config.ConfigManager;
 import me.remainingtoast.faxhax.api.setting.Setting;
 import me.remainingtoast.faxhax.api.setting.SettingManager;
 import me.remainingtoast.faxhax.api.util.FaxColor;
-import me.remainingtoast.faxhax.mixin.IChatHudMixin;
+import me.remainingtoast.faxhax.mixin.IChatHud;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.LiteralText;
@@ -227,7 +227,7 @@ public class Module {
     }
 
     public void message(Text text){
-        if(mc.player != null) ((IChatHudMixin) mc.inGameHud.getChatHud()).callAddMessage(text, 5932);
+        if(mc.player != null) ((IChatHud) mc.inGameHud.getChatHud()).callAddMessage(text, 5932);
     }
 
     public void message(String str){

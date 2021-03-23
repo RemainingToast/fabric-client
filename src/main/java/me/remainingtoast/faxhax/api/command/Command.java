@@ -1,7 +1,7 @@
 package me.remainingtoast.faxhax.api.command;
 
 import me.remainingtoast.faxhax.api.config.ConfigManager;
-import me.remainingtoast.faxhax.mixin.IChatHudMixin;
+import me.remainingtoast.faxhax.mixin.IChatHud;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -35,7 +35,7 @@ public abstract class Command {
     }
 
     public void message(Text text){
-        if(mc.player != null) ((IChatHudMixin) mc.inGameHud.getChatHud()).callAddMessage(text, 5932);
+        if(mc.player != null) ((IChatHud) mc.inGameHud.getChatHud()).callAddMessage(text, 5932);
     }
 
     public void message(String str){
