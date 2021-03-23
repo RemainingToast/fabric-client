@@ -220,6 +220,7 @@ public class Module {
         COMBAT,
         PLAYER,
         MOVEMENT,
+        RENDER,
         MISC,
         CLIENT
     }

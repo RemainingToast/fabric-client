@@ -7,6 +7,7 @@ import me.remainingtoast.faxhax.impl.modules.client.MainMenu;
 import me.remainingtoast.faxhax.impl.modules.combat.CrystalAura;
 import me.remainingtoast.faxhax.impl.modules.misc.FakePlayer;
 import me.remainingtoast.faxhax.impl.modules.misc.PacketLogger;
+import me.remainingtoast.faxhax.impl.modules.render.CustomFOV;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
@@ -27,6 +28,7 @@ public class ModuleManager {
         MODS.add(new PacketLogger());
         MODS.add(new ClickGUIModule());
         MODS.add(new MainMenu());
+        MODS.add(new CustomFOV());
 
         String endTime = (System.currentTimeMillis() - startTime) + "ms";
         FaxHax.LOGGER.info("Successfully loaded " + MODS.size() + " modules in "+endTime);
