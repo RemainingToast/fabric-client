@@ -188,6 +188,14 @@ public class Module {
         onToggle();
     }
 
+    public void disable(){
+        setEnabled(false);
+    }
+
+    public void enable(){
+        setEnabled(true);
+    }
+
     public boolean isDrawn() {
         return drawn;
     }

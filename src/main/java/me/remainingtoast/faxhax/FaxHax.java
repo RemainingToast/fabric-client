@@ -2,6 +2,7 @@ package me.remainingtoast.faxhax;
 
 import me.remainingtoast.faxhax.api.command.CommandManager;
 import me.remainingtoast.faxhax.api.config.ConfigManager;
+import me.remainingtoast.faxhax.api.gui.ClickGUI;
 import me.remainingtoast.faxhax.api.module.ModuleManager;
 import me.remainingtoast.faxhax.api.util.AuthUtil;
 import me.zero.alpine.bus.EventManager;

@@ -3,9 +3,9 @@ package me.remainingtoast.faxhax.impl.modules.client;
 import me.remainingtoast.faxhax.api.gui.ClickGUI;
 import me.remainingtoast.faxhax.api.module.Module;
 
-import java.util.Objects;
-
 public class ClickGUIModule extends Module {
+
+    private final ClickGUI GUI = new ClickGUI();
 
     public ClickGUIModule() {
         super("ClickGUI", Category.CLIENT);
@@ -14,10 +14,11 @@ public class ClickGUIModule extends Module {
 
     @Override
     protected void onToggle() {
-        ClickGUI gui = new ClickGUI();
-        if(enabled && (mc.currentScreen == null || Objects.equals(mc.currentScreen, gui))) {
-            mc.openScreen(gui);
+        if(enabled && (mc.currentScreen == null || mc.currentScreen.equals(GUI))) {
+            mc.openScreen(GUI);
+            disable();
+        } else {
+            GUI.onClose();
         }
-        else closeScreen();
     }
 }

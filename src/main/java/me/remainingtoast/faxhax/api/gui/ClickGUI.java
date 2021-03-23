@@ -1,21 +1,16 @@
 package me.remainingtoast.faxhax.api.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import me.remainingtoast.faxhax.api.module.Module;
-import me.remainingtoast.faxhax.api.util.TickRateCalculator;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class ClickGUI extends Screen {
 
-    private final List<Panel> panels = new ArrayList<>();
+    private static final List<Panel> panels = new ArrayList<>();
 
     private boolean clicked = false;
     private boolean leftClicked = false;
@@ -28,6 +23,7 @@ public class ClickGUI extends Screen {
     @Override
     protected void init() {
         int x = 20;
+        panels.clear();
         for(Module.Category category : Module.Category.values()){
             panels.add(new Panel(category, x, 20));
             x += 93;

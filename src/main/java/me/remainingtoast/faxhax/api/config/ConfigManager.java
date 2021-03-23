@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import me.remainingtoast.faxhax.FaxHax;
+import me.remainingtoast.faxhax.api.gui.ClickGUI;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.*;
@@ -15,6 +16,7 @@ public class ConfigManager {
     private static final File DIR = new File(FabricLoader.getInstance().getGameDir().toString().replaceAll("\\.", "") + "faxhax/");
 
     private static final File MAIN_CONFIG = new File(DIR,"faxhax.json");
+    private static final File GUI_CONFIG = new File(DIR,"clickgui.json");
 
     public static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -61,9 +63,7 @@ public class ConfigManager {
                 return false;
             }
         } catch (IOException e) {
-            if(!saveMainConfig()){
-                FaxHax.LOGGER.fatal("Main config failed to load!");
-            }
+            FaxHax.LOGGER.fatal("Main config failed to load!");
             return false;
         }
     }

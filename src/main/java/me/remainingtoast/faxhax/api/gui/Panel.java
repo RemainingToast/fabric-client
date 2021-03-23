@@ -13,14 +13,15 @@ import java.util.Map;
 
 public class Panel extends TwoDRenderUtil {
 
-    private int x, y, level;
+    public int x, y;
+    private int level;
     private final int width = 90;
     private final int height = 12;
 
-    private Module.Category category;
-    private boolean categoryExpanded;
+    public Module.Category category;
+    public boolean categoryExpanded;
 
-    private HashMap<Module, Boolean> modsExpanded = new HashMap<>();
+    public HashMap<Module, Boolean> modsExpanded = new HashMap<>();
 
     public Panel(Module.Category category, int x, int y){
         this.category = category;
