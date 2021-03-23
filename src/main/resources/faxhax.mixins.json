@@ -4,8 +4,11 @@
   "package": "me.remainingtoast.faxhax.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "AbstractClientPlayerEntityMixin",
     "ClientConnectionMixin",
     "ClientPlayerEntityMixin",
+    "ClientPlayNetworkHandlerMixin",
+    "ClientWorldMixin",
     "CommandSuggestorMixin",
     "HeldItemRendererMixin",
     "IChatHudMixin",
