@@ -15,6 +15,9 @@ public class ClickGUI extends Screen {
     private boolean clicked = false;
     private boolean leftClicked = false;
     private boolean rightClicked = false;
+    private boolean dragging = true;
+    private int lastMouseX;
+    private int lastMouseY;
 
     public ClickGUI() {
         super(new LiteralText("ClickGUI"));
@@ -33,7 +36,7 @@ public class ClickGUI extends Screen {
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         for(Panel panel : panels) {
-            panel.render(matrices, mouseX, mouseY, leftClicked, rightClicked, delta);
+            panel.render(matrices, mouseX, mouseY, lastMouseX, lastMouseY, leftClicked, rightClicked, delta);
         }
         if(clicked){
             leftClicked = false;
@@ -69,6 +72,12 @@ public class ClickGUI extends Screen {
             clicked = false;
         }
         return false;
+    }
+
+    @Override
+    public void mouseMoved(double mouseX, double mouseY) {
+        lastMouseX = (int) mouseX;
+        lastMouseY = (int) mouseY;
     }
 
     @Override

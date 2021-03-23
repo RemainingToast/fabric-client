@@ -29,13 +29,13 @@ public class Panel extends TwoDRenderUtil {
         this.y = y;
     }
 
-    public void render(MatrixStack matrices, int mouseX, int mouseY, boolean leftClicked, boolean rightClicked, float delta){
-        drawCategory(matrices, category, mouseX, mouseY, leftClicked, rightClicked);
+    public void render(MatrixStack matrices, int mouseX, int mouseY, int lastMouseX, int lastMouseY, boolean leftClicked, boolean rightClicked, float delta){
+        boolean hovering = mouseOverRect(mouseX, mouseY, new Rectangle(x, y, width, height));
+        drawCategory(matrices, category, mouseX, mouseY, lastMouseX, lastMouseY, hovering, leftClicked, rightClicked);
     }
 
-    public void drawCategory(MatrixStack matrices, Module.Category category, int mouseX, int mouseY, boolean leftClicked, boolean rightClicked){
+    public void drawCategory(MatrixStack matrices, Module.Category category, int mouseX, int mouseY, int lastMouseX, int lastMouseY, boolean hovering, boolean leftClicked, boolean rightClicked){
         level = 1;
-        boolean mouseOverMod = mouseOverRect(mouseX, mouseY, new Rectangle(x, y, width, height));
         drawCenteredTextBox(
                 matrices,
                 category.name(),
@@ -45,17 +45,17 @@ public class Panel extends TwoDRenderUtil {
                         width,
                         height
                 ),
-                (mouseOverMod) ? 0x9900FF00 : 0x8000FF00,
+                (hovering) ? 0x9900FF00 : 0x8000FF00,
                 0xFFFFFFFF
         );
-        if(mouseOverMod){
+        if(hovering){
             if(rightClicked) {
                 categoryExpanded = !categoryExpanded;
             }
         }
         if(categoryExpanded){
             for(Module mod : ModuleManager.getModulesInCategory(category)){
-                drawModule(matrices, mod, mouseX, mouseY, leftClicked, rightClicked);
+                drawModule(matrices, mod, mouseX, mouseY, lastMouseX, lastMouseY, leftClicked, rightClicked);
             }
         }
         drawHollowRect(
@@ -69,7 +69,7 @@ public class Panel extends TwoDRenderUtil {
         );
     }
 
-    public void drawModule(MatrixStack matrices, Module mod, int mouseX, int mouseY, boolean leftClicked, boolean rightClicked){
+    public void drawModule(MatrixStack matrices, Module mod, int mouseX, int mouseY, int lastMouseX, int lastMouseY, boolean leftClicked, boolean rightClicked){
         modsExpanded.putIfAbsent(mod, false);
         boolean mouseOverModRect = mouseOverRect(mouseX, mouseY, iteratedRect(level));
         if(mouseOverModRect) {
@@ -94,6 +94,8 @@ public class Panel extends TwoDRenderUtil {
                                 iteratedRect(level),
                                 mouseX,
                                 mouseY,
+                                lastMouseX,
+                                lastMouseY,
                                 leftClicked,
                                 rightClicked
                         );

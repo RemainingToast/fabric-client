@@ -49,7 +49,7 @@ public class TwoDRenderUtil extends DrawableHelper {
         drawText(matrices, text, rect.x + 1, rect.y, textColor);
     }
 
-    public static void drawSetting(MatrixStack matrices, Setting setting, Rectangle rect, int mouseX, int mouseY, boolean leftClicked, boolean rightClicked) {
+    public static void drawSetting(MatrixStack matrices, Setting setting, Rectangle rect, int mouseX, int mouseY, int lastMouseX, int lastMouseY, boolean leftClicked, boolean rightClicked) {
         final boolean hovering = mouseOverRect(mouseX, mouseY, rect);
         switch (setting.getType()){
             case BOOLEAN: {
@@ -59,7 +59,7 @@ public class TwoDRenderUtil extends DrawableHelper {
             }
             case DOUBLE: {
                 assert setting instanceof Setting.Double;
-                drawNumberSetting(matrices, (Setting.Double) setting, rect, hovering, leftClicked, rightClicked);
+                drawNumberSetting(matrices, (Setting.Double) setting, rect, mouseX, lastMouseX, hovering, leftClicked, rightClicked);
                 break;
             }
             case MODE: {
@@ -86,8 +86,7 @@ public class TwoDRenderUtil extends DrawableHelper {
         if (hovering && leftClicked) bool.setValue(!bool.getValue());
     }
 
-
-    public static void drawNumberSetting(MatrixStack matrices, Setting.Double setting, Rectangle rect, boolean hovering, boolean leftClicked, boolean rightClicked){
+    public static void drawNumberSetting(MatrixStack matrices, Setting.Double setting, Rectangle rect, int mouseX, int lastMouseX, boolean hovering, boolean leftClicked, boolean rightClicked){
         double percentage = (setting.getValue() - setting.getMin()) / (setting.getMax() - setting.getMin());
         int progress = (int) (percentage * rect.width);
         drawRect(matrices, rect.x, rect.y - 2, progress - 2, rect.height, GENERAL_COLOR);
@@ -95,7 +94,14 @@ public class TwoDRenderUtil extends DrawableHelper {
         drawRect(matrices, rect.x - 2, rect.y - 3, 2, rect.height + 1, GENERAL_COLOR);
         drawText(matrices, setting.getName(), rect.x + 2, rect.y, TEXT_COLOR);
         drawText(matrices, String.valueOf(setting.getValue()), rect.x + (rect.width - mc.textRenderer.getWidth(String.valueOf(setting.getValue()))) - 3, rect.y, TEXT_COLOR);
+        if (hovering && leftClicked) {
+            progress += mouseX - lastMouseX;
+            progress = clamp(progress, 0, rect.width);
+            setting.setValue((int) (progress / (rect.width * (setting.getMax() - setting.getMin()) + setting.getMin())));
+        }
     }
+
+
 
     public static void drawModeSetting(MatrixStack matrices, Setting.Mode mode, Rectangle rect, boolean hovering, boolean leftClicked, boolean rightClicked) {
         final int COLOR = (hovering) ? BACKGROUND_COLOR_HOVER : BACKGROUND_COLOR;
@@ -114,6 +120,12 @@ public class TwoDRenderUtil extends DrawableHelper {
 
     public static boolean mouseOverRect(double mouseX, double mouseY, Rectangle rect){
         return mouseX >= rect.x && mouseX <= rect.width + rect.x && mouseY >= rect.y && mouseY <= rect.height + rect.y;
+    }
+
+    public static int clamp(int value, int min, int max) {
+        if (value < min) return min;
+        if (value > max) return max;
+        return value;
     }
 
 }
