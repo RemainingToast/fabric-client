@@ -16,7 +16,7 @@ public class FullBright extends Module {
 
     public FullBright() {
         super("FullBright", Category.RENDER);
-        mode = aMode("Mode", ModeEnum.values(), ModeEnum.Gamma);
+        mode = mode("Mode", ModeEnum.values(), ModeEnum.Gamma);
     }
 
     private double oldGamma;

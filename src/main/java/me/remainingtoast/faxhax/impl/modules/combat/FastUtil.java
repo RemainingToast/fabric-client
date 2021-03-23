@@ -14,10 +14,10 @@ public class FastUtil extends Module {
 
     public FastUtil() {
         super("FastUtil", Category.COMBAT);
-        fastPlace = aBoolean("Place",true);
-        fastBreak = aBoolean("Break", true);
-        fastCrystal = aBoolean("Crystals", true);
-        fastExp = aBoolean("EXP Bottles", true);
+        fastPlace = bool("Place",true);
+        fastBreak = bool("Break", true);
+        fastCrystal = bool("Crystals", true);
+        fastExp = bool("EXP Bottles", true);
     }
 
     @Override

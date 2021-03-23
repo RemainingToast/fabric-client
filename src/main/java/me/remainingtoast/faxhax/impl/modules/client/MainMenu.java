@@ -18,7 +18,7 @@ public class MainMenu extends Module {
     public MainMenu() {
         super("MainMenu", Category.CLIENT);
 
-        mainMenuMode = aMode("Shader", ModeEnum.values(), ModeEnum.FaxHax);
+        mainMenuMode = mode("Shader", ModeEnum.values(), ModeEnum.FaxHax);
 
         setEnabled(true);
     }

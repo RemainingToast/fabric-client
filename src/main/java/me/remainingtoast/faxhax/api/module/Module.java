@@ -86,14 +86,6 @@ public class Module {
                         Setting setting = SettingManager.getSettingByName(args[1]);
                         if(setting != null){
                             switch (setting.getType()){
-                                case INTEGER: {
-                                    assert setting instanceof Setting.Integer;
-                                    Setting.Integer intSetting = (Setting.Integer) setting;
-                                    int newValue = Integer.parseInt(args[2]);
-                                    intSetting.setValue(newValue);
-                                    message(PREFIX + Formatting.GRAY + setting.getName() + " has been set to: " + Formatting.GREEN + newValue);
-                                    return;
-                                }
                                 case DOUBLE: {
                                     assert setting instanceof Setting.Double;
                                     Setting.Double doubleSetting = (Setting.Double) setting;
@@ -234,37 +226,31 @@ public class Module {
         message(new LiteralText(str));
     }
 
-    protected Setting.Integer aInteger(final String name, final int value, final int min, final int max) {
-        final Setting.Integer setting = new Setting.Integer(name, this, getCategory(), value, min, max);
-        SettingManager.addSetting(setting);
-        return setting;
-    }
-
-    protected Setting.Double aDouble(final String name, final double value, final double min, final double max) {
+    protected Setting.Double number(final String name, final double value, final double min, final double max) {
         final Setting.Double setting = new Setting.Double(name, this, getCategory(), value, min, max);
         SettingManager.addSetting(setting);
         return setting;
     }
 
-    protected Setting.Boolean aBoolean(final String name, final boolean value) {
+    protected Setting.Boolean bool(final String name, final boolean value) {
         final Setting.Boolean setting = new Setting.Boolean(name, this, getCategory(), value);
         SettingManager.addSetting(setting);
         return setting;
     }
 
-    protected Setting.Mode aMode(final String name, final Enum<?>[] modes, final Enum<?> value) {
+    protected Setting.Mode mode(final String name, final Enum<?>[] modes, final Enum<?> value) {
         final Setting.Mode setting = new Setting.Mode(name, this, getCategory(), modes, value);
         SettingManager.addSetting(setting);
         return setting;
     }
 
-    protected Setting.ColorSetting aColor(final String name, FaxColor color) {
+    protected Setting.ColorSetting color(final String name, FaxColor color) {
         final Setting.ColorSetting setting = new Setting.ColorSetting(name, this, getCategory(), false, color);
         SettingManager.addSetting(setting);
         return setting;
     }
 
-    protected Setting.ColorSetting aColor(final String name, FaxColor color, Boolean rainbow) {
+    protected Setting.ColorSetting color(final String name, FaxColor color, Boolean rainbow) {
         final Setting.ColorSetting setting = new Setting.ColorSetting(name, this, getCategory(), rainbow, color);
         SettingManager.addSetting(setting);
         return setting;

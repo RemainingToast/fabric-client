@@ -17,7 +17,7 @@ public class AutoTotem extends Module {
 
     public AutoTotem() {
         super("AutoTotem", Category.COMBAT);
-        inGUIS = aBoolean("WorkInsideGUI", false);
+        inGUIS = bool("WorkInsideGUI", false);
     }
 
     public int getTotems() {

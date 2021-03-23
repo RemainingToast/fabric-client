@@ -14,7 +14,7 @@ public class NoFall extends Module {
 
     public NoFall() {
         super("NoFall", Category.PLAYER);
-        mode = aMode("Mode", ModeEnum.values(), ModeEnum.Packet);
+        mode = mode("Mode", ModeEnum.values(), ModeEnum.Packet);
     }
 
     @Override

@@ -51,72 +51,10 @@ public class Setting {
     }
 
     public enum Type {
-        INTEGER,
         DOUBLE,
         BOOLEAN,
         MODE,
         COLOR
-    }
-
-    public static class Integer extends Setting implements NumberSetting {
-
-        private int value;
-        private final int min;
-        private final int max;
-
-        public Integer(
-                final String name,
-                final Module parent,
-                final Module.Category faxCategory,
-                final int value,
-                final int min,
-                final int max) {
-            super(name, parent, faxCategory, Type.INTEGER);
-            this.value = value;
-            this.min = min;
-            this.max = max;
-        }
-
-        public int getValue() {
-            return this.value;
-        }
-
-        public void setValue(final int value) {
-            this.value = value;
-        }
-
-        public int getMin() {
-            return this.min;
-        }
-
-        public int getMax() {
-            return this.max;
-        }
-
-        @Override
-        public double getNumber() {
-            return this.value;
-        }
-
-        @Override
-        public void setNumber(double value) {
-            this.value= (int) Math.round(value);
-        }
-
-        @Override
-        public double getMaximumValue() {
-            return this.max;
-        }
-
-        @Override
-        public double getMinimumValue() {
-            return this.min;
-        }
-
-        @Override
-        public int getPrecision() {
-            return 0;
-        }
     }
 
     public static class Double extends Setting implements NumberSetting {
@@ -141,6 +79,10 @@ public class Setting {
         public double getValue() {
             return this.value;
         }
+
+        public int getIntValue() { return (int) this.value; }
+
+        public float getFloatValue() { return (float) this.value; }
 
         public void setValue(final double value) {
             this.value = value;

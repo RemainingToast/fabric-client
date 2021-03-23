@@ -36,7 +36,7 @@ public class CrystalAura extends Module {
     Setting.Double minDamage;
     Setting.Boolean breakBool;
     Setting.Double breakRange;
-    Setting.Integer maxBreaks;
+    Setting.Double maxBreaks;
     Setting.Double maxSelfDamage;
     Setting.Boolean antiSuicide;
     Setting.Boolean players;
@@ -54,18 +54,18 @@ public class CrystalAura extends Module {
 
     public CrystalAura() {
         super("CrystalAura", Category.COMBAT);
-        placeBool = aBoolean("Place", true);
-        placeRange = aDouble("PlaceRange", 4.0,0.0,10.0);
-        minDamage = aDouble("MinDamage", 0.0,0.0, 36);
-        breakBool = aBoolean("Break", true);
-        breakRange = aDouble("BreakRange", 4.0,0.0,10.0);
-        maxBreaks = aInteger("MaxBreaks", 2,0,20);
-        maxSelfDamage = aDouble("MaxSelfDamage", 10,0,36);
-        antiSuicide = aBoolean("AntiSuicide", true);
-        players = aBoolean("Players", true);
-        hostile = aBoolean("Hostile", true);
-        passive = aBoolean("Passive", false);
-        announce = aBoolean("Announce", true);
+        placeBool = bool("Place", true);
+        placeRange = number("PlaceRange", 4.0,0.0,10.0);
+        minDamage = number("MinDamage", 0.0,0.0, 36);
+        breakBool = bool("Break", true);
+        breakRange = number("BreakRange", 4.0,0.0,10.0);
+        maxBreaks = number("MaxBreaks", 2,0,20);
+        maxSelfDamage = number("MaxSelfDamage", 10,0,36);
+        antiSuicide = bool("AntiSuicide", true);
+        players = bool("Players", true);
+        hostile = bool("Hostile", true);
+        passive = bool("Passive", false);
+        announce = bool("Announce", true);
     }
 
     @Override

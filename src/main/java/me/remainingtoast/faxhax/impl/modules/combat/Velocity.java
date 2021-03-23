@@ -18,13 +18,13 @@ public class Velocity extends Module {
 
     Setting.Double horizontal;
     Setting.Double vertical;
-    Setting.Integer delay;
+    Setting.Double delay;
 
     public Velocity() {
         super("Velocity", Category.COMBAT);
-        horizontal = aDouble("Horizontal%", 0.0,0.0,100.0);
-        vertical = aDouble("Vertical%",  0.0, 0.0,100.0);
-        delay = aInteger("Delay(MS)",  170, 0, 1000);
+        horizontal = number("Horizontal%", 0.0,0.0,100.0);
+        vertical = number("Vertical%",  0.0, 0.0,100.0);
+        delay = number("Delay(MS)",  170, 0, 1000);
     }
 
     @Override
