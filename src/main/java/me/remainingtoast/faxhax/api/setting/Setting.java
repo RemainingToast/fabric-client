@@ -8,6 +8,8 @@ import me.remainingtoast.faxhax.api.util.FaxColor;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class Setting {
@@ -156,32 +158,36 @@ public class Setting {
 
     public static class Mode extends Setting implements EnumSetting {
 
-        private Enum<?> value;
-        private final Enum<?>[] modes;
+        private String value;
+        private final List<String> modes;
 
-        public Mode(final String name, final Module parent, final Module.Category faxCategory, final Enum<?>[] modes, final Enum<?> value) {
+        public Mode(final String name, final Module parent, final Module.Category faxCategory, final String value, final String... modes) {
             super(name, parent, faxCategory, Type.MODE);
             this.value = value;
-            this.modes = modes;
+            this.modes = Arrays.asList(modes);
         }
 
-        public Enum<?> getValue() {
+        public String getValue() {
             return this.value;
         }
 
-        public void setValue(final Enum<?> value) {
-            this.value = value;
+        public void setValue(final String value) {
+             this.value = value;
         }
 
-        public Enum<?>[] getModes() {
+        public List<String> getModes() {
             return modes;
+        }
+
+        public boolean toggled(String mode){
+            return getValue().equalsIgnoreCase(mode);
         }
 
         @Override
         public void increment() {
-            int index = value.ordinal() + 1;
-            if(index >= modes.length) index = 0;
-            setValue(modes[index]);
+            int modeIndex = modes.indexOf(value);
+            modeIndex = (modeIndex + 1) % modes.size();
+            setValue(modes.get(modeIndex));
         }
 
         @Override

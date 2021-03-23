@@ -107,7 +107,7 @@ public class TwoDRenderUtil extends DrawableHelper {
         final int COLOR = (hovering) ? BACKGROUND_COLOR_HOVER : BACKGROUND_COLOR;
         drawRect(matrices, rect.x, rect.y - 2, rect.width - 2, rect.height, COLOR);
         drawRect(matrices, rect.x - 2, rect.y - 3, 2, rect.height + 1, GENERAL_COLOR);
-        drawText(matrices, mode.getValueName(), rect.x + 2, rect.y, TEXT_COLOR);
+        drawText(matrices, mode.getName(), rect.x + 2, rect.y, TEXT_COLOR);
         drawText(matrices, mode.getValueName(), rect.x + (rect.width - mc.textRenderer.getWidth(mode.getValueName())) - 2, rect.y, TEXT_COLOR);
         if (hovering && leftClicked) mode.increment();
     }

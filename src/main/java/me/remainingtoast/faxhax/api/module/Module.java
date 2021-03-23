@@ -172,6 +172,7 @@ public class Module {
     public void setEnabled(boolean enabled) {
         if(enabled) onEnable();
         else onDisable();
+        onToggle();
         this.enabled = enabled;
     }
 
@@ -237,8 +238,8 @@ public class Module {
         return setting;
     }
 
-    protected Setting.Mode mode(final String name, final Enum<?>[] modes, final Enum<?> value) {
-        final Setting.Mode setting = new Setting.Mode(name, this, getCategory(), modes, value);
+    protected Setting.Mode mode(final String name, final String value, final String... modes) {
+        final Setting.Mode setting = new Setting.Mode(name, this, getCategory(), value, modes);
         SettingManager.addSetting(setting);
         return setting;
     }

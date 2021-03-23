@@ -28,13 +28,9 @@ public class Velocity extends Module {
     }
 
     @Override
-    protected void onEnable() {
-        FaxHax.EVENTS.subscribe(packetEvent);
-    }
-
-    @Override
-    protected void onDisable() {
-        FaxHax.EVENTS.unsubscribe(packetEvent);
+    protected void onToggle() {
+        if(enabled) FaxHax.EVENTS.subscribe(packetEvent);
+        else FaxHax.EVENTS.unsubscribe(packetEvent);
     }
 
     @EventHandler

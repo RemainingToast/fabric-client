@@ -9,14 +9,9 @@ public class FullBright extends Module {
 
     Setting.Mode mode;
 
-    private enum ModeEnum {
-        Gamma,
-        Potion
-    }
-
     public FullBright() {
         super("FullBright", Category.RENDER);
-        mode = mode("Mode", ModeEnum.values(), ModeEnum.Gamma);
+        mode = mode("Mode", "Gamma", "Gamma", "Potion");
     }
 
     private double oldGamma;
@@ -38,10 +33,10 @@ public class FullBright extends Module {
 
     private void updateGamma() {
         assert mc.player != null;
-        if(mode.getValue() == ModeEnum.Gamma){
+        if(mode.toggled("Gammma")){
             mc.options.gamma = 5781;
             mc.player.removeStatusEffect(StatusEffects.NIGHT_VISION);
-        } else if(mode.getValue() == ModeEnum.Potion){
+        } else if(mode.toggled("Potion")){
             mc.player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, Integer.MAX_VALUE, 5781));
         }
 

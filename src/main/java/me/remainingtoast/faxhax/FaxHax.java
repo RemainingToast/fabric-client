@@ -42,16 +42,16 @@ public class FaxHax implements ModInitializer {
 
         LOGGER.info("Welcome to FaxHax " + VERSION);
 
-        // Config
-        ConfigManager.initializeConfigManager();
-
-        ClientLifecycleEvents.CLIENT_STOPPING.register(client -> ConfigManager.shutdown());
-
         // Modules
         ModuleManager.initializeModuleManager();
 
         // Commands
         CommandManager.initializeCommandManager();
+
+        // Config
+        ConfigManager.initializeConfigManager();
+
+        ClientLifecycleEvents.CLIENT_STOPPING.register(client -> ConfigManager.shutdown());
 
         // 2b2t Australia
         addServer();
