@@ -172,7 +172,6 @@ public class Module {
     public void setEnabled(boolean enabled) {
         if(enabled) onEnable();
         else onDisable();
-        onToggle();
         this.enabled = enabled;
     }
 

@@ -57,11 +57,11 @@ public class ConfigLoad {
             InputStream inputStream = Files.newInputStream(Paths.get(ConfigManager.MODS_DIR + "/" + module.getName().toLowerCase() + ".json"));
             JsonObject moduleObject = new JsonParser().parse(new InputStreamReader(inputStream)).getAsJsonObject();
 
-            if (moduleObject.get("module") == null) {
+            if (moduleObject.get("Module") == null) {
                 return;
             }
 
-            JsonObject settingObject = moduleObject.get("settings").getAsJsonObject();
+            JsonObject settingObject = moduleObject.get("Settings").getAsJsonObject();
             for (Setting setting : SettingManager.getSettingsForMod(module)) {
                 JsonElement dataObject = settingObject.get(setting.getConfigName());
                 try {

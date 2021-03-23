@@ -66,10 +66,9 @@ public class ModuleManager {
     public static void onKey(long window, int keyCode, int scancode){
         for(Module mod : MODS){
             if(mod.key == InputUtil.fromKeyCode(keyCode, scancode)){
-                if(GLFW.glfwGetKey(window, keyCode) == 0){ // Release
-                    if((mod.name.equals("ClickGUI")
-                            && Objects.equals(mod.mc.currentScreen,
-                            new ClickGUI())) || mod.mc.currentScreen == null
+                if(GLFW.glfwGetKey(window, keyCode) == 0){ // onRelease
+                    if((mod.name.equals("ClickGUI") && Objects.equals(mod.mc.currentScreen,
+                            ClickGUIModule.getGUI())) || mod.mc.currentScreen == null
                     ){
                         mod.toggle();
                     }

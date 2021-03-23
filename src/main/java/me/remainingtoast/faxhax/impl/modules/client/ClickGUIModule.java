@@ -5,7 +5,7 @@ import me.remainingtoast.faxhax.api.module.Module;
 
 public class ClickGUIModule extends Module {
 
-    private final ClickGUI GUI = new ClickGUI();
+    private static final ClickGUI GUI = new ClickGUI();
 
     public ClickGUIModule() {
         super("ClickGUI", Category.CLIENT);
@@ -15,10 +15,18 @@ public class ClickGUIModule extends Module {
     @Override
     protected void onToggle() {
         if(enabled && (mc.currentScreen == null || mc.currentScreen.equals(GUI))) {
-            mc.openScreen(GUI);
+            if(mc.currentScreen != null && mc.currentScreen.equals(GUI)){
+                mc.openScreen(null);
+            } else {
+                mc.openScreen(GUI);
+            }
             disable();
         } else {
             GUI.onClose();
         }
+    }
+
+    public static ClickGUI getGUI() {
+        return GUI;
     }
 }
