@@ -88,10 +88,13 @@ public class TwoDRenderUtil extends DrawableHelper {
 
 
     public static void drawNumberSetting(MatrixStack matrices, Setting.Double setting, Rectangle rect, boolean hovering, boolean leftClicked, boolean rightClicked){
-        drawRect(matrices, rect.x, rect.y - 2, rect.width - 2, rect.height, (hovering) ? 0x80000000 : 0x50000000);
+        double percentage = (setting.getValue() - setting.getMin()) / (setting.getMax() - setting.getMin());
+        int progress = (int) (percentage * rect.width);
+        drawRect(matrices, rect.x, rect.y - 2, progress - 2, rect.height, GENERAL_COLOR);
+        drawRect(matrices, rect.x + progress - 2, rect.y - 2, rect.width - progress, rect.height, (hovering) ? 0x80000000 : 0x50000000);
         drawRect(matrices, rect.x - 2, rect.y - 3, 2, rect.height + 1, GENERAL_COLOR);
         drawText(matrices, setting.getName(), rect.x + 2, rect.y, TEXT_COLOR);
-        drawText(matrices, String.valueOf(setting.getValue()), rect.x + (rect.width - mc.textRenderer.getWidth(String.valueOf(setting.getValue()))) - 2, rect.y, TEXT_COLOR);
+        drawText(matrices, String.valueOf(setting.getValue()), rect.x + (rect.width - mc.textRenderer.getWidth(String.valueOf(setting.getValue()))) - 3, rect.y, TEXT_COLOR);
     }
 
     public static void drawModeSetting(MatrixStack matrices, Setting.Mode mode, Rectangle rect, boolean hovering, boolean leftClicked, boolean rightClicked) {

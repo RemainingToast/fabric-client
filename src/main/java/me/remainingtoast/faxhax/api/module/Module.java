@@ -105,9 +105,8 @@ public class Module {
                                 case MODE: {
                                     assert setting instanceof Setting.Mode;
                                     Setting.Mode modeSetting = (Setting.Mode) setting;
-                                    modeSetting.setValue(Enum.valueOf(modeSetting.getValue().getClass(), args[2]));
-//                                    modeSetting.setValue(args[2]);
-                                    message(PREFIX + Formatting.GRAY + setting.getName() + " has been set to: " + Formatting.GREEN + args[2]);
+                                    modeSetting.increment();
+                                    message(PREFIX + Formatting.GRAY + setting.getName() + " has been incremented, new value: " + Formatting.GREEN + modeSetting.getValueName());
                                     return;
                                 }
                                 case COLOR: {
