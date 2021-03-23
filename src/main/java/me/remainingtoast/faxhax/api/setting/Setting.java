@@ -7,6 +7,7 @@ import me.remainingtoast.faxhax.api.setting.types.NumberSetting;
 import me.remainingtoast.faxhax.api.util.FaxColor;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Setting {
@@ -213,37 +214,37 @@ public class Setting {
 
     public static class Mode extends Setting implements EnumSetting {
 
-        private String value;
-        private final List<String> modes;
+        private Enum<?> value;
+        private final Enum<?>[] modes;
 
-        public Mode(final String name, final Module parent, final Module.Category faxCategory, final List<String> modes, final String value) {
+        public Mode(final String name, final Module parent, final Module.Category faxCategory, final Enum<?>[] modes, final Enum<?> value) {
             super(name, parent, faxCategory, Type.MODE);
             this.value = value;
             this.modes = modes;
         }
 
-        public String getValue() {
+        public Enum<?> getValue() {
             return this.value;
         }
 
-        public void setValue(final String value) {
+        public void setValue(final Enum<?> value) {
             this.value = value;
         }
 
-        public List<String> getModes() {
-            return this.modes;
+        public Enum<?>[] getModes() {
+            return modes;
         }
 
         @Override
         public void increment() {
-            int modeIndex = modes.indexOf(value);
-            modeIndex = (modeIndex + 1) % modes.size();
-            setValue(modes.get(modeIndex));
+            int index = value.ordinal() + 1;
+            if(index >= modes.length) index = 0;
+            setValue(modes[index]);
         }
 
         @Override
         public String getValueName() {
-            return this.value;
+            return this.value.toString();
         }
     }
 

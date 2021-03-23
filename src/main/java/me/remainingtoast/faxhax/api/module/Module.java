@@ -113,7 +113,8 @@ public class Module {
                                 case MODE: {
                                     assert setting instanceof Setting.Mode;
                                     Setting.Mode modeSetting = (Setting.Mode) setting;
-                                    modeSetting.setValue(args[2]);
+                                    modeSetting.setValue(Enum.valueOf(modeSetting.getValue().getClass(), args[2]));
+//                                    modeSetting.setValue(args[2]);
                                     message(PREFIX + Formatting.GRAY + setting.getName() + " has been set to: " + Formatting.GREEN + args[2]);
                                     return;
                                 }
@@ -251,7 +252,7 @@ public class Module {
         return setting;
     }
 
-    protected Setting.Mode aMode(final String name, final List<String> modes, final String value) {
+    protected Setting.Mode aMode(final String name, final Enum<?>[] modes, final Enum<?> value) {
         final Setting.Mode setting = new Setting.Mode(name, this, getCategory(), modes, value);
         SettingManager.addSetting(setting);
         return setting;

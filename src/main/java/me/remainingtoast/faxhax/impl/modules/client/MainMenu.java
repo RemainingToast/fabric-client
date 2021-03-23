@@ -1,5 +1,6 @@
 package me.remainingtoast.faxhax.impl.modules.client;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import me.remainingtoast.faxhax.api.module.Module;
 import me.remainingtoast.faxhax.api.setting.Setting;
 
@@ -10,14 +11,14 @@ public class MainMenu extends Module {
 
     Setting.Mode mainMenuMode;
 
+    private enum ModeEnum {
+        FaxHax
+    }
+
     public MainMenu() {
         super("MainMenu", Category.CLIENT);
 
-        List<String> modes = new ArrayList<>();
-
-        modes.add("FaxHax");
-
-        mainMenuMode = aMode("Shader", modes,"FaxHax");
+        mainMenuMode = aMode("Shader", ModeEnum.values(), ModeEnum.FaxHax);
 
         setEnabled(true);
     }

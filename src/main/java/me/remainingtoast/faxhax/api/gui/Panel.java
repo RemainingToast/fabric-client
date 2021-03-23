@@ -135,7 +135,7 @@ public class Panel extends TwoDRenderUtil {
             drawSettingTextBox(
                     matrices,
                     setting.getName(),
-                    set.getValue(),
+                    set.getValueName(),
                     iteratedRect(level),
                     0x8000FF00,
                     (mouseOverSetting) ? 0x80000000 : 0x50000000,
