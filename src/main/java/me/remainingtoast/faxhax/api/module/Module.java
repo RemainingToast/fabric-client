@@ -31,7 +31,7 @@ public class Module {
 
     public boolean enabled = false;
 
-    public boolean drawn = false;
+    public boolean drawn = true;
 
     public InputUtil.Key key = InputUtil.UNKNOWN_KEY;
 

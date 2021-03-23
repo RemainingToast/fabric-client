@@ -2,13 +2,11 @@ package me.remainingtoast.faxhax;
 
 import me.remainingtoast.faxhax.api.command.CommandManager;
 import me.remainingtoast.faxhax.api.config.ConfigManager;
-import me.remainingtoast.faxhax.api.gui.ClickGUI;
 import me.remainingtoast.faxhax.api.module.ModuleManager;
 import me.remainingtoast.faxhax.api.util.AuthUtil;
 import me.zero.alpine.bus.EventManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.options.ServerList;
@@ -23,7 +21,7 @@ public class FaxHax implements ModInitializer {
 
     public static Logger LOGGER = LogManager.getLogger("FaxHax");
 
-    public static final EventManager EVENTS = new EventManager();
+    public static EventManager EVENTS = new EventManager();
 
     @Override
     public void onInitialize() {

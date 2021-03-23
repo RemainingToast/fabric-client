@@ -5,8 +5,6 @@ import me.remainingtoast.faxhax.api.events.PacketEvent;
 import me.remainingtoast.faxhax.api.module.Module;
 import me.remainingtoast.faxhax.api.setting.Setting;
 import me.remainingtoast.faxhax.api.util.DamageUtil;
-import me.zero.alpine.listener.EventHandler;
-import me.zero.alpine.listener.Listener;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -68,9 +66,6 @@ public class CrystalAura extends Module {
         hostile = aBoolean("Hostile", true);
         passive = aBoolean("Passive", false);
         announce = aBoolean("Announce", true);
-
-        setDrawn(true);
-        setKey(82, -1); // R
     }
 
     @Override
@@ -86,25 +81,6 @@ public class CrystalAura extends Module {
     protected void onToggle() {
         if(announce.getValue()) message(toggleMessage());
     }
-
-    @Override
-    protected void onEnable() {
-        FaxHax.EVENTS.subscribe(listener);
-    }
-
-    @Override
-    protected void onDisable() {
-        FaxHax.EVENTS.unsubscribe(listener);
-    }
-
-    @EventHandler
-    private Listener<PacketEvent.Receive> listener = new Listener<>(event -> {
-        assert mc.player != null;
-        if(event.getPacket() instanceof EntityVelocityUpdateS2CPacket) {
-            if (((EntityVelocityUpdateS2CPacket) event.getPacket()).getId() == mc.player.getEntityId()) event.cancel();
-        } else if(event.getPacket() instanceof ExplosionS2CPacket) event.cancel();
-    });
-
 
     private void clearCache(){
         bestBlocks.clear();

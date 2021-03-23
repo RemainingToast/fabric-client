@@ -4,6 +4,11 @@
   "package": "me.remainingtoast.faxhax.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "IChatHud",
+    "IEntityVelocityUpdateS2CPacket",
+    "IExplosionS2CPacket",
+    "IGameRenderer",
+    "IMinecraftClient",
     "MixinAbstractClientPlayerEntity",
     "MixinClientConnection",
     "MixinClientPlayerEntity",
@@ -11,9 +16,6 @@
     "MixinClientWorld",
     "MixinCommandSuggestor",
     "MixinHeldItemRenderer",
-    "IChatHud",
-    "IGameRenderer",
-    "IMinecraftClient",
     "MixinKeyboard",
     "MixinMinecraftClient",
     "MixinTitleScreen"

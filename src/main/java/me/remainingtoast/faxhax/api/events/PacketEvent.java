@@ -20,7 +20,6 @@ public class PacketEvent extends Event {
         }
     }
 
-
     public static class Send extends PacketEvent {
         public Send(Packet<?> packet){
             super(packet);
