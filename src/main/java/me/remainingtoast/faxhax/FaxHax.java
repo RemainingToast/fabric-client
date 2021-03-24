@@ -1,9 +1,12 @@
 package me.remainingtoast.faxhax;
 
 import me.remainingtoast.faxhax.api.command.CommandManager;
+import me.remainingtoast.faxhax.api.config.ConfigManager;
 import me.remainingtoast.faxhax.api.module.ModuleManager;
+import me.remainingtoast.faxhax.api.util.AuthUtil;
 import me.zero.alpine.bus.EventManager;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.options.ServerList;
@@ -18,14 +21,26 @@ public class FaxHax implements ModInitializer {
 
     public static Logger LOGGER = LogManager.getLogger("FaxHax");
 
-    public static final EventManager EVENTS = new EventManager();
+    public static EventManager EVENTS = new EventManager();
 
     @Override
     public void onInitialize() {
-        LOGGER.info("Welcome to FaxHax " + VERSION);
+        long startTime = System.currentTimeMillis();
 
         // Minecraft
         mc = MinecraftClient.getInstance();
+
+        // Auth
+        AuthUtil.initializeAuth();
+
+        if(!AuthUtil.isLicensed()) {
+            LOGGER.fatal("[AUTH] This computer (" + AuthUtil.getHardwareUUID() + ") is not licensed!");
+            LOGGER.fatal("[AUTH] Forcing Shutdown!");
+            mc.scheduleStop();
+            return;
+        }
+
+        LOGGER.info("Welcome to FaxHax " + VERSION);
 
         // Modules
         ModuleManager.initializeModuleManager();
@@ -33,18 +48,17 @@ public class FaxHax implements ModInitializer {
         // Commands
         CommandManager.initializeCommandManager();
 
-        //Config
-//        ConfigManager.initializeConfigManager();
+        // Config
+        ConfigManager.initializeConfigManager();
+
+        ClientLifecycleEvents.CLIENT_STOPPING.register(client -> ConfigManager.shutdown());
 
         // 2b2t Australia
         addServer();
 
-        LOGGER.info("Initialization has now completed.");
-    }
+        String endTime = (System.currentTimeMillis() - startTime) + "ms";
 
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
+        LOGGER.info("FaxHax has successfully loaded in " + endTime);
     }
 
     public static void addServer() {
@@ -55,15 +69,14 @@ public class FaxHax implements ModInitializer {
         for (int i = 0; i < servers.size(); i++) {
             ServerInfo server = servers.get(i);
 
-            if (server.address.contains("2b2t.com.au") || server.address.contains("test.2b2t.org")) {
+            if (server.address.contains("2b2t.com.au")) {
                 contains = true;
                 break;
             }
         }
 
         if (!contains) {
-            servers.add(new ServerInfo("2b2t Australia", "2b2t.com.au", false));
-            servers.add(new ServerInfo("2b2t 1.16", "test.2b2t.org", false));
+            servers.add(new ServerInfo("2b2t Queue Skip", "2b2t.com.au", false));
             servers.saveFile();
         }
     }

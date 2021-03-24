@@ -5,8 +5,6 @@ import me.remainingtoast.faxhax.api.events.PacketEvent;
 import me.remainingtoast.faxhax.api.module.Module;
 import me.remainingtoast.faxhax.api.setting.Setting;
 import me.remainingtoast.faxhax.api.util.DamageUtil;
-import me.zero.alpine.listener.EventHandler;
-import me.zero.alpine.listener.Listener;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -23,10 +21,13 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.*;
 
-import java.security.KeyStore;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
-import static java.lang.Math.*;
+import static java.lang.Math.atan2;
+import static java.lang.Math.sqrt;
 
 public class CrystalAura extends Module {
 
@@ -35,7 +36,7 @@ public class CrystalAura extends Module {
     Setting.Double minDamage;
     Setting.Boolean breakBool;
     Setting.Double breakRange;
-    Setting.Integer maxBreaks;
+    Setting.Double maxBreaks;
     Setting.Double maxSelfDamage;
     Setting.Boolean antiSuicide;
     Setting.Boolean players;
@@ -53,21 +54,18 @@ public class CrystalAura extends Module {
 
     public CrystalAura() {
         super("CrystalAura", Category.COMBAT);
-        placeBool = aBoolean("Place", true);
-        placeRange = aDouble("PlaceRange", 4.0,0.0,10.0);
-        minDamage = aDouble("MinDamage", 0.0,0.0, 36);
-        breakBool = aBoolean("Break", true);
-        breakRange = aDouble("BreakRange", 4.0,0.0,10.0);
-        maxBreaks = aInteger("MaxBreaks", 2,0,20);
-        maxSelfDamage = aDouble("MaxSelfDamage", 10,0,36);
-        antiSuicide = aBoolean("AntiSuicide", true);
-        players = aBoolean("Players", true);
-        hostile = aBoolean("Hostile", true);
-        passive = aBoolean("Passive", false);
-        announce = aBoolean("Announce", true);
-
-        setDrawn(true);
-        setKey(82, -1); // R
+        placeBool = bool("Place", true);
+        placeRange = number("PlaceRange", 10.0,0.0,10.0);
+        minDamage = number("MinDamage", 0.0,0.0, 36);
+        breakBool = bool("Break", true);
+        breakRange = number("BreakRange", 4.0,0.0,10.0);
+        maxBreaks = number("MaxBreaks", 2,0,20);
+        maxSelfDamage = number("MaxSelfDamage", 10,0,36);
+        antiSuicide = bool("AntiSuicide", true);
+        players = bool("Players", true);
+        hostile = bool("Hostile", true);
+        passive = bool("Passive", false);
+        announce = bool("Announce", true);
     }
 
     @Override
@@ -83,25 +81,6 @@ public class CrystalAura extends Module {
     protected void onToggle() {
         if(announce.getValue()) message(toggleMessage());
     }
-
-    @Override
-    protected void onEnable() {
-        FaxHax.EVENTS.subscribe(listener);
-    }
-
-    @Override
-    protected void onDisable() {
-        FaxHax.EVENTS.unsubscribe(listener);
-    }
-
-    @EventHandler
-    private Listener<PacketEvent.Receive> listener = new Listener<>(event -> {
-        assert mc.player != null;
-        if(event.getPacket() instanceof EntityVelocityUpdateS2CPacket) {
-            if (((EntityVelocityUpdateS2CPacket) event.getPacket()).getId() == mc.player.getEntityId()) event.cancel();
-        } else if(event.getPacket() instanceof ExplosionS2CPacket) event.cancel();
-    });
-
 
     private void clearCache(){
         bestBlocks.clear();

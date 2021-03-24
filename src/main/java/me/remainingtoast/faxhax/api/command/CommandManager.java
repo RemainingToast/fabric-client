@@ -39,6 +39,7 @@ public class CommandManager {
     }
 
     public static void initializeCommandManager(){
+        long startTime = System.currentTimeMillis();
         COMMANDS.add(new HelpCommand());
         COMMANDS.add(new PrefixCommand());
 
@@ -48,7 +49,7 @@ public class CommandManager {
                 public void perform(String[] args) { mod.onCommand(args); }
             });
         }
-
-        FaxHax.LOGGER.info("Successfully loaded " + COMMANDS.size() + " commands");
+        String endTime = (System.currentTimeMillis() - startTime) + "ms";
+        FaxHax.LOGGER.info("Successfully loaded " + COMMANDS.size() + " commands in "+endTime);
     }
 }

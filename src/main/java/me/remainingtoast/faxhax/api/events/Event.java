@@ -8,7 +8,7 @@ public class Event extends Cancellable {
     private final Era era = Era.PRE;
     private final Float ticks = MinecraftClient.getInstance().getTickDelta();
 
-    private enum Era {
+    public enum Era {
         PRE, POST
     }
 

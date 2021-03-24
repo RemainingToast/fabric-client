@@ -4,13 +4,21 @@
   "package": "me.remainingtoast.faxhax.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "ChatHudMixin",
-    "ClientConnectionMixin",
-    "ClientPlayerEntityMixin",
-    "CommandSuggestorMixin",
-    "KeyboardMixin",
-    "MinecraftClientMixin",
-    "TitleScreenMixin"
+    "IChatHud",
+    "IEntityVelocityUpdateS2CPacket",
+    "IExplosionS2CPacket",
+    "IGameRenderer",
+    "IMinecraftClient",
+    "MixinAbstractClientPlayerEntity",
+    "MixinClientConnection",
+    "MixinClientPlayerEntity",
+    "MixinClientPlayNetworkHandler",
+    "MixinClientWorld",
+    "MixinCommandSuggestor",
+    "MixinHeldItemRenderer",
+    "MixinKeyboard",
+    "MixinMinecraftClient",
+    "MixinTitleScreen"
   ],
   "client": [
   ],

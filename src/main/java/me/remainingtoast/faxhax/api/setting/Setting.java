@@ -1,12 +1,15 @@
 package me.remainingtoast.faxhax.api.setting;
 
-import com.lukflug.panelstudio.settings.EnumSetting;
-import com.lukflug.panelstudio.settings.NumberSetting;
-import com.lukflug.panelstudio.settings.Toggleable;
 import me.remainingtoast.faxhax.api.module.Module;
+import me.remainingtoast.faxhax.api.setting.types.BooleanSetting;
+import me.remainingtoast.faxhax.api.setting.types.EnumSetting;
+import me.remainingtoast.faxhax.api.setting.types.NumberSetting;
 import me.remainingtoast.faxhax.api.util.FaxColor;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class Setting {
@@ -17,7 +20,11 @@ public class Setting {
     private final Module.Category faxCategory;
     private final Type type;
 
-    public Setting(final String name, final Module parent, final Module.Category faxCategory, final Type type) {
+    public Setting(
+            final String name,
+            final Module parent,
+            final Module.Category faxCategory,
+            final Type type) {
         this.name = name;
         this.configName = name.replace(" ", "");
         this.parent = parent;
@@ -46,66 +53,10 @@ public class Setting {
     }
 
     public enum Type {
-        INTEGER,
         DOUBLE,
         BOOLEAN,
         MODE,
         COLOR
-    }
-
-    public static class Integer extends Setting implements NumberSetting {
-
-        private int value;
-        private final int min;
-        private final int max;
-
-        public Integer(final String name, final Module parent, final Module.Category faxCategory, final int value, final int min, final int max) {
-            super(name, parent, faxCategory, Type.INTEGER);
-            this.value = value;
-            this.min = min;
-            this.max = max;
-        }
-
-        public int getValue() {
-            return this.value;
-        }
-
-        public void setValue(final int value) {
-            this.value = value;
-        }
-
-        public int getMin() {
-            return this.min;
-        }
-
-        public int getMax() {
-            return this.max;
-        }
-
-        @Override
-        public double getNumber() {
-            return this.value;
-        }
-
-        @Override
-        public void setNumber(double value) {
-            this.value= (int) Math.round(value);
-        }
-
-        @Override
-        public double getMaximumValue() {
-            return this.max;
-        }
-
-        @Override
-        public double getMinimumValue() {
-            return this.min;
-        }
-
-        @Override
-        public int getPrecision() {
-            return 0;
-        }
     }
 
     public static class Double extends Setting implements NumberSetting {
@@ -114,7 +65,13 @@ public class Setting {
         private final double min;
         private final double max;
 
-        public Double(final String name, final Module parent, final Module.Category faxCategory, final double value, final double min, final double max) {
+        public Double(
+                final String name,
+                final Module parent,
+                final Module.Category faxCategory,
+                final double value,
+                final double min,
+                final double max) {
             super(name, parent, faxCategory, Type.DOUBLE);
             this.value = value;
             this.min = min;
@@ -124,6 +81,10 @@ public class Setting {
         public double getValue() {
             return this.value;
         }
+
+        public int getIntValue() { return (int) this.value; }
+
+        public float getFloatValue() { return (float) this.value; }
 
         public void setValue(final double value) {
             this.value = value;
@@ -163,11 +124,15 @@ public class Setting {
         }
     }
 
-    public static class Boolean extends Setting implements Toggleable {
+    public static class Boolean extends Setting implements BooleanSetting {
 
         private boolean value;
 
-        public Boolean(final String name, final Module parent, final Module.Category faxCategory, final boolean value) {
+        public Boolean(
+                final String name,
+                final Module parent,
+                final Module.Category faxCategory,
+                final boolean value) {
             super(name, parent, faxCategory, Type.BOOLEAN);
             this.value = value;
         }
@@ -186,7 +151,7 @@ public class Setting {
         }
 
         @Override
-        public boolean isOn() {
+        public boolean enabled() {
             return this.value;
         }
     }
@@ -196,10 +161,10 @@ public class Setting {
         private String value;
         private final List<String> modes;
 
-        public Mode(final String name, final Module parent, final Module.Category faxCategory, final List<String> modes, final String value) {
+        public Mode(final String name, final Module parent, final Module.Category faxCategory, final String value, final String... modes) {
             super(name, parent, faxCategory, Type.MODE);
             this.value = value;
-            this.modes = modes;
+            this.modes = Arrays.asList(modes);
         }
 
         public String getValue() {
@@ -207,11 +172,15 @@ public class Setting {
         }
 
         public void setValue(final String value) {
-            this.value = value;
+             this.value = value;
         }
 
         public List<String> getModes() {
-            return this.modes;
+            return modes;
+        }
+
+        public boolean toggled(String mode){
+            return getValue().equalsIgnoreCase(mode);
         }
 
         @Override
@@ -223,11 +192,11 @@ public class Setting {
 
         @Override
         public String getValueName() {
-            return this.value;
+            return this.value.toString();
         }
     }
 
-    public static class ColorSetting extends Setting implements com.lukflug.panelstudio.settings.ColorSetting {
+    public static class ColorSetting extends Setting implements me.remainingtoast.faxhax.api.setting.types.ColorSetting {
 
         private boolean rainbow;
         private FaxColor value;

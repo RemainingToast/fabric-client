@@ -1,53 +1,29 @@
 package me.remainingtoast.faxhax.api.config;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import me.remainingtoast.faxhax.FaxHax;
-import sun.applet.Main;
+import net.fabricmc.loader.api.FabricLoader;
 
-import java.io.*;
+import java.io.File;
 
 public class ConfigManager {
 
-    private static final File MAIN_CONFIG = new File("faxhax/faxhax.json");
-
-    public static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-
     public static String CMD_PREFIX = ".";
 
+    public static final File GAME_DIR = new File(FabricLoader.getInstance().getGameDir().toString().replaceAll("\\.", "") + "faxhax/");
+    public static final File MODS_DIR = new File(FabricLoader.getInstance().getGameDir().toString().replaceAll("\\.", "") + "faxhax/modules/");
+    public static final File MAIN_CONFIG = new File(GAME_DIR,"faxhax.json");
+    public static final File GUI_CONFIG = new File(GAME_DIR,"clickgui.json");
+
+    private static final ConfigSave save = new ConfigSave();
+    private static final ConfigLoad load = new ConfigLoad();
+
     public static void initializeConfigManager() {
-        saveMainConfig();
+        load.loadMainConfig();
+        load.loadModules();
     }
 
-    public static void saveMainConfig() {
-        MainConfig mainConfig = new MainConfig(
-                CMD_PREFIX
-//                FaxHax.NUM_VERSION
-        );
-        String json = GSON.toJson(mainConfig);
-        try {
-            FileWriter fileWriter = new FileWriter(MAIN_CONFIG);
-            fileWriter.write(json);
-            fileWriter.close();
-        } catch (IOException e) {
-            FaxHax.LOGGER.fatal("Main config failed to save!");
-        }
-    }
-
-    public static class MainConfig {
-
-        private final String commandPrefix;
-//        private final double version;
-
-        public MainConfig(String commandPrefix){
-            this.commandPrefix = commandPrefix;
-//            this.version = version;
-        }
-
-        public String getCommandPrefix() {
-            return commandPrefix;
-        }
-
+    public static void shutdown(){
+        save.saveModules();
+        save.saveMainConfig();
     }
 
 }

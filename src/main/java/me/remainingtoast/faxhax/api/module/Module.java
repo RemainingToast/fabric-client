@@ -1,11 +1,10 @@
 package me.remainingtoast.faxhax.api.module;
 
-import me.remainingtoast.faxhax.FaxHax;
 import me.remainingtoast.faxhax.api.config.ConfigManager;
 import me.remainingtoast.faxhax.api.setting.Setting;
 import me.remainingtoast.faxhax.api.setting.SettingManager;
 import me.remainingtoast.faxhax.api.util.FaxColor;
-import me.remainingtoast.faxhax.mixin.ChatHudMixin;
+import me.remainingtoast.faxhax.mixin.IChatHud;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.LiteralText;
@@ -32,7 +31,7 @@ public class Module {
 
     public boolean enabled = false;
 
-    public boolean drawn = false;
+    public boolean drawn = true;
 
     public InputUtil.Key key = InputUtil.UNKNOWN_KEY;
 
@@ -60,7 +59,7 @@ public class Module {
     public void onCommand(String[] args){
         if(args.length == 1) {
             toggle();
-            message(PREFIX + name + "has been " + ((enabled) ? Formatting.GREEN + "enabled" : Formatting.RED + "disabled"));
+            message(PREFIX + name + " has been " + ((enabled) ? Formatting.GREEN + "enabled" : Formatting.RED + "disabled"));
         }
         else if(args.length >= 3){
             try {
@@ -87,14 +86,6 @@ public class Module {
                         Setting setting = SettingManager.getSettingByName(args[1]);
                         if(setting != null){
                             switch (setting.getType()){
-                                case INTEGER: {
-                                    assert setting instanceof Setting.Integer;
-                                    Setting.Integer intSetting = (Setting.Integer) setting;
-                                    int newValue = Integer.parseInt(args[2]);
-                                    intSetting.setValue(newValue);
-                                    message(PREFIX + Formatting.GRAY + setting.getName() + " has been set to: " + Formatting.GREEN + newValue);
-                                    return;
-                                }
                                 case DOUBLE: {
                                     assert setting instanceof Setting.Double;
                                     Setting.Double doubleSetting = (Setting.Double) setting;
@@ -114,8 +105,8 @@ public class Module {
                                 case MODE: {
                                     assert setting instanceof Setting.Mode;
                                     Setting.Mode modeSetting = (Setting.Mode) setting;
-                                    modeSetting.setValue(args[2]);
-                                    message(PREFIX + Formatting.GRAY + setting.getName() + " has been set to: " + Formatting.GREEN + args[2]);
+                                    modeSetting.increment();
+                                    message(PREFIX + Formatting.GRAY + setting.getName() + " has been incremented, new value: " + Formatting.GREEN + modeSetting.getValueName());
                                     return;
                                 }
                                 case COLOR: {
@@ -189,6 +180,14 @@ public class Module {
         onToggle();
     }
 
+    public void disable(){
+        setEnabled(false);
+    }
+
+    public void enable(){
+        setEnabled(true);
+    }
+
     public boolean isDrawn() {
         return drawn;
     }
@@ -213,49 +212,44 @@ public class Module {
         COMBAT,
         PLAYER,
         MOVEMENT,
+        RENDER,
         MISC,
         CLIENT
     }
 
     public void message(Text text){
-        if(mc.player != null) ((ChatHudMixin) mc.inGameHud.getChatHud()).callAddMessage(text, 5932);
+        if(mc.player != null) ((IChatHud) mc.inGameHud.getChatHud()).callAddMessage(text, 5932);
     }
 
     public void message(String str){
         message(new LiteralText(str));
     }
 
-    protected Setting.Integer aInteger(final String name, final int value, final int min, final int max) {
-        final Setting.Integer setting = new Setting.Integer(name, this, getCategory(), value, min, max);
-        SettingManager.addSetting(setting);
-        return setting;
-    }
-
-    protected Setting.Double aDouble(final String name, final double value, final double min, final double max) {
+    protected Setting.Double number(final String name, final double value, final double min, final double max) {
         final Setting.Double setting = new Setting.Double(name, this, getCategory(), value, min, max);
         SettingManager.addSetting(setting);
         return setting;
     }
 
-    protected Setting.Boolean aBoolean(final String name, final boolean value) {
+    protected Setting.Boolean bool(final String name, final boolean value) {
         final Setting.Boolean setting = new Setting.Boolean(name, this, getCategory(), value);
         SettingManager.addSetting(setting);
         return setting;
     }
 
-    protected Setting.Mode aMode(final String name, final List<String> modes, final String value) {
-        final Setting.Mode setting = new Setting.Mode(name, this, getCategory(), modes, value);
+    protected Setting.Mode mode(final String name, final String value, final String... modes) {
+        final Setting.Mode setting = new Setting.Mode(name, this, getCategory(), value, modes);
         SettingManager.addSetting(setting);
         return setting;
     }
 
-    protected Setting.ColorSetting aColor(final String name, FaxColor color) {
+    protected Setting.ColorSetting color(final String name, FaxColor color) {
         final Setting.ColorSetting setting = new Setting.ColorSetting(name, this, getCategory(), false, color);
         SettingManager.addSetting(setting);
         return setting;
     }
 
-    protected Setting.ColorSetting aColor(final String name, FaxColor color, Boolean rainbow) {
+    protected Setting.ColorSetting color(final String name, FaxColor color, Boolean rainbow) {
         final Setting.ColorSetting setting = new Setting.ColorSetting(name, this, getCategory(), rainbow, color);
         SettingManager.addSetting(setting);
         return setting;
@@ -268,5 +262,9 @@ public class Module {
             return false;
         }
         return true;
+    }
+
+    public void closeScreen(){
+        mc.openScreen(null);
     }
 }
