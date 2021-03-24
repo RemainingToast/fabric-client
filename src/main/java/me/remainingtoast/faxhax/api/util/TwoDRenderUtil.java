@@ -1,9 +1,16 @@
 package me.remainingtoast.faxhax.api.util;
 
 import me.remainingtoast.faxhax.api.setting.Setting;
+import me.remainingtoast.faxhax.impl.modules.client.ClickGUIModule;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 
 import java.awt.*;
 
@@ -18,10 +25,49 @@ public class TwoDRenderUtil extends DrawableHelper {
     private static final int TEXT_COLOR = 0xFFFFFFFF;
     private static final boolean SHOW_BOOL_VALUE = false;
 
-    public static void drawText(MatrixStack matrices, String text, int x, int y, int color){
-        mc.textRenderer.drawWithShadow(matrices, text, x, y, color);
+    private static boolean CUSTOM_FONT;
+
+    public static void drawText(MatrixStack matrices, Text text, int x, int y, int color){
+        mc.textRenderer.drawWithShadow(
+                matrices,
+                addFontToText(text),
+                (CUSTOM_FONT) ? x - 1 : x,
+                (CUSTOM_FONT) ? y + 2: y,
+                color);
         matrices.push();
         matrices.pop();
+    }
+
+    public static void drawText(MatrixStack matrices, String string, int x, int y, int color){
+        mc.textRenderer.drawWithShadow(
+                matrices,
+                addFontToText(string),
+                (CUSTOM_FONT) ? x - 2 : x,
+                (CUSTOM_FONT) ? y + 2: y,
+                color);
+        matrices.push();
+        matrices.pop();
+    }
+
+    public static void drawCenteredText(MatrixStack matrices, Text text, int centerX, int y, int color) {
+        mc.textRenderer.drawWithShadow(
+                matrices,
+                text,
+                (float) (centerX - mc.textRenderer.getWidth(text) / 2) + ((CUSTOM_FONT) ? - 2 : 0),
+                (float) y,
+                color);
+    }
+
+    private static MutableText addFontToText(String text){
+        Identifier newFont = ClickGUIModule.getFont();
+        CUSTOM_FONT = !newFont.equals(new Identifier("minecraft", "default"));
+        return new LiteralText(text).styled(style -> style.withFont(newFont));
+    }
+
+    private static MutableText addFontToText(Text text){
+        Identifier newFont = ClickGUIModule.getFont();
+        CUSTOM_FONT = !newFont.equals(new Identifier("minecraft", "default"));
+        return text.shallowCopy().styled(style -> style.withFont(newFont));
     }
 
     /**
@@ -39,9 +85,15 @@ public class TwoDRenderUtil extends DrawableHelper {
         drawRect(matrices, x + width, y, lineWidth, height, color); // right line
     }
 
-    public static void drawCenteredTextBox(MatrixStack matrices, String text, Rectangle rect, int bgColor, int textColor){
+    public static void drawCenteredTextBox(MatrixStack matrices, String text, Rectangle rect, int bgColor, int textColor) {
         drawRect(matrices, rect.x - 2, rect.y - 2, rect.width, rect.height, bgColor);
-        drawCenteredString(matrices, mc.textRenderer, text, (int) rect.getCenterX(), rect.y, textColor);
+        drawCenteredText(
+                matrices,
+                addFontToText(text),
+                (int) rect.getCenterX(),
+                rect.y,
+                textColor
+        );
     }
 
     public static void drawTextBox(MatrixStack matrices, String text, Rectangle rect, int bgColor, int textColor){
@@ -93,7 +145,8 @@ public class TwoDRenderUtil extends DrawableHelper {
         drawRect(matrices, rect.x + progress - 2, rect.y - 2, rect.width - progress, rect.height, (hovering) ? 0x80000000 : 0x50000000);
         drawRect(matrices, rect.x - 2, rect.y - 3, 2, rect.height + 1, GENERAL_COLOR);
         drawText(matrices, setting.getName(), rect.x + 2, rect.y, TEXT_COLOR);
-        drawText(matrices, String.valueOf(setting.getValue()), rect.x + (rect.width - mc.textRenderer.getWidth(String.valueOf(setting.getValue()))) - 3, rect.y, TEXT_COLOR);
+        Text text = new LiteralText(String.valueOf(setting.getValue())).styled(style -> style.withColor(Formatting.GRAY));
+        drawText(matrices, text, rect.x + (rect.width - mc.textRenderer.getWidth(text)) - ((CUSTOM_FONT) ? 1 : 3), rect.y, TEXT_COLOR);
         if (hovering && leftClicked) {
             progress += mouseX - lastMouseX;
             progress = clamp(progress, 0, rect.width);
@@ -108,7 +161,8 @@ public class TwoDRenderUtil extends DrawableHelper {
         drawRect(matrices, rect.x, rect.y - 2, rect.width - 2, rect.height, COLOR);
         drawRect(matrices, rect.x - 2, rect.y - 3, 2, rect.height + 1, GENERAL_COLOR);
         drawText(matrices, mode.getName(), rect.x + 2, rect.y, TEXT_COLOR);
-        drawText(matrices, mode.getValueName(), rect.x + (rect.width - mc.textRenderer.getWidth(mode.getValueName())) - 2, rect.y, TEXT_COLOR);
+        Text text = new LiteralText(mode.getValueName()).styled(style -> style.withColor(Formatting.GRAY));
+        drawText(matrices, text, rect.x + (rect.width - mc.textRenderer.getWidth(text)) - 2, rect.y, TEXT_COLOR);
         if (hovering && leftClicked) mode.increment();
     }
 
