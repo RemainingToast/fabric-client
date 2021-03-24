@@ -20,9 +20,9 @@ import java.nio.file.Paths;
 
 public class ConfigLoad {
 
-    private final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    public boolean loadMainConfig() {
+    public static boolean loadMainConfig() {
         if (!ConfigManager.GAME_DIR.exists()) {
             ConfigManager.GAME_DIR.mkdirs();
         }
@@ -42,13 +42,13 @@ public class ConfigLoad {
         }
     }
 
-    public void loadModules(){
+    public static void loadModules(){
         for(Module module : ModuleManager.MODS){
             loadModuleDirect(module);
         }
     }
 
-    public void loadModuleDirect(Module module) {
+    public static void loadModuleDirect(Module module) {
         try {
             if (!Files.exists(Paths.get(ConfigManager.MODS_DIR + "/" + module.getName().toLowerCase() + ".json"))) {
                 return;

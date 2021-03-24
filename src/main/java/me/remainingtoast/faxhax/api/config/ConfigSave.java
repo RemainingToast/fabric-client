@@ -19,15 +19,15 @@ import java.nio.file.Paths;
 
 public class ConfigSave {
 
-    private final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    public void saveModules(){
+    public static void saveModules(){
         for(Module mod : ModuleManager.MODS){
             saveModuleDirect(mod);
         }
     }
 
-    public boolean saveMainConfig() {
+    public static boolean saveMainConfig() {
         MainConfig mainConfig = new MainConfig(
                 ConfigManager.CMD_PREFIX
         );
@@ -45,7 +45,7 @@ public class ConfigSave {
         }
     }
 
-    public void saveModuleDirect(Module module) {
+    public static void saveModuleDirect(Module module) {
         try {
             if (!ConfigManager.MODS_DIR.exists()) {
                 ConfigManager.MODS_DIR.mkdirs();
@@ -82,18 +82,6 @@ public class ConfigSave {
             String jsonString = GSON.toJson(new JsonParser().parse(moduleObject.toString()));
             fileOutputStreamWriter.write(jsonString);
             fileOutputStreamWriter.close();
-        } catch(IOException e){
-
-        }
-    }
-
-    private void registerFiles(String name) {
-        try {
-            if (Files.exists(new File(ConfigManager.MODS_DIR, name + ".json").toPath())) {
-                File file = new File(ConfigManager.MODS_DIR, name + ".json");
-                file.delete();
-            }
-            Files.createFile(new File(ConfigManager.MODS_DIR, name + ".json").toPath());
         } catch(IOException e){
 
         }

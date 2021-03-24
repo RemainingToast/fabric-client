@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ClickGUI extends Screen {
 
-    private static final List<Panel> panels = new ArrayList<>();
+    public static final List<Panel> panels = new ArrayList<>();
 
     private boolean clicked = false;
     private boolean leftClicked = false;
@@ -25,8 +25,8 @@ public class ClickGUI extends Screen {
 
     @Override
     protected void init() {
-        int x = 20;
         panels.clear();
+        int x = 20;
         for(Module.Category category : Module.Category.values()){
             panels.add(new Panel(category, x, 20));
             x += 93;
