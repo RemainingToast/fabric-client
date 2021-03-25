@@ -28,14 +28,14 @@ public class Velocity extends Module {
     }
 
     @Override
-    protected void onToggle() {
-        if(enabled) FaxHax.EVENTS.subscribe(packetEvent);
-        else FaxHax.EVENTS.unsubscribe(packetEvent);
+    protected void onEnable() {
+        FaxHax.EVENTS.subscribe(packetEvent);
     }
 
     @EventHandler
     public Listener<PacketEvent.Receive> packetEvent = new Listener<>(event -> {
         if(mc.player != null){
+            System.out.println(event.getPacket().getClass().getSimpleName());
             if(event.getEra() == Event.Era.PRE){
                 Vec3d oldVelocity = new Vec3d(0, 0, 0);
                 if(event.getPacket() instanceof EntityVelocityUpdateS2CPacket){

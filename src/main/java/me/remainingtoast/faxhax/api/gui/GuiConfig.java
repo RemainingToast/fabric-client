@@ -77,13 +77,13 @@ public class GuiConfig {
     }
 
     public static void loadPanels(){
-        for(Panel panel : ClickGUI.panels){
+        for(Panel panel : ClickGUI.panels.values()){
             loadPanelDirect(panel);
         }
     }
 
     public static void savePanels(){
-        for(Panel panel : ClickGUI.panels){
+        for(Panel panel : ClickGUI.panels.values()){
             addPanel(panel);
         }
     }

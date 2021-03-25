@@ -6,11 +6,12 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ClickGUI extends Screen {
 
-    public static final List<Panel> panels = new ArrayList<>();
+    public static final HashMap<Module.Category, Panel> panels = new HashMap<>();
 
     private boolean clicked = false;
     private boolean leftClicked = false;
@@ -25,17 +26,16 @@ public class ClickGUI extends Screen {
 
     @Override
     protected void init() {
-        panels.clear();
         int x = 20;
         for(Module.Category category : Module.Category.values()){
-            panels.add(new Panel(category, x, 20));
+            panels.putIfAbsent(category, new Panel(category, x, 20));
             x += 93;
         }
     }
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        for(Panel panel : panels) {
+        for(Panel panel : panels.values()) {
             panel.render(matrices, mouseX, mouseY, lastMouseX, lastMouseY, leftClicked, rightClicked, delta);
         }
         if(clicked){

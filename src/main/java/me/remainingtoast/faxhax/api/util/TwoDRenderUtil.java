@@ -1,9 +1,9 @@
 package me.remainingtoast.faxhax.api.util;
 
+import me.remainingtoast.faxhax.api.module.ModuleManager;
 import me.remainingtoast.faxhax.api.setting.Setting;
-import me.remainingtoast.faxhax.impl.modules.client.ClickGUIModule;
+import me.remainingtoast.faxhax.impl.modules.client.FontModule;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
@@ -25,6 +25,10 @@ public class TwoDRenderUtil extends DrawableHelper {
     private static final int TEXT_COLOR = 0xFFFFFFFF;
 
     private static boolean CUSTOM_FONT;
+
+    private static final FontModule FONT_MODULE = (FontModule) ModuleManager.getModule("Font");
+
+    private static final Identifier MINECRAFT_FONT = new Identifier("minecraft", "default");
 
     public static void drawText(MatrixStack matrices, String text, int x, int y, int color){
         mc.textRenderer.drawWithShadow(
@@ -62,8 +66,8 @@ public class TwoDRenderUtil extends DrawableHelper {
     }
 
     private static MutableText formatText(String text){
-        Identifier newFont = ClickGUIModule.getFont();
-        CUSTOM_FONT = !newFont.equals(new Identifier("minecraft", "default"));
+        Identifier newFont = (FONT_MODULE.enabled) ? FONT_MODULE.getFont() : MINECRAFT_FONT;
+        CUSTOM_FONT = !newFont.equals(MINECRAFT_FONT);
         return new LiteralText(text)
                 .styled(style -> style
                 .withFont(newFont));
@@ -74,8 +78,8 @@ public class TwoDRenderUtil extends DrawableHelper {
     }
 
     private static MutableText formatValueText(String value){
-        Identifier newFont = ClickGUIModule.getFont();
-        CUSTOM_FONT = !newFont.equals(new Identifier("minecraft", "default"));
+        Identifier newFont = (FONT_MODULE.enabled) ? FONT_MODULE.getFont() : MINECRAFT_FONT;
+        CUSTOM_FONT = !newFont.equals(MINECRAFT_FONT);
         return new LiteralText(value)
                 .styled(style -> style
                 .withFont(newFont)
@@ -152,11 +156,13 @@ public class TwoDRenderUtil extends DrawableHelper {
     public static void drawNumberSetting(MatrixStack matrices, Setting.Double setting, Rectangle rect, int mouseX, int lastMouseX, boolean hovering, boolean leftClicked, boolean rightClicked){
         double percentage = (setting.getValue() - setting.getMin()) / (setting.getMax() - setting.getMin());
         int progress = (int) (percentage * rect.width);
-        drawRect(matrices, rect.x, rect.y - 2, progress - 2, rect.height, GENERAL_COLOR);
-        drawRect(matrices, rect.x - 3 + progress, rect.y - 2, rect.width - progress, rect.height, (hovering) ? 0x80000000 : 0x50000000);
+
+        if(setting.getValue() != 0) drawRect(matrices, rect.x, rect.y - 2, progress - 2, rect.height, GENERAL_COLOR);
+        drawRect(matrices, rect.x - 2 + progress, rect.y - 2, rect.width - progress, rect.height, (hovering) ? 0x80000000 : 0x50000000);
         drawRect(matrices, rect.x - 2, rect.y - 3, 2, rect.height + 1, GENERAL_COLOR);
         drawText(matrices, setting.getName(), rect.x + 2, rect.y, TEXT_COLOR);
         drawValueText(matrices, setting.getValue(), rect.x + (rect.width - mc.textRenderer.getWidth(formatValueText(setting.getValue()))) - 5, rect.y, TEXT_COLOR);
+
         if (hovering && leftClicked) {
             // TODO SLIDER DRAGGING
         }

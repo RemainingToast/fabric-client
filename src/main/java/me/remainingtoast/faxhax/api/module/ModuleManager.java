@@ -1,8 +1,8 @@
 package me.remainingtoast.faxhax.api.module;
 
 import me.remainingtoast.faxhax.FaxHax;
-import me.remainingtoast.faxhax.api.gui.ClickGUI;
 import me.remainingtoast.faxhax.impl.modules.client.ClickGUIModule;
+import me.remainingtoast.faxhax.impl.modules.client.FontModule;
 import me.remainingtoast.faxhax.impl.modules.client.MainMenu;
 import me.remainingtoast.faxhax.impl.modules.combat.AutoTotem;
 import me.remainingtoast.faxhax.impl.modules.combat.CrystalAura;
@@ -27,7 +27,7 @@ public class ModuleManager {
 
         add(new CrystalAura(), new FakePlayer(), new PacketLogger(), new ClickGUIModule(),
             new MainMenu(), new CustomFOV(), new FullBright(), new FastUtil(), new NoFall(),
-            new AutoTotem(), new Velocity()
+            new AutoTotem(), new Velocity(), new FontModule()
         );
 
         String endTime = (System.currentTimeMillis() - startTime) + "ms";
