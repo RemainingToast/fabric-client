@@ -1,9 +1,8 @@
-package me.remainingtoast.faxhax.impl.modules.combat;
+package me.remainingtoast.faxhax.impl.modules.movement;
 
-import com.google.common.eventbus.Subscribe;
 import me.remainingtoast.faxhax.FaxHax;
 import me.remainingtoast.faxhax.api.events.Event;
-import me.remainingtoast.faxhax.api.events.PacketEvent;
+import me.remainingtoast.faxhax.api.events.ReceivePacketEvent;
 import me.remainingtoast.faxhax.api.module.Module;
 import me.remainingtoast.faxhax.api.setting.Setting;
 import me.remainingtoast.faxhax.mixin.IEntityVelocityUpdateS2CPacket;
@@ -21,19 +20,20 @@ public class Velocity extends Module {
     Setting.Double delay;
 
     public Velocity() {
-        super("Velocity", Category.COMBAT);
+        super("Velocity", Category.MOVEMENT);
         horizontal = number("Horizontal%", 0.0,0.0,100.0);
         vertical = number("Vertical%",  0.0, 0.0,100.0);
         delay = number("Delay(MS)",  170, 0, 1000);
     }
 
     @Override
-    protected void onEnable() {
-        FaxHax.EVENTS.subscribe(packetEvent);
+    protected void onToggle() {
+        if(enabled) FaxHax.EVENTS.subscribe(packetEvent);
+        else FaxHax.EVENTS.unsubscribe(packetEvent);
     }
 
     @EventHandler
-    public Listener<PacketEvent.Receive> packetEvent = new Listener<>(event -> {
+    public Listener<ReceivePacketEvent> packetEvent = new Listener<>(event -> {
         if(mc.player != null){
             System.out.println(event.getPacket().getClass().getSimpleName());
             if(event.getEra() == Event.Era.PRE){

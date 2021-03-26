@@ -7,7 +7,8 @@ import me.remainingtoast.faxhax.impl.modules.client.MainMenu;
 import me.remainingtoast.faxhax.impl.modules.combat.AutoTotem;
 import me.remainingtoast.faxhax.impl.modules.combat.CrystalAura;
 import me.remainingtoast.faxhax.impl.modules.combat.FastUtil;
-import me.remainingtoast.faxhax.impl.modules.combat.Velocity;
+import me.remainingtoast.faxhax.impl.modules.movement.SafeWalk;
+import me.remainingtoast.faxhax.impl.modules.movement.Velocity;
 import me.remainingtoast.faxhax.impl.modules.misc.FakePlayer;
 import me.remainingtoast.faxhax.impl.modules.misc.PacketLogger;
 import me.remainingtoast.faxhax.impl.modules.player.NoFall;
@@ -27,7 +28,7 @@ public class ModuleManager {
 
         add(new CrystalAura(), new FakePlayer(), new PacketLogger(), new ClickGUIModule(),
             new MainMenu(), new CustomFOV(), new FullBright(), new FastUtil(), new NoFall(),
-            new AutoTotem(), new Velocity(), new FontModule()
+            new AutoTotem(), new Velocity(), new FontModule(), new SafeWalk()
         );
 
         String endTime = (System.currentTimeMillis() - startTime) + "ms";

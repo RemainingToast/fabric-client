@@ -18,6 +18,7 @@
     "MixinHeldItemRenderer",
     "MixinKeyboard",
     "MixinMinecraftClient",
+    "MixinPlayerEntity",
     "MixinTitleScreen"
   ],
   "client": [

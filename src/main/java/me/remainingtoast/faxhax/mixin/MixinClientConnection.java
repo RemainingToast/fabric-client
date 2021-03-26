@@ -3,7 +3,8 @@ package me.remainingtoast.faxhax.mixin;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import me.remainingtoast.faxhax.FaxHax;
-import me.remainingtoast.faxhax.api.events.PacketEvent;
+import me.remainingtoast.faxhax.api.events.ReceivePacketEvent;
+import me.remainingtoast.faxhax.api.events.SendPacketEvent;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.PacketListener;
@@ -21,7 +22,7 @@ public class MixinClientConnection {
             cancellable = true
     )
     private static void handlePacket(Packet<?> packet, PacketListener listener, CallbackInfo ci){
-        PacketEvent.Receive receive = new PacketEvent.Receive(packet);
+        ReceivePacketEvent receive = new ReceivePacketEvent(packet);
         FaxHax.EVENTS.post(receive);
         if(receive.isCancelled()) ci.cancel();
     }
@@ -32,7 +33,7 @@ public class MixinClientConnection {
             cancellable = true
     )
     private void sendImmediately(Packet<?> packet, GenericFutureListener<? extends Future<? super Void>> callback, CallbackInfo ci){
-        PacketEvent.Send send = new PacketEvent.Send(packet);
+        SendPacketEvent send = new SendPacketEvent(packet);
         FaxHax.EVENTS.post(send);
         if(send.isCancelled()) ci.cancel();
     }
