@@ -4,6 +4,7 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import me.remainingtoast.faxhax.api.config.ConfigManager;
 import me.remainingtoast.faxhax.api.module.Module;
+import me.remainingtoast.faxhax.api.module.ModuleManager;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -31,7 +32,6 @@ public class GuiConfig {
             }
             panelObject = mainObject.get("Panels").getAsJsonObject();
             inputStream.close();
-            loadPanels();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,21 +65,39 @@ public class GuiConfig {
         panelObject.add(panel.category.name(), valueObject);
     }
 
-    public static void loadPanelDirect(Panel panel){
-        JsonObject valueObject = panelObject.get(panel.category.name()).getAsJsonObject();
-        panel.x = valueObject.get("x").getAsInt();
-        panel.y = valueObject.get("y").getAsInt();
-        panel.categoryExpanded = valueObject.get("expanded").getAsBoolean();
+    public static Panel loadPanelDirect(Module.Category category){
+        JsonObject valueObject = panelObject.get(category.name()).getAsJsonObject();
         JsonObject moduleObject = valueObject.get("expandedModules").getAsJsonObject();
-        Type type = new TypeToken<HashMap<Module, Boolean>>(){}.getType();
-        panel.modsExpanded = gson.fromJson(moduleObject, type);
+        Type type = new TypeToken<HashMap<String, Boolean>>(){}.getType();
 
+        int x = valueObject.get("x").getAsInt();
+        int y = valueObject.get("y").getAsInt();
+        boolean expanded = valueObject.get("expanded").getAsBoolean();
+        HashMap<String, Boolean> modsExpanded = gson.fromJson(moduleObject, type);
+
+        Panel panel = new Panel(category, x, y);
+        panel.categoryExpanded = expanded;
+        for (Map.Entry<String, Boolean> entry : modsExpanded.entrySet()){
+            panel.modsExpanded.putIfAbsent(ModuleManager.getModule(entry.getKey()), entry.getValue());
+        }
+
+        return panel;
     }
 
-    public static void loadPanels(){
-        for(Panel panel : ClickGUI.panels.values()){
-            loadPanelDirect(panel);
+    public static HashMap<Module.Category, Panel> loadPanels(){
+        HashMap<Module.Category, Panel> panels = new HashMap<>();
+        if(Files.exists(DIR.toPath())){
+            for(Module.Category category : Module.Category.values()){
+                panels.putIfAbsent(category, loadPanelDirect(category));
+            }
+        } else {
+            int x = 20;
+            for(Module.Category category : Module.Category.values()){
+                panels.putIfAbsent(category, new Panel(category, x, 20));
+                x += 93;
+            }
         }
+        return panels;
     }
 
     public static void savePanels(){
@@ -87,5 +105,4 @@ public class GuiConfig {
             addPanel(panel);
         }
     }
-
 }

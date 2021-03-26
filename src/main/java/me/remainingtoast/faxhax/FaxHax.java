@@ -51,7 +51,10 @@ public class FaxHax implements ModInitializer {
         // Config
         ConfigManager.initializeConfigManager();
 
-        ClientLifecycleEvents.CLIENT_STOPPING.register(client -> ConfigManager.shutdown());
+        ClientLifecycleEvents.CLIENT_STOPPING.register(client -> {
+            ConfigManager.shutdown();
+            LOGGER.info("Sucessfully saved and shutdown!");
+        });
 
         // 2b2t Australia
         addServer();

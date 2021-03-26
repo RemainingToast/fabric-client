@@ -1,5 +1,7 @@
 package me.remainingtoast.faxhax.api.gui;
 
+import me.remainingtoast.faxhax.FaxHax;
+import me.remainingtoast.faxhax.api.config.ConfigSave;
 import me.remainingtoast.faxhax.api.module.Module;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
@@ -26,11 +28,14 @@ public class ClickGUI extends Screen {
 
     @Override
     protected void init() {
-        int x = 20;
-        for(Module.Category category : Module.Category.values()){
-            panels.putIfAbsent(category, new Panel(category, x, 20));
-            x += 93;
-        }
+        GuiConfig.loadPanels().forEach(panels::putIfAbsent);
+    }
+
+    @Override
+    public void onClose() {
+        FaxHax.mc.openScreen(null);
+        GuiConfig.saveConfig();
+        ConfigSave.saveModules();
     }
 
     @Override
@@ -86,8 +91,11 @@ public class ClickGUI extends Screen {
     }
 
     @Override
-    public boolean shouldCloseOnEsc() {
-        return true;
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if(keyCode == 256){
+            onClose();
+            return true;
+        }
+        return false;
     }
-
 }

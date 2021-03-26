@@ -36,7 +36,6 @@ public class ConfigSave {
             OutputStreamWriter output = new OutputStreamWriter(new FileOutputStream(ConfigManager.MAIN_CONFIG), StandardCharsets.UTF_8);
             output.write(json);
             output.close();
-            FaxHax.LOGGER.info("Main config saved");
             return true;
         } catch (IOException e) {
             FaxHax.LOGGER.fatal("Main config failed to save!");

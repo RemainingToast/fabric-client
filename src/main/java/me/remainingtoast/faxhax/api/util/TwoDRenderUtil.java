@@ -35,7 +35,7 @@ public class TwoDRenderUtil extends DrawableHelper {
                 matrices,
                 formatText(text),
                 (CUSTOM_FONT) ? x + 1 : x,
-                (CUSTOM_FONT) ? y + 2: y,
+                (CUSTOM_FONT) ? ((FONT_MODULE.getSize() == 10) ? y + 1 : y + 2) : y,
                 color);
         matrices.push();
         matrices.pop();
@@ -46,7 +46,7 @@ public class TwoDRenderUtil extends DrawableHelper {
                 matrices,
                 formatValueText(text),
                 (CUSTOM_FONT) ? x + 1 : x,
-                (CUSTOM_FONT) ? y + 2: y,
+                (CUSTOM_FONT) ? ((FONT_MODULE.getSize() == 10) ? y + 1 : y - 1) : y,
                 color);
         matrices.push();
         matrices.pop();

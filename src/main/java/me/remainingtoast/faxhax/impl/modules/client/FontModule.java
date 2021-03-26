@@ -31,4 +31,8 @@ public class FontModule extends Module {
         else
             return new Identifier("faxhax", fontType.getValue().toLowerCase(Locale.ROOT) + size.getValue());
     }
+
+    public int getSize(){
+        return Integer.parseInt(size.getValue());
+    }
 }
