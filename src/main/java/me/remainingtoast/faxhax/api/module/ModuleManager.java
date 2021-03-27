@@ -15,6 +15,7 @@ import me.remainingtoast.faxhax.impl.modules.player.NoFall;
 import me.remainingtoast.faxhax.impl.modules.render.CustomFOV;
 import me.remainingtoast.faxhax.impl.modules.render.FullBright;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.network.Packet;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.*;
@@ -75,6 +76,12 @@ public class ModuleManager {
                     }
                 }
             }
+        }
+    }
+
+    public static void onPacket(Packet<?> packet){
+        for(Module mod : MODS){
+            if(mod.enabled) mod.onPacket(packet);
         }
     }
 }

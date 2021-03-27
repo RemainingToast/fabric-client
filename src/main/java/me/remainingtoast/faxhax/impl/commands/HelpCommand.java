@@ -22,7 +22,7 @@ public class HelpCommand extends Command {
 
             Text prefix = new LiteralText(PREFIX).setStyle(Style.EMPTY
                     .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new LiteralText(Formatting.DARK_AQUA + "Commands: " + Formatting.GREEN + CommandManager.COMMANDS.size())))
-                    .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.2b2t.com.au/")));
+                    .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://faxhax.club")));
 
             MutableText text = new LiteralText("").append(prefix);
 

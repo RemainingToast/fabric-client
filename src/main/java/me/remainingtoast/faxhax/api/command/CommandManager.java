@@ -46,7 +46,9 @@ public class CommandManager {
         for(Module mod : ModuleManager.MODS){
             COMMANDS.add(new Command(mod.name.toLowerCase(Locale.ROOT), "<setting> <value>") {
                 @Override
-                public void perform(String[] args) { mod.onCommand(args); }
+                public void perform(String[] args) {
+                    mod.onCommand(args);
+                }
             });
         }
         String endTime = (System.currentTimeMillis() - startTime) + "ms";

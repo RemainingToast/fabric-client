@@ -29,7 +29,7 @@ dependencies {
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
 
     // Events
-    implementation "com.github.ZeroMemes:Alpine:${project.alpine_version}"
+
 }
 
 processResources {

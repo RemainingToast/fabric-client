@@ -1,7 +1,6 @@
 package me.remainingtoast.faxhax.mixin;
 
 import me.remainingtoast.faxhax.api.module.ModuleManager;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.Session;
 import net.minecraft.client.world.ClientWorld;
@@ -28,9 +27,7 @@ public class MixinMinecraftClient {
             method = {"tick"},
             cancellable = true
     )
-    public void tick(CallbackInfo callbackInfo){
-        if(player != null && world != null) ModuleManager.onTick();
-    }
+    public void tick(CallbackInfo callbackInfo){ if(player != null && world != null) ModuleManager.onTick(); }
 
     @Inject(
             at = @At("TAIL"),
