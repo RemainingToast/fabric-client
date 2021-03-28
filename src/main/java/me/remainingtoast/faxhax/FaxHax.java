@@ -4,6 +4,8 @@ import me.remainingtoast.faxhax.api.command.CommandManager;
 import me.remainingtoast.faxhax.api.config.ConfigManager;
 import me.remainingtoast.faxhax.api.module.ModuleManager;
 import me.remainingtoast.faxhax.api.util.AuthUtil;
+import meteordevelopment.orbit.EventBus;
+import meteordevelopment.orbit.IEventBus;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.minecraft.client.MinecraftClient;
@@ -19,6 +21,8 @@ public class FaxHax implements ModInitializer {
     public static final String VERSION = "v1.0";
 
     public static Logger LOGGER = LogManager.getLogger("FaxHax");
+
+    public static IEventBus EVENT_BUS = new EventBus();
 
     @Override
     public void onInitialize() {
