@@ -71,7 +71,12 @@ public class Panel extends TwoDRenderUtil {
 
     public void drawModule(MatrixStack matrices, Module mod, int mouseX, int mouseY, int lastMouseX, int lastMouseY, boolean leftClicked, boolean rightClicked){
         modsExpanded.putIfAbsent(mod, false);
-        boolean mouseOverModRect = mouseOverRect(mouseX, mouseY, iteratedRect(level));
+        boolean mouseOverModRect = mouseOverRect(mouseX, mouseY, iteratedRect(new Rectangle(
+                x,
+                y,
+                width,
+                height
+        ), level));
         if(mouseOverModRect) {
             if(leftClicked) mod.toggle();
             if(rightClicked) modsExpanded.put(mod, !modsExpanded.get(mod));
@@ -79,7 +84,12 @@ public class Panel extends TwoDRenderUtil {
         drawTextBox(
                 matrices,
                 mod.name,
-                iteratedRect(level),
+                iteratedRect(new Rectangle(
+                        x,
+                        y,
+                        width,
+                        height
+                ), level),
                 (mod.enabled) ? (mouseOverModRect) ? 0x9900FF00 : 0x8000FF00 : (mouseOverModRect) ? 0x80000000 : 0x50000000,
                 0xFFFFFFFF
         );
@@ -88,34 +98,57 @@ public class Panel extends TwoDRenderUtil {
             if(entry.getValue()){
                 for(Setting setting : SettingManager.getSettingsForMod(entry.getKey())){
                     if(setting.getParent() == mod && !setting.isHidden()){
-                        drawSetting(
-                                matrices,
-                                setting,
-                                iteratedRect(level),
-                                mouseX,
-                                mouseY,
-                                lastMouseX,
-                                lastMouseY,
-                                leftClicked,
-                                rightClicked
-                        );
-                        level++;
+                        if(setting.getType() == Setting.Type.GROUP){
+                            drawGroupSettings(
+                                    matrices,
+                                    (Setting.Group) setting,
+                                    iteratedRect(new Rectangle(x, y, width, height), level),
+                                    mouseX,
+                                    mouseY,
+                                    lastMouseX,
+                                    lastMouseY,
+                                    leftClicked,
+                                    rightClicked
+                            );
+                            level++;
+                            if(((Setting.Group) setting).isExpanded()){
+                                for(Setting set : ((Setting.Group) setting).getSettings()){
+                                    drawSetting(
+                                            matrices,
+                                            set,
+                                            iteratedRect(new Rectangle(x, y, width, height), level),
+                                            mouseX,
+                                            mouseY,
+                                            lastMouseX,
+                                            lastMouseY,
+                                            leftClicked,
+                                            rightClicked
+                                    );
+                                    level++;
+                                }
+                            }
+                        } else if(!setting.isGrouped()) {
+                            drawSetting(
+                                    matrices,
+                                    setting,
+                                    iteratedRect(new Rectangle(
+                                            x,
+                                            y,
+                                            width,
+                                            height
+                                    ), level),
+                                    mouseX,
+                                    mouseY,
+                                    lastMouseX,
+                                    lastMouseY,
+                                    leftClicked,
+                                    rightClicked
+                            );
+                            level++;
+                        }
                     }
                 }
             }
         }
-    }
-
-    private int iteratedY(int iteration){
-        return y + iteration + (height * iteration);
-    }
-
-    private Rectangle iteratedRect(int iteration){
-        return new Rectangle(
-                x + 1,
-                iteratedY(iteration),
-                width - 2,
-                height
-        );
     }
 }

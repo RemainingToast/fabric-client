@@ -20,6 +20,7 @@ public class Setting {
     private final Module.Category faxCategory;
     private final Type type;
     private boolean hidden;
+    private boolean grouped;
 
     public Setting(
             final String name,
@@ -32,6 +33,7 @@ public class Setting {
         this.type = type;
         this.faxCategory = faxCategory;
         this.hidden = false;
+        this.grouped = false;
     }
 
     public String getName() {
@@ -62,10 +64,19 @@ public class Setting {
         return hidden;
     }
 
+    public void setGrouped(boolean grouped) {
+        this.grouped = grouped;
+    }
+
+    public boolean isGrouped() {
+        return grouped;
+    }
+
     public enum Type {
         DOUBLE,
         BOOLEAN,
         MODE,
+        GROUP,
         COLOR
     }
 
@@ -255,6 +266,33 @@ public class Setting {
         @Override
         public void setRainbow(boolean rainbow) {
             this.rainbow=rainbow;
+        }
+    }
+
+    public static class Group extends Setting {
+
+        List<Setting> settings;
+        boolean expanded;
+
+        public Group(final String name, final Module parent, final Module.Category faxCategory, final Setting... settings) {
+            super(name, parent, faxCategory, Type.GROUP);
+            this.settings = new ArrayList<>();
+            for(Setting setting : settings){
+                setting.setGrouped(true);
+                this.settings.add(setting);
+            }
+        }
+
+        public List<Setting> getSettings() {
+            return settings;
+        }
+
+        public void setExpanded(boolean expanded) {
+            this.expanded = expanded;
+        }
+
+        public boolean isExpanded() {
+            return expanded;
         }
     }
 }

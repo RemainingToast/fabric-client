@@ -117,6 +117,16 @@ public class TwoDRenderUtil extends DrawableHelper {
         drawText(matrices, text, rect.x, rect.y, textColor);
     }
 
+    public static void drawGroupSettings(MatrixStack matrices, Setting.Group group, Rectangle rect, int mouseX, int mouseY, int lastMouseX, int lastMouseY, boolean leftClicked, boolean rightClicked){
+        final boolean hovering = mouseOverRect(mouseX, mouseY, rect);
+        final String valueText = (group.isExpanded()) ? "_" : "...";
+        drawRect(matrices, rect.x, rect.y - 2, rect.width - 2, rect.height, (hovering) ? GENERAL_COLOR_HOVER : GENERAL_COLOR);
+        drawRect(matrices, rect.x - 2, rect.y - 3, 2, rect.height + 1, GENERAL_COLOR);
+        drawText(matrices, group.getName(), rect.x + 2, rect.y, TEXT_COLOR);
+        drawText(matrices, valueText, rect.x + (rect.width - mc.textRenderer.getWidth(formatValueText(valueText))) - 5, rect.y, TEXT_COLOR);
+        if(hovering && rightClicked) group.setExpanded(!group.isExpanded());
+    }
+
     public static void drawSetting(MatrixStack matrices, Setting setting, Rectangle rect, int mouseX, int mouseY, int lastMouseX, int lastMouseY, boolean leftClicked, boolean rightClicked) {
         final boolean hovering = mouseOverRect(mouseX, mouseY, rect);
         switch (setting.getType()){
@@ -187,4 +197,16 @@ public class TwoDRenderUtil extends DrawableHelper {
         return mouseX >= rect.x && mouseX <= rect.width + rect.x && mouseY >= rect.y && mouseY <= rect.height + rect.y;
     }
 
+    public static int iteratedY(int y, int height, int iteration){
+        return y + iteration + (height * iteration);
+    }
+
+    public static Rectangle iteratedRect(Rectangle rect, int iteration){
+        return new Rectangle(
+                rect.x + 1,
+                iteratedY(rect.y, rect.height, iteration),
+                rect.width - 2,
+                rect.height
+        );
+    }
 }

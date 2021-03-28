@@ -39,6 +39,9 @@ public class CrystalAura extends Module {
     Setting.Boolean hostile;
     Setting.Boolean passive;
     Setting.Boolean announce;
+    Setting.Group placeGroup;
+    Setting.Group breakGroup;
+    Setting.Group targetsGroup;
 
     private final List<Entity> entities = new ArrayList<>();
     private final List<EndCrystalEntity> crystals = new ArrayList<>();
@@ -53,14 +56,23 @@ public class CrystalAura extends Module {
         placeBool = bool("Place", true);
         placeRange = number("PlaceRange", 10.0,0.0,10.0);
         minDamage = number("MinDamage", 0.0,0.0, 36);
+
+        placeGroup = group("Place", placeBool, placeRange, minDamage);
+
         breakBool = bool("Break", true);
         breakRange = number("BreakRange", 4.0,0.0,10.0);
         maxBreaks = number("MaxBreaks", 2,0,20);
         maxSelfDamage = number("MaxSelfDamage", 10,0,36);
         antiSuicide = bool("AntiSuicide", true);
+
+        breakGroup = group("Break", breakBool, breakRange, maxBreaks, maxSelfDamage, antiSuicide);
+
         players = bool("Players", true);
-        hostile = bool("Hostile", true);
+        hostile = bool("Hostile", false);
         passive = bool("Passive", false);
+
+        targetsGroup = group("Targets", players, hostile, passive);
+
         announce = bool("Announce", true);
     }
 

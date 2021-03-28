@@ -226,6 +226,12 @@ public class Module {
         message(new LiteralText(str));
     }
 
+    protected Setting.Group group(final String name, final Setting... settings){
+        final Setting.Group setting = new Setting.Group(name, this, getCategory(), settings);
+        SettingManager.addSetting(setting);
+        return setting;
+    }
+
     protected Setting.Double number(final String name, final double value, final double min, final double max) {
         final Setting.Double setting = new Setting.Double(name, this, getCategory(), value, min, max);
         SettingManager.addSetting(setting);
