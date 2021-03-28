@@ -87,7 +87,7 @@ public class Panel extends TwoDRenderUtil {
         for(Map.Entry<Module, Boolean> entry : modsExpanded.entrySet()){
             if(entry.getValue()){
                 for(Setting setting : SettingManager.getSettingsForMod(entry.getKey())){
-                    if(setting.getParent() == mod){
+                    if(setting.getParent() == mod && !setting.isHidden()){
                         drawSetting(
                                 matrices,
                                 setting,

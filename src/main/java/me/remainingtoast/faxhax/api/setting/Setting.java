@@ -19,6 +19,7 @@ public class Setting {
     private final Module parent;
     private final Module.Category faxCategory;
     private final Type type;
+    private boolean hidden;
 
     public Setting(
             final String name,
@@ -30,6 +31,7 @@ public class Setting {
         this.parent = parent;
         this.type = type;
         this.faxCategory = faxCategory;
+        this.hidden = false;
     }
 
     public String getName() {
@@ -50,6 +52,14 @@ public class Setting {
 
     public Module.Category getCategory() {
         return this.faxCategory;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
+    public boolean isHidden() {
+        return hidden;
     }
 
     public enum Type {
