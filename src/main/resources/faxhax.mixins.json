@@ -24,7 +24,8 @@
     "MixinKeyboard",
     "MixinMinecraftClient",
     "MixinPlayerEntity",
-    "MixinTitleScreen"
+    "MixinTitleScreen",
+    "MixinWorldRenderer"
   ],
   "client": [
   ],
