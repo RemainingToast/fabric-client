@@ -7,6 +7,7 @@ import me.remainingtoast.faxhax.impl.modules.client.MainMenu;
 import me.remainingtoast.faxhax.impl.modules.combat.AutoTotem;
 import me.remainingtoast.faxhax.impl.modules.combat.CrystalAura;
 import me.remainingtoast.faxhax.impl.modules.combat.FastUtil;
+import me.remainingtoast.faxhax.impl.modules.misc.ExtraTab;
 import me.remainingtoast.faxhax.impl.modules.misc.FakePlayer;
 import me.remainingtoast.faxhax.impl.modules.misc.PacketLogger;
 import me.remainingtoast.faxhax.impl.modules.movement.AutoWalk;
@@ -31,7 +32,7 @@ public class ModuleManager {
         add(new CrystalAura(), new FakePlayer(), new PacketLogger(), new ClickGUIModule(),
             new MainMenu(), new CustomFOV(), new FullBright(), new FastUtil(), new NoFall(),
             new AutoTotem(), new Velocity(), new FontModule(), new SafeWalk(), new NoRender(),
-            new AutoWalk()
+            new AutoWalk(), new ExtraTab()
         );
 
         MODS.sort(Comparator.comparing(Module::getName));

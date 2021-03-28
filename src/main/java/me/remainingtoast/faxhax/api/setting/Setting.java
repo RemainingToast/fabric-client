@@ -188,6 +188,12 @@ public class Setting {
             this.modes = Arrays.asList(modes);
         }
 
+        public Mode(final String name, final Module parent, final Module.Category faxCategory, final String value, final List<String> modes) {
+            super(name, parent, faxCategory, Type.MODE);
+            this.value = value;
+            this.modes = modes;
+        }
+
         public String getValue() {
             return this.value;
         }

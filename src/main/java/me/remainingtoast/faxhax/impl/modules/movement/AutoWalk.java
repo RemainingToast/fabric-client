@@ -14,8 +14,10 @@ public class AutoWalk extends Module {
 
     @Override
     protected void onDisable() {
-        if(mode.getValue().equalsIgnoreCase("Simple")){
-            stop();
+        if(mc.world != null){
+            if(mode.getValue().equalsIgnoreCase("Simple")){
+                stop();
+            }
         }
     }
 

@@ -250,6 +250,12 @@ public class Module {
         return setting;
     }
 
+    protected Setting.Mode mode(final String name, final String value, final List<String> modes) {
+        final Setting.Mode setting = new Setting.Mode(name, this, getCategory(), value, modes);
+        SettingManager.addSetting(setting);
+        return setting;
+    }
+
     protected Setting.ColorSetting color(final String name, FaxColor color) {
         final Setting.ColorSetting setting = new Setting.ColorSetting(name, this, getCategory(), false, color);
         SettingManager.addSetting(setting);
