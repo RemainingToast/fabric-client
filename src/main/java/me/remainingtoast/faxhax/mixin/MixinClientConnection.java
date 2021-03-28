@@ -32,7 +32,9 @@ public class MixinClientConnection {
             cancellable = true
     )
     private void sendImmediately(Packet<?> packet, GenericFutureListener<? extends Future<? super Void>> callback, CallbackInfo ci){
-
+        PacketEvent.Send send = new PacketEvent.Send(packet);
+        FaxHax.EVENT_BUS.post(send);
+        if(send.isCancelled()) ci.cancel();
     }
 
 }
