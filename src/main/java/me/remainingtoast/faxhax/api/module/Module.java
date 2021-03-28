@@ -57,10 +57,6 @@ public class Module {
 
     }
 
-    protected void onPacket(Packet<?> packet) {
-
-    }
-
     public void onCommand(String[] args){
         if(args.length == 1) {
             toggle();

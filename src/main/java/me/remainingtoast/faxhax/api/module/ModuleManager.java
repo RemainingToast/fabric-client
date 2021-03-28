@@ -14,6 +14,7 @@ import me.remainingtoast.faxhax.impl.modules.misc.PacketLogger;
 import me.remainingtoast.faxhax.impl.modules.player.NoFall;
 import me.remainingtoast.faxhax.impl.modules.render.CustomFOV;
 import me.remainingtoast.faxhax.impl.modules.render.FullBright;
+import me.remainingtoast.faxhax.impl.modules.render.NoRender;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.network.Packet;
 import org.lwjgl.glfw.GLFW;
@@ -29,7 +30,7 @@ public class ModuleManager {
 
         add(new CrystalAura(), new FakePlayer(), new PacketLogger(), new ClickGUIModule(),
             new MainMenu(), new CustomFOV(), new FullBright(), new FastUtil(), new NoFall(),
-            new AutoTotem(), new Velocity(), new FontModule(), new SafeWalk()
+            new AutoTotem(), new Velocity(), new FontModule(), new SafeWalk(), new NoRender()
         );
 
         String endTime = (System.currentTimeMillis() - startTime) + "ms";
@@ -76,12 +77,6 @@ public class ModuleManager {
                     }
                 }
             }
-        }
-    }
-
-    public static void onPacket(Packet<?> packet){
-        for(Module mod : MODS){
-            if(mod.enabled) mod.onPacket(packet);
         }
     }
 }
