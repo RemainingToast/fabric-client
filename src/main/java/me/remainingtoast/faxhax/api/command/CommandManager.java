@@ -51,7 +51,9 @@ public class CommandManager {
                 }
             });
         }
+
         String endTime = (System.currentTimeMillis() - startTime) + "ms";
-        FaxHax.LOGGER.info("Successfully loaded " + COMMANDS.size() + " commands in "+endTime);
+        int size = COMMANDS.size() - ModuleManager.MODS.size();
+        FaxHax.LOGGER.info("Successfully loaded " + size + " commands in "+endTime);
     }
 }

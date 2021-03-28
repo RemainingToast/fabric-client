@@ -38,5 +38,4 @@ public class MixinInGameOverlayRenderer {
             ci.cancel();
         }
     }
-
 }

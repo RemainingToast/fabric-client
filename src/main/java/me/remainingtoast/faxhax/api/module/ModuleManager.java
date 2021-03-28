@@ -7,16 +7,15 @@ import me.remainingtoast.faxhax.impl.modules.client.MainMenu;
 import me.remainingtoast.faxhax.impl.modules.combat.AutoTotem;
 import me.remainingtoast.faxhax.impl.modules.combat.CrystalAura;
 import me.remainingtoast.faxhax.impl.modules.combat.FastUtil;
-import me.remainingtoast.faxhax.impl.modules.movement.SafeWalk;
-import me.remainingtoast.faxhax.impl.modules.movement.Velocity;
 import me.remainingtoast.faxhax.impl.modules.misc.FakePlayer;
 import me.remainingtoast.faxhax.impl.modules.misc.PacketLogger;
+import me.remainingtoast.faxhax.impl.modules.movement.SafeWalk;
+import me.remainingtoast.faxhax.impl.modules.movement.Velocity;
 import me.remainingtoast.faxhax.impl.modules.player.NoFall;
 import me.remainingtoast.faxhax.impl.modules.render.CustomFOV;
 import me.remainingtoast.faxhax.impl.modules.render.FullBright;
 import me.remainingtoast.faxhax.impl.modules.render.NoRender;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.network.Packet;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.*;
@@ -32,6 +31,8 @@ public class ModuleManager {
             new MainMenu(), new CustomFOV(), new FullBright(), new FastUtil(), new NoFall(),
             new AutoTotem(), new Velocity(), new FontModule(), new SafeWalk(), new NoRender()
         );
+
+        MODS.sort(Comparator.comparing(Module::getName));
 
         String endTime = (System.currentTimeMillis() - startTime) + "ms";
         FaxHax.LOGGER.info("Successfully loaded " + MODS.size() + " modules in "+endTime);
