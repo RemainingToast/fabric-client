@@ -2,6 +2,8 @@ package me.remainingtoast.faxhax.impl.modules.client;
 
 import me.remainingtoast.faxhax.api.gui.ClickGUI;
 import me.remainingtoast.faxhax.api.module.Module;
+import me.remainingtoast.faxhax.api.setting.Setting;
+import me.remainingtoast.faxhax.api.util.FaxColor;
 
 public class ClickGUIModule extends Module {
 

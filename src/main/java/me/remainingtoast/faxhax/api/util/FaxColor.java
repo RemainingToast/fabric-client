@@ -2,7 +2,14 @@ package me.remainingtoast.faxhax.api.util;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import java.awt.*;
+
 public class FaxColor extends java.awt.Color {
+
+    public static FaxColor rainbow() {
+        float hue = (System.currentTimeMillis() % (320 * 32)) / (320f * 32);
+        return new FaxColor(FaxColor.fromHSB(hue, 1, 1));
+    }
 
     private static final long serialVersionUID = 1L;
 

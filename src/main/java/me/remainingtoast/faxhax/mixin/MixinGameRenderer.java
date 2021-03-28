@@ -1,8 +1,11 @@
 package me.remainingtoast.faxhax.mixin;
 
+import me.remainingtoast.faxhax.FaxHax;
+import me.remainingtoast.faxhax.api.event.RenderEvent;
 import me.remainingtoast.faxhax.api.module.ModuleManager;
 import me.remainingtoast.faxhax.impl.modules.render.NoRender;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
@@ -57,6 +60,14 @@ public class MixinGameRenderer {
         return MathHelper.lerp(delta, first, second);
     }
 
-
-
+    @Inject(
+            at = {@At("HEAD")},
+            method = {"renderHand"},
+            cancellable = true
+    )
+    private void renderHand(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci) {
+        RenderEvent.World event = new RenderEvent.World(matrices, tickDelta, camera);
+        FaxHax.EVENT_BUS.post(event);
+        if(event.isCancelled()) ci.cancel();
+    }
 }
