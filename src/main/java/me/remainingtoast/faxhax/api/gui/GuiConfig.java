@@ -86,11 +86,11 @@ public class GuiConfig {
 
     public static HashMap<Module.Category, Panel> loadPanels(){
         HashMap<Module.Category, Panel> panels = new HashMap<>();
-        if(Files.exists(DIR.toPath())){
+        try {
             for(Module.Category category : Module.Category.values()){
                 panels.putIfAbsent(category, loadPanelDirect(category));
             }
-        } else {
+        } catch (NullPointerException exception){
             int x = 20;
             for(Module.Category category : Module.Category.values()){
                 panels.putIfAbsent(category, new Panel(category, x, 20));

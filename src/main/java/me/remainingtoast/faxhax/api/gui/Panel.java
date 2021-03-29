@@ -96,7 +96,7 @@ public class Panel extends TwoDRenderUtil {
         level++;
         for(Map.Entry<Module, Boolean> entry : modsExpanded.entrySet()){
             if(entry.getValue()){
-                for(Setting setting : SettingManager.getSettingsForMod(entry.getKey())){
+                for(Setting<?> setting : SettingManager.getSettingsForMod(entry.getKey())){
                     if(setting.getParent() == mod && !setting.isHidden()){
                         if(setting.getType() == Setting.Type.GROUP){
                             drawGroupSettings(
@@ -112,7 +112,7 @@ public class Panel extends TwoDRenderUtil {
                             );
                             level++;
                             if(((Setting.Group) setting).isExpanded()){
-                                for(Setting set : ((Setting.Group) setting).getSettings()){
+                                for(Setting<?> set : ((Setting.Group) setting).getSettings()){
                                     drawSetting(
                                             matrices,
                                             set,
@@ -150,5 +150,6 @@ public class Panel extends TwoDRenderUtil {
                 }
             }
         }
+
     }
 }

@@ -54,8 +54,8 @@ public class CrystalAura extends Module {
     public CrystalAura() {
         super("CrystalAura", Category.COMBAT);
         placeBool = bool("Place", true);
-        placeRange = number("PlaceRange", 10.0,0.0,10.0);
-        minDamage = number("MinDamage", 0.0,0.0, 36);
+        placeRange = number("PlaceRange", 4.0,0.0,10.0);
+        minDamage = number("MinDamage", 10.0,0.0, 36);
 
         placeGroup = group("Place", placeBool, placeRange, minDamage);
 

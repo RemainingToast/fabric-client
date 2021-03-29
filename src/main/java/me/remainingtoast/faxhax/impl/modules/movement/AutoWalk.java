@@ -5,8 +5,17 @@ import me.remainingtoast.faxhax.api.setting.Setting;
 
 public class AutoWalk extends Module {
 
-    Setting.Mode mode = mode("Mode", "Simple", "Simple", "Baritone");
-    Setting.Mode direction = mode("Direction", "Forward", "Forward", "Backward", "Leftward", "Rightward");
+    Setting.Mode mode = mode("Mode", "Simple", "Simple", "Baritone")
+            .onChanged(mode1 -> {
+                setHidden(mode1.getValue().equalsIgnoreCase("Baritone"));
+                if(isEnabled()) stop();
+            });
+
+    Setting.Mode direction = mode("Direction", "Forward", "Forward", "Backward", "Leftward", "Rightward")
+            .onChanged(direction1 -> {
+                if(isEnabled()) stop();
+            });
+
 
     public AutoWalk() {
         super("AutoWalk", Category.MOVEMENT);
@@ -14,7 +23,7 @@ public class AutoWalk extends Module {
 
     @Override
     protected void onDisable() {
-        if(mc.world != null){
+        if(mc.player != null){
             if(mode.getValue().equalsIgnoreCase("Simple")){
                 stop();
             }
@@ -23,29 +32,22 @@ public class AutoWalk extends Module {
 
     @Override
     protected void onTick() {
+        assert mc.player != null;
         if(mode.getValue().equalsIgnoreCase("Simple")) {
-            direction.setHidden(false);
             switch (direction.getValue()) {
                 case "Forward":
-                    stop();
                     mc.options.keyForward.setPressed(true);
                     break;
                 case "Backward":
-                    stop();
                     mc.options.keyBack.setPressed(true);
                     break;
                 case "Leftward":
-                    stop();
                     mc.options.keyLeft.setPressed(true);
                     break;
                 case "Rightward":
-                    stop();
                     mc.options.keyRight.setPressed(true);
                     break;
             }
-        } else {
-            direction.setHidden(true);
-            stop();
         }
     }
 
@@ -54,5 +56,9 @@ public class AutoWalk extends Module {
         mc.options.keyBack.setPressed(false);
         mc.options.keyLeft.setPressed(false);
         mc.options.keyRight.setPressed(false);
+    }
+
+    private void setHidden(boolean bool){
+        direction.setHidden(bool);
     }
 }

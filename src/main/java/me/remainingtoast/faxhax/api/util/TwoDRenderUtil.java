@@ -66,7 +66,7 @@ public class TwoDRenderUtil extends DrawableHelper {
     }
 
     private static MutableText formatText(String text){
-        Identifier newFont = (FONT_MODULE.enabled) ? FONT_MODULE.getFont() : MINECRAFT_FONT;
+        Identifier newFont = (FONT_MODULE != null && FONT_MODULE.enabled) ? FONT_MODULE.getFont() : MINECRAFT_FONT;
         CUSTOM_FONT = !newFont.equals(MINECRAFT_FONT);
         return new LiteralText(text)
                 .styled(style -> style
@@ -78,7 +78,7 @@ public class TwoDRenderUtil extends DrawableHelper {
     }
 
     private static MutableText formatValueText(String value){
-        Identifier newFont = (FONT_MODULE.enabled) ? FONT_MODULE.getFont() : MINECRAFT_FONT;
+        Identifier newFont = (FONT_MODULE != null && FONT_MODULE.enabled) ? FONT_MODULE.getFont() : MINECRAFT_FONT;
         CUSTOM_FONT = !newFont.equals(MINECRAFT_FONT);
         return new LiteralText(value)
                 .styled(style -> style
@@ -127,7 +127,7 @@ public class TwoDRenderUtil extends DrawableHelper {
         if(hovering && rightClicked) group.setExpanded(!group.isExpanded());
     }
 
-    public static void drawSetting(MatrixStack matrices, Setting setting, Rectangle rect, int mouseX, int mouseY, int lastMouseX, int lastMouseY, boolean leftClicked, boolean rightClicked) {
+    public static void drawSetting(MatrixStack matrices, Setting<?> setting, Rectangle rect, int mouseX, int mouseY, int lastMouseX, int lastMouseY, boolean leftClicked, boolean rightClicked) {
         final boolean hovering = mouseOverRect(mouseX, mouseY, rect);
         switch (setting.getType()){
             case BOOLEAN: {
@@ -167,7 +167,9 @@ public class TwoDRenderUtil extends DrawableHelper {
         double percentage = (setting.getValue() - setting.getMin()) / (setting.getMax() - setting.getMin());
         int progress = (int) (percentage * rect.width);
 
-        if(setting.getValue() != 0) drawRect(matrices, rect.x, rect.y - 2, progress - 2, rect.height, GENERAL_COLOR);
+        if(setting.getValue() != setting.getMin())
+            drawRect(matrices, rect.x, rect.y - 2, progress - 2, rect.height, GENERAL_COLOR);
+
         drawRect(matrices, rect.x - 2 + progress, rect.y - 2, rect.width - progress, rect.height, (hovering) ? 0x80000000 : 0x50000000);
         drawRect(matrices, rect.x - 2, rect.y - 3, 2, rect.height + 1, GENERAL_COLOR);
         drawText(matrices, setting.getName(), rect.x + 2, rect.y, TEXT_COLOR);

@@ -9,10 +9,10 @@ import me.remainingtoast.faxhax.api.util.FaxColor;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
-public class Setting {
+public class Setting<T> {
 
     private final String name;
     private final String configName;
@@ -21,6 +21,8 @@ public class Setting {
     private final Type type;
     private boolean hidden;
     private boolean grouped;
+    private Consumer<T> changedListener;
+    private T value;
 
     public Setting(
             final String name,
@@ -60,6 +62,18 @@ public class Setting {
         this.hidden = hidden;
     }
 
+    public void setChangedListener(Consumer<T> listener) {
+        this.changedListener = listener;
+    }
+
+    public void changed() {
+        if (changedListener != null) changedListener.accept(value);
+    }
+
+    public void setValue(T value) {
+        this.value = value;
+    }
+
     public boolean isHidden() {
         return hidden;
     }
@@ -80,7 +94,7 @@ public class Setting {
         COLOR
     }
 
-    public static class Double extends Setting implements NumberSetting {
+    public static class Double extends Setting<Double> implements NumberSetting {
 
         private double value;
         private final double min;
@@ -109,6 +123,8 @@ public class Setting {
 
         public void setValue(final double value) {
             this.value = value;
+            setValue(this);
+            changed();
         }
 
         public double getMin() {
@@ -126,7 +142,7 @@ public class Setting {
 
         @Override
         public void setNumber(double value) {
-            this.value = value;
+            setValue(value);
         }
 
         @Override
@@ -143,9 +159,14 @@ public class Setting {
         public int getPrecision() {
             return 2;
         }
+
+        public Setting.Double onChanged(Consumer<Double> listener){
+            setChangedListener(listener);
+            return this;
+        }
     }
 
-    public static class Boolean extends Setting implements BooleanSetting {
+    public static class Boolean extends Setting<Boolean> implements BooleanSetting {
 
         private boolean value;
 
@@ -164,20 +185,27 @@ public class Setting {
 
         public void setValue(final boolean value) {
             this.value = value;
+            setValue(this);
+            changed();
         }
 
         @Override
         public void toggle() {
-            this.value =! this.value;
+            setValue(!this.value);
         }
 
         @Override
         public boolean enabled() {
             return this.value;
         }
+
+        public Setting.Boolean onChanged(Consumer<Boolean> listener){
+            setChangedListener(listener);
+            return this;
+        }
     }
 
-    public static class Mode extends Setting implements EnumSetting {
+    public static class Mode extends Setting<Mode> implements EnumSetting {
 
         private String value;
         private final List<String> modes;
@@ -200,6 +228,8 @@ public class Setting {
 
         public void setValue(final String value) {
              this.value = value;
+             setValue(this);
+             changed();
         }
 
         public List<String> getModes() {
@@ -221,9 +251,14 @@ public class Setting {
         public String getValueName() {
             return this.value.toString();
         }
+
+        public Setting.Mode onChanged(Consumer<Mode> listener){
+            setChangedListener(listener);
+            return this;
+        }
     }
 
-    public static class ColorSetting extends Setting implements me.remainingtoast.faxhax.api.setting.types.ColorSetting {
+    public static class ColorSetting extends Setting<ColorSetting> implements me.remainingtoast.faxhax.api.setting.types.ColorSetting {
 
         private boolean rainbow;
         private FaxColor value;
@@ -244,6 +279,7 @@ public class Setting {
         public void setValue(boolean rainbow, final FaxColor value) {
             this.rainbow = rainbow;
             this.value = value;
+            changed();
         }
 
         public int toInteger() {
@@ -273,23 +309,28 @@ public class Setting {
         public void setRainbow(boolean rainbow) {
             this.rainbow=rainbow;
         }
+
+        public Setting.ColorSetting onChanged(Consumer<ColorSetting> listener){
+            setChangedListener(listener);
+            return this;
+        }
     }
 
-    public static class Group extends Setting {
+    public static class Group extends Setting<Group> {
 
-        List<Setting> settings;
+        List<Setting<?>> settings;
         boolean expanded;
 
-        public Group(final String name, final Module parent, final Module.Category faxCategory, final Setting... settings) {
+        public Group(final String name, final Module parent, final Module.Category faxCategory, final Setting<?>... settings) {
             super(name, parent, faxCategory, Type.GROUP);
             this.settings = new ArrayList<>();
-            for(Setting setting : settings){
+            for(Setting<?> setting : settings){
                 setting.setGrouped(true);
                 this.settings.add(setting);
             }
         }
 
-        public List<Setting> getSettings() {
+        public List<Setting<?>> getSettings() {
             return settings;
         }
 
