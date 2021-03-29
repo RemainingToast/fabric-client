@@ -6,11 +6,10 @@ import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 public class NoFall extends Module {
 
-    Setting.Mode mode;
+    Setting.Mode mode = mode("Mode", "Packet", "Packet");
 
     public NoFall() {
         super("NoFall", Category.PLAYER);
-        mode = mode("Mode", "Packet", "Packet");
     }
 
     @Override

@@ -13,13 +13,11 @@ import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
 
 public class Velocity extends Module {
 
-    Setting.Double horizontal;
-    Setting.Double vertical;
+    Setting.Double horizontal = number("Horizontal%", 0.0,0.0,100.0);
+    Setting.Double vertical = number("Vertical%",  0.0, 0.0,100.0);
 
     public Velocity() {
         super("Velocity", Category.MOVEMENT);
-        horizontal = number("Horizontal%", 0.0,0.0,100.0);
-        vertical = number("Vertical%",  0.0, 0.0,100.0);
     }
 
     @Override
@@ -39,7 +37,6 @@ public class Velocity extends Module {
             if(p instanceof EntityVelocityUpdateS2CPacket){
                 EntityVelocityUpdateS2CPacket packet = (EntityVelocityUpdateS2CPacket) event.getPacket();
                 if(packet.getId() == mc.player.getEntityId()){
-                    System.out.println("Velocity Packet");
                     if(horizontal.getValue() == 0 && vertical.getValue() == 0) event.cancel();
                     IEntityVelocityUpdateS2CPacket xyz = (IEntityVelocityUpdateS2CPacket) packet;
                     xyz.setVelocityX((int) (xyz.getVelocityX() * horizontal.getValue()));
@@ -47,7 +44,6 @@ public class Velocity extends Module {
                     xyz.setVelocityZ((int) (xyz.getVelocityZ() * horizontal.getValue()));
                 }
             } else if(p instanceof ExplosionS2CPacket){
-                System.out.println("Explosion Packet");
                 if(horizontal.getValue() == 0 && vertical.getValue() == 0) event.cancel();
                 IExplosionS2CPacket xyz = (IExplosionS2CPacket) event.getPacket();
                 xyz.setPlayerVelocityX((float) (xyz.getPlayerVelocityX() * horizontal.getValue()));

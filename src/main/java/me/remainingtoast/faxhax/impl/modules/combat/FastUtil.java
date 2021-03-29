@@ -7,17 +7,13 @@ import net.minecraft.item.Items;
 
 public class FastUtil extends Module {
 
-    Setting.Boolean fastExp;
-    Setting.Boolean fastCrystal;
-    Setting.Boolean fastBreak;
-    Setting.Boolean fastPlace;
+    Setting.Boolean fastExp = bool("EXP Bottles", true);
+    Setting.Boolean fastCrystal = bool("Crystals", true);
+    Setting.Boolean fastBreak = bool("Break", true);
+    Setting.Boolean fastPlace = bool("Place",true);
 
     public FastUtil() {
         super("FastUtil", Category.COMBAT);
-        fastPlace = bool("Place",true);
-        fastBreak = bool("Break", true);
-        fastCrystal = bool("Crystals", true);
-        fastExp = bool("EXP Bottles", true);
     }
 
     @Override

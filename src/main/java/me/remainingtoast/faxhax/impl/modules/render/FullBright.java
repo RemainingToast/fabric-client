@@ -7,11 +7,10 @@ import net.minecraft.entity.effect.StatusEffects;
 
 public class FullBright extends Module {
 
-    Setting.Mode mode;
+    Setting.Mode mode = mode("Mode", "Gamma", "Gamma", "Potion");
 
     public FullBright() {
         super("FullBright", Category.RENDER);
-        mode = mode("Mode", "Gamma", "Gamma", "Potion");
     }
 
     private double oldGamma;
@@ -34,10 +33,11 @@ public class FullBright extends Module {
     private void updateGamma() {
         assert mc.player != null;
         if(mode.toggled("Gamma")){
-            mc.options.gamma = 5781;
+            mc.options.gamma = Double.MAX_VALUE;
             mc.player.removeStatusEffect(StatusEffects.NIGHT_VISION);
         } else if(mode.toggled("Potion")){
-            mc.player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, Integer.MAX_VALUE, 5781));
+            mc.player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, Integer.MAX_VALUE, Integer.MAX_VALUE));
+            mc.options.gamma = oldGamma;
         }
 
     }

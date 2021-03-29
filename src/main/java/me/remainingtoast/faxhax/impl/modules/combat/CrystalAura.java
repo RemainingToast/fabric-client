@@ -27,21 +27,27 @@ import static java.lang.Math.sqrt;
 
 public class CrystalAura extends Module {
 
-    Setting.Boolean placeBool;
-    Setting.Double placeRange;
-    Setting.Double minDamage;
-    Setting.Boolean breakBool;
-    Setting.Double breakRange;
-    Setting.Double maxBreaks;
-    Setting.Double maxSelfDamage;
-    Setting.Boolean antiSuicide;
-    Setting.Boolean players;
-    Setting.Boolean hostile;
-    Setting.Boolean passive;
-    Setting.Boolean announce;
-    Setting.Group placeGroup;
-    Setting.Group breakGroup;
-    Setting.Group targetsGroup;
+    // Placement
+    Setting.Boolean placeBool = bool("Place", true);
+    Setting.Double placeRange = number("PlaceRange", 4.0,0.0,10.0);
+    Setting.Double minDamage = number("MinDamage", 10.0,0.0, 36);
+    Setting.Group placeGroup = group("Place", placeBool, placeRange, minDamage);
+
+    // Breakage
+    Setting.Boolean breakBool = bool("Break", true);
+    Setting.Double breakRange = number("BreakRange", 4.0,0.0,10.0);
+    Setting.Double maxBreaks = number("MaxBreaks", 2,0,20);
+    Setting.Double maxSelfDamage = number("MaxSelfDamage", 10,0,36);
+    Setting.Boolean antiSuicide = bool("AntiSuicide", true);
+    Setting.Group breakGroup = group("Break", breakBool, breakRange, maxBreaks, maxSelfDamage, antiSuicide);
+
+    // Targeting
+    Setting.Boolean players = bool("Players", true);
+    Setting.Boolean hostile = bool("Hostile", false);
+    Setting.Boolean passive = bool("Passive", false);
+    Setting.Group targetsGroup = group("Targets", players, hostile, passive);
+
+    Setting.Boolean announce = bool("Announce", true);
 
     private final List<Entity> entities = new ArrayList<>();
     private final List<EndCrystalEntity> crystals = new ArrayList<>();
@@ -53,27 +59,6 @@ public class CrystalAura extends Module {
 
     public CrystalAura() {
         super("CrystalAura", Category.COMBAT);
-        placeBool = bool("Place", true);
-        placeRange = number("PlaceRange", 4.0,0.0,10.0);
-        minDamage = number("MinDamage", 10.0,0.0, 36);
-
-        placeGroup = group("Place", placeBool, placeRange, minDamage);
-
-        breakBool = bool("Break", true);
-        breakRange = number("BreakRange", 4.0,0.0,10.0);
-        maxBreaks = number("MaxBreaks", 2,0,20);
-        maxSelfDamage = number("MaxSelfDamage", 10,0,36);
-        antiSuicide = bool("AntiSuicide", true);
-
-        breakGroup = group("Break", breakBool, breakRange, maxBreaks, maxSelfDamage, antiSuicide);
-
-        players = bool("Players", true);
-        hostile = bool("Hostile", false);
-        passive = bool("Passive", false);
-
-        targetsGroup = group("Targets", players, hostile, passive);
-
-        announce = bool("Announce", true);
     }
 
     @Override

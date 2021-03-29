@@ -13,11 +13,10 @@ public class AutoTotem extends Module {
 
     private boolean moving = false;
 
-    Setting.Boolean inGUIS;
+    Setting.Boolean inGUIS = bool("WorkInsideGUI", true);
 
     public AutoTotem() {
         super("AutoTotem", Category.COMBAT);
-        inGUIS = bool("WorkInsideGUI", true);
     }
 
     public int getTotems() {
