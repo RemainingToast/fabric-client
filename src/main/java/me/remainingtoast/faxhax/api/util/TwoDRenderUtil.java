@@ -34,7 +34,7 @@ public class TwoDRenderUtil extends DrawableHelper {
         mc.textRenderer.drawWithShadow(
                 matrices,
                 formatText(text),
-                (CUSTOM_FONT) ? x + 1 : x,
+                (CUSTOM_FONT) ? x - 1 : x,
                 (CUSTOM_FONT) ? y + 2 : y,
                 color);
         matrices.push();
@@ -45,7 +45,7 @@ public class TwoDRenderUtil extends DrawableHelper {
         mc.textRenderer.drawWithShadow(
                 matrices,
                 formatValueText(text),
-                (CUSTOM_FONT) ? x + 1 : x,
+                x,
                 (CUSTOM_FONT) ? y + 2 : y,
                 color);
         matrices.push();
@@ -61,7 +61,7 @@ public class TwoDRenderUtil extends DrawableHelper {
                 matrices,
                 text,
                 (float) (centerX - mc.textRenderer.getWidth(text) / 2) + ((CUSTOM_FONT) ? - 2 : 0),
-                (float) y,
+                (float) y + ((CUSTOM_FONT) ? + 2 : 0),
                 color);
     }
 
