@@ -7,7 +7,6 @@ import me.remainingtoast.faxhax.api.util.FaxColor;
 import me.remainingtoast.faxhax.mixin.IChatHud;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.network.Packet;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;

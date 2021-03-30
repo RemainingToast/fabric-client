@@ -11,12 +11,15 @@ import me.remainingtoast.faxhax.impl.modules.misc.ExtraTab;
 import me.remainingtoast.faxhax.impl.modules.misc.FakePlayer;
 import me.remainingtoast.faxhax.impl.modules.misc.PacketLogger;
 import me.remainingtoast.faxhax.impl.modules.movement.AutoWalk;
+import me.remainingtoast.faxhax.impl.modules.movement.FastStop;
 import me.remainingtoast.faxhax.impl.modules.movement.SafeWalk;
 import me.remainingtoast.faxhax.impl.modules.movement.Velocity;
+import me.remainingtoast.faxhax.impl.modules.player.AntiHunger;
 import me.remainingtoast.faxhax.impl.modules.player.NoFall;
 import me.remainingtoast.faxhax.impl.modules.render.CustomFOV;
 import me.remainingtoast.faxhax.impl.modules.render.FullBright;
 import me.remainingtoast.faxhax.impl.modules.render.NoRender;
+import me.remainingtoast.faxhax.impl.modules.render.Tracers;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
@@ -32,7 +35,7 @@ public class ModuleManager {
         add(new CrystalAura(), new FakePlayer(), new PacketLogger(), new ClickGUIModule(),
             new MainMenu(), new CustomFOV(), new FullBright(), new FastUtil(), new NoFall(),
             new AutoTotem(), new Velocity(), new FontModule(), new SafeWalk(), new NoRender(),
-            new AutoWalk(), new ExtraTab()
+            new AutoWalk(), new ExtraTab(), new Tracers(), new AntiHunger(), new FastStop()
         );
 
         MODS.sort(Comparator.comparing(Module::getName));

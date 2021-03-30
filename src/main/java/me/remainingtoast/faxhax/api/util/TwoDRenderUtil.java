@@ -179,9 +179,10 @@ public class TwoDRenderUtil extends DrawableHelper {
         drawValueText(matrices, setting.getValue(), rect.x + (rect.width - mc.textRenderer.getWidth(formatValueText(setting.getValue()))) - 5, rect.y, TEXT_COLOR);
 
         if(mouseOverRect(mouseX, mouseY, rect) && leftClicked){
-            progress += mouseX - lastMouseX;
-            progress = Math.min(progress, Math.max(0, rect.width));
-            double value = ((double) (progress / rect.width)) * (setting.getMax() - setting.getMin()) + setting.getMin();
+                progress += mouseX - lastMouseX;
+                progress = Math.min(progress, Math.max(0, rect.width));
+            double value = ((double) (progress / rect.width)) *
+                    (setting.getMax() - setting.getMin()) + setting.getMin();
             setting.setValue(value);
         }
     }
