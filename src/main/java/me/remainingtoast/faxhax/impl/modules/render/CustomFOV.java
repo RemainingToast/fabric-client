@@ -6,7 +6,8 @@ import me.remainingtoast.faxhax.api.setting.Setting;
 public class CustomFOV extends Module {
 
     public Setting.Double fov = number("FOV", 110, 10, 179);
-    public Setting.Boolean itemFov = bool("Items", true);
+    public Setting.Boolean itemFov = bool("Items", true)
+            .onChanged(bool -> setGroupsHidden(!bool.getValue()));
 
     public Setting.Double scaleX = number("SX", 0.75, -1, 2);
     public Setting.Double scaleY = number("SY", 0.60, -1, 2);
@@ -48,5 +49,11 @@ public class CustomFOV extends Module {
         if(mc.options.fov != fov.getValue()){
             mc.options.fov = fov.getValue();
         }
+    }
+
+    private void setGroupsHidden(boolean bool){
+        scaleGroup.setHidden(bool);
+        posGroup.setHidden(bool);
+        rotationGroup.setHidden(bool);
     }
 }

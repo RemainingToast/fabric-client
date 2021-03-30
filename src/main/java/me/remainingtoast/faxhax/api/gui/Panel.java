@@ -150,6 +150,5 @@ public class Panel extends TwoDRenderUtil {
                 }
             }
         }
-
     }
 }

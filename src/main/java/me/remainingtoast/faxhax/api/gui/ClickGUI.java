@@ -18,7 +18,6 @@ public class ClickGUI extends Screen {
     private boolean clicked = false;
     private boolean leftClicked = false;
     private boolean rightClicked = false;
-    private boolean dragging = true;
     private int lastMouseX;
     private int lastMouseY;
 

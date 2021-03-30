@@ -33,12 +33,11 @@ public class FullBright extends Module {
     private void updateGamma() {
         assert mc.player != null;
         if(mode.toggled("Gamma")){
-            mc.options.gamma = Double.MAX_VALUE;
+            mc.options.gamma = 57810;
             mc.player.removeStatusEffect(StatusEffects.NIGHT_VISION);
         } else if(mode.toggled("Potion")){
             mc.player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, Integer.MAX_VALUE, Integer.MAX_VALUE));
             mc.options.gamma = oldGamma;
         }
-
     }
 }

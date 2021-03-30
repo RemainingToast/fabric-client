@@ -16,6 +16,7 @@ public class FontModule extends Module {
 
     public FontModule() {
         super("Font", Category.CLIENT);
+        setEnabled(true);
     }
 
     public Identifier getFont(){

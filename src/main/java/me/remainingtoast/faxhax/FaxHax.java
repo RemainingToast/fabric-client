@@ -31,6 +31,8 @@ public class FaxHax implements ModInitializer {
         // Minecraft
         mc = MinecraftClient.getInstance();
 
+        addServer();
+
         // Auth
         AuthUtil.initializeAuth();
 
@@ -56,9 +58,6 @@ public class FaxHax implements ModInitializer {
             ConfigManager.shutdown();
             LOGGER.info("Successfully saved config and shutdown client!");
         }));
-
-        // 2b2t Australia
-        addServer();
 
         String endTime = (System.currentTimeMillis() - startTime) + "ms";
 

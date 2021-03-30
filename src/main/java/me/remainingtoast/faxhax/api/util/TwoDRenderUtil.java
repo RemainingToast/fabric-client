@@ -5,12 +5,15 @@ import me.remainingtoast.faxhax.api.setting.Setting;
 import me.remainingtoast.faxhax.impl.modules.client.FontModule;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Box;
 
 import java.awt.*;
 
@@ -137,7 +140,7 @@ public class TwoDRenderUtil extends DrawableHelper {
             }
             case DOUBLE: {
                 assert setting instanceof Setting.Double;
-                drawNumberSetting(matrices, (Setting.Double) setting, rect, mouseX, lastMouseX, hovering, leftClicked, rightClicked);
+                drawNumberSetting(matrices, (Setting.Double) setting, rect, mouseX, mouseY, lastMouseX, lastMouseY, hovering, leftClicked, rightClicked);
                 break;
             }
             case MODE: {
@@ -163,7 +166,7 @@ public class TwoDRenderUtil extends DrawableHelper {
         if (hovering && leftClicked) bool.setValue(!bool.getValue());
     }
 
-    public static void drawNumberSetting(MatrixStack matrices, Setting.Double setting, Rectangle rect, int mouseX, int lastMouseX, boolean hovering, boolean leftClicked, boolean rightClicked){
+    public static void drawNumberSetting(MatrixStack matrices, Setting.Double setting, Rectangle rect, int mouseX, int mouseY, int lastMouseX, int lastMouseY, boolean hovering, boolean leftClicked, boolean rightClicked){
         double percentage = (setting.getValue() - setting.getMin()) / (setting.getMax() - setting.getMin());
         int progress = (int) (percentage * rect.width);
 
@@ -175,8 +178,11 @@ public class TwoDRenderUtil extends DrawableHelper {
         drawText(matrices, setting.getName(), rect.x + 2, rect.y, TEXT_COLOR);
         drawValueText(matrices, setting.getValue(), rect.x + (rect.width - mc.textRenderer.getWidth(formatValueText(setting.getValue()))) - 5, rect.y, TEXT_COLOR);
 
-        if (hovering && leftClicked) {
-            // TODO SLIDER DRAGGING
+        if(mouseOverRect(mouseX, mouseY, rect) && leftClicked){
+            progress += mouseX - lastMouseX;
+            progress = Math.min(progress, Math.max(0, rect.width));
+            double value = ((double) (progress / rect.width)) * (setting.getMax() - setting.getMin()) + setting.getMin();
+            setting.setValue(value);
         }
     }
 
