@@ -3,7 +3,7 @@
   "id": "faxhax",
   "version": "${version}",
   "name": "FaxHax",
-  "description": "The most advanced Minecraft Mod \"FaxHax\"!",
+  "description": "The most powerful utility mod!",
   "authors": [
     "RemainingToast"
   ],
@@ -15,7 +15,7 @@
   "environment": "client",
   "entrypoints": {
     "main": [
-      "me.remainingtoast.faxhax.FaxHax"
+      "club.faxhax.client.FaxHax"
     ]
   },
   "mixins": [
