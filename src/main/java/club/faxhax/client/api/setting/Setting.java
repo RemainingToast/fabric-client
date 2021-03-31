@@ -3,8 +3,11 @@ package club.faxhax.client.api.setting;
 import club.faxhax.client.api.module.Module;
 import club.faxhax.client.api.setting.types.BooleanSetting;
 import club.faxhax.client.api.setting.types.EnumSetting;
+import club.faxhax.client.api.setting.types.KeySetting;
 import club.faxhax.client.api.setting.types.NumberSetting;
 import club.faxhax.client.api.util.FaxColor;
+import net.minecraft.client.util.InputUtil;
+import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ public class Setting<T> {
     private boolean grouped;
     private Consumer<T> changedListener;
     private T value;
+    private int priority;
 
     public Setting(
             final String name,
@@ -36,6 +40,7 @@ public class Setting<T> {
         this.faxCategory = faxCategory;
         this.hidden = false;
         this.grouped = false;
+        this.priority = 0;
     }
 
     public String getName() {
@@ -74,6 +79,14 @@ public class Setting<T> {
         this.value = value;
     }
 
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
     public boolean isHidden() {
         return hidden;
     }
@@ -88,6 +101,7 @@ public class Setting<T> {
 
     public enum Type {
         DOUBLE,
+        BIND,
         BOOLEAN,
         MODE,
         GROUP,
@@ -103,11 +117,10 @@ public class Setting<T> {
         public Double(
                 final String name,
                 final Module parent,
-                final Module.Category faxCategory,
                 final double value,
                 final double min,
                 final double max) {
-            super(name, parent, faxCategory, Type.DOUBLE);
+            super(name, parent, parent.category, Type.DOUBLE);
             this.value = value;
             this.min = min;
             this.max = max;
@@ -173,9 +186,8 @@ public class Setting<T> {
         public Boolean(
                 final String name,
                 final Module parent,
-                final Module.Category faxCategory,
                 final boolean value) {
-            super(name, parent, faxCategory, Type.BOOLEAN);
+            super(name, parent, parent.category, Type.BOOLEAN);
             this.value = value;
         }
 
@@ -210,14 +222,14 @@ public class Setting<T> {
         private String value;
         private final List<String> modes;
 
-        public Mode(final String name, final Module parent, final Module.Category faxCategory, final String value, final String... modes) {
-            super(name, parent, faxCategory, Type.MODE);
+        public Mode(final String name, final Module parent, final String value, final String... modes) {
+            super(name, parent, parent.category, Type.MODE);
             this.value = value;
             this.modes = Arrays.asList(modes);
         }
 
-        public Mode(final String name, final Module parent, final Module.Category faxCategory, final String value, final List<String> modes) {
-            super(name, parent, faxCategory, Type.MODE);
+        public Mode(final String name, final Module parent, final String value, final List<String> modes) {
+            super(name, parent, parent.category, Type.MODE);
             this.value = value;
             this.modes = modes;
         }
@@ -263,8 +275,8 @@ public class Setting<T> {
         private boolean rainbow;
         private FaxColor value;
 
-        public ColorSetting(final String name, final Module parent, final Module.Category faxCategory, boolean rainbow, final FaxColor value) {
-            super(name, parent, faxCategory, Type.COLOR);
+        public ColorSetting(final String name, final Module parent, boolean rainbow, final FaxColor value) {
+            super(name, parent, parent.category, Type.COLOR);
             this.rainbow=rainbow;
             this.value=value;
         }
@@ -321,8 +333,8 @@ public class Setting<T> {
         List<Setting<?>> settings;
         boolean expanded;
 
-        public Group(final String name, final Module parent, final Module.Category faxCategory, final Setting<?>... settings) {
-            super(name, parent, faxCategory, Type.GROUP);
+        public Group(final String name, final Module parent, final Setting<?>... settings) {
+            super(name, parent, parent.category, Type.GROUP);
             this.settings = new ArrayList<>();
             for(Setting<?> setting : settings){
                 setting.setGrouped(true);
@@ -340,6 +352,96 @@ public class Setting<T> {
 
         public boolean isExpanded() {
             return expanded;
+        }
+    }
+
+    public static class KeyBind extends Setting<KeyBind> implements KeySetting {
+
+        private final Module module;
+
+        public KeyBind(final Module parent) {
+            super("Bind", parent, parent.category, Type.BIND);
+            this.module = parent;
+        }
+
+        @Override
+        public int getPriority() {
+            return 1;
+        }
+
+        @Override
+        public InputUtil.Key getKey() {
+            return module.key;
+        }
+
+        @Override
+        public String getKeyName() {
+            switch (module.key.getCode()) {
+                case GLFW.GLFW_KEY_UNKNOWN: return "NONE";
+                case GLFW.GLFW_KEY_ESCAPE: return "ESC";
+                case GLFW.GLFW_KEY_PRINT_SCREEN: return "PRINTSCRN";
+                case GLFW.GLFW_KEY_PAUSE: return "PAUSE";
+                case GLFW.GLFW_KEY_INSERT: return "INSERT";
+                case GLFW.GLFW_KEY_DELETE: return "DELETE";
+                case GLFW.GLFW_KEY_HOME: return "HOME";
+                case GLFW.GLFW_KEY_PAGE_UP: return "PAGE UP";
+                case GLFW.GLFW_KEY_PAGE_DOWN: return "PAGE DOWN";
+                case GLFW.GLFW_KEY_END: return "END";
+                case GLFW.GLFW_KEY_TAB: return "TAB";
+                case GLFW.GLFW_KEY_LEFT_CONTROL: return "LCTRL";
+                case GLFW.GLFW_KEY_RIGHT_CONTROL: return "RCTRL";
+                case GLFW.GLFW_KEY_LEFT_ALT: return "LALT";
+                case GLFW.GLFW_KEY_RIGHT_ALT: return "RALT";
+                case GLFW.GLFW_KEY_LEFT_SHIFT: return "LSHIFT";
+                case GLFW.GLFW_KEY_RIGHT_SHIFT: return "RSHIFT";
+                case GLFW.GLFW_KEY_UP: return "UP";
+                case GLFW.GLFW_KEY_DOWN: return "DOWN";
+                case GLFW.GLFW_KEY_LEFT: return "LEFT";
+                case GLFW.GLFW_KEY_RIGHT: return "RIGHT";
+                case GLFW.GLFW_KEY_APOSTROPHE: return "APOSTROPHE";
+                case GLFW.GLFW_KEY_BACKSPACE: return "BACKSPACE";
+                case GLFW.GLFW_KEY_CAPS_LOCK: return "CAPSLOCK";
+                case GLFW.GLFW_KEY_MENU: return "MENU";
+                case GLFW.GLFW_KEY_LEFT_SUPER: return "LSUPER";
+                case GLFW.GLFW_KEY_RIGHT_SUPER: return "RSUPER";
+                case GLFW.GLFW_KEY_ENTER: return "ENTER";
+                case GLFW.GLFW_KEY_NUM_LOCK: return "NUMLOCK";
+                case GLFW.GLFW_KEY_SPACE: return "SPACE";
+                case GLFW.GLFW_KEY_F1: return "F1";
+                case GLFW.GLFW_KEY_F2: return "F2";
+                case GLFW.GLFW_KEY_F3: return "F3";
+                case GLFW.GLFW_KEY_F4: return "F4";
+                case GLFW.GLFW_KEY_F5: return "F5";
+                case GLFW.GLFW_KEY_F6: return "F6";
+                case GLFW.GLFW_KEY_F7: return "F7";
+                case GLFW.GLFW_KEY_F8: return "F8";
+                case GLFW.GLFW_KEY_F9: return "F9";
+                case GLFW.GLFW_KEY_F10: return "F10";
+                case GLFW.GLFW_KEY_F11: return "F11";
+                case GLFW.GLFW_KEY_F12: return "F12";
+                case GLFW.GLFW_KEY_F13: return "F13";
+                case GLFW.GLFW_KEY_F14: return "F14";
+                case GLFW.GLFW_KEY_F15: return "F15";
+                case GLFW.GLFW_KEY_F16: return "F16";
+                case GLFW.GLFW_KEY_F17: return "F17";
+                case GLFW.GLFW_KEY_F18: return "F18";
+                case GLFW.GLFW_KEY_F19: return "F19";
+                case GLFW.GLFW_KEY_F20: return "F20";
+                case GLFW.GLFW_KEY_F21: return "F21";
+                case GLFW.GLFW_KEY_F22: return "F22";
+                case GLFW.GLFW_KEY_F23: return "F23";
+                case GLFW.GLFW_KEY_F24: return "F24";
+                case GLFW.GLFW_KEY_F25: return "F25";
+                default:
+                    String keyName = GLFW.glfwGetKeyName(module.key.getCode(), -1);
+                    if (keyName == null) return "NONE";
+                    return keyName.toUpperCase();
+            }
+        }
+
+        @Override
+        public void setKey(InputUtil.Key key) {
+            module.setKey(key);
         }
     }
 }

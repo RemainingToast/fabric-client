@@ -38,6 +38,7 @@ public class Module {
     public Module(String name, Category category){
         this.name = name;
         this.category = category;
+        SettingManager.addSetting(new Setting.KeyBind(this));
     }
 
     protected void onEnable(){
@@ -229,44 +230,44 @@ public class Module {
         message(new LiteralText(str));
     }
 
-    protected Setting.Group group(final String name, final Setting... settings){
-        final Setting.Group setting = new Setting.Group(name, this, getCategory(), settings);
+    protected Setting.Group group(final String name, final Setting<?>... settings){
+        final Setting.Group setting = new Setting.Group(name, this, settings);
         SettingManager.addSetting(setting);
         return setting;
     }
 
     protected Setting.Double number(final String name, final double value, final double min, final double max) {
-        final Setting.Double setting = new Setting.Double(name, this, getCategory(), value, min, max);
+        final Setting.Double setting = new Setting.Double(name, this, value, min, max);
         SettingManager.addSetting(setting);
         return setting;
     }
 
     protected Setting.Boolean bool(final String name, final boolean value) {
-        final Setting.Boolean setting = new Setting.Boolean(name, this, getCategory(), value);
+        final Setting.Boolean setting = new Setting.Boolean(name, this, value);
         SettingManager.addSetting(setting);
         return setting;
     }
 
     protected Setting.Mode mode(final String name, final String value, final String... modes) {
-        final Setting.Mode setting = new Setting.Mode(name, this, getCategory(), value, modes);
+        final Setting.Mode setting = new Setting.Mode(name, this, value, modes);
         SettingManager.addSetting(setting);
         return setting;
     }
 
     protected Setting.Mode mode(final String name, final String value, final List<String> modes) {
-        final Setting.Mode setting = new Setting.Mode(name, this, getCategory(), value, modes);
+        final Setting.Mode setting = new Setting.Mode(name, this, value, modes);
         SettingManager.addSetting(setting);
         return setting;
     }
 
     protected Setting.ColorSetting color(final String name, FaxColor color) {
-        final Setting.ColorSetting setting = new Setting.ColorSetting(name, this, getCategory(), false, color);
+        final Setting.ColorSetting setting = new Setting.ColorSetting(name, this, false, color);
         SettingManager.addSetting(setting);
         return setting;
     }
 
     protected Setting.ColorSetting color(final String name, FaxColor color, Boolean rainbow) {
-        final Setting.ColorSetting setting = new Setting.ColorSetting(name, this, getCategory(), rainbow, color);
+        final Setting.ColorSetting setting = new Setting.ColorSetting(name, this, rainbow, color);
         SettingManager.addSetting(setting);
         return setting;
     }

@@ -5,7 +5,6 @@ import club.faxhax.client.api.module.ModuleManager;
 import club.faxhax.client.api.setting.Setting;
 import club.faxhax.client.api.setting.SettingManager;
 import club.faxhax.client.api.util.TwoDRenderUtil;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 
 import java.awt.*;
@@ -102,14 +101,6 @@ public class Panel extends TwoDRenderUtil {
                 (mod.enabled) ? (mouseOverModRect) ? 0x9900FF00 : 0x8000FF00 : (mouseOverModRect) ? 0x80000000 : 0x50000000,
                 0xFFFFFFFF
         );
-        level++;
-        System.out.println(MinecraftClient.getInstance().textRenderer.getWidth("test"));
-        drawKeybind(matrices, mod, iteratedRect(new Rectangle(
-                x,
-                y,
-                width,
-                height
-        ), level), mouseX, mouseY, keyCode, scanCode, modifiers);
         level++;
         for(Map.Entry<Module, Boolean> entry : modsExpanded.entrySet()){
             if(entry.getValue()){

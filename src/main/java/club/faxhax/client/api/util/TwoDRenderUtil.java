@@ -1,6 +1,5 @@
 package club.faxhax.client.api.util;
 
-import club.faxhax.client.api.module.Module;
 import club.faxhax.client.api.module.ModuleManager;
 import club.faxhax.client.api.setting.Setting;
 import club.faxhax.client.impl.modules.client.FontModule;
@@ -151,6 +150,11 @@ public class TwoDRenderUtil extends DrawableHelper {
                 drawColorSetting(matrices, (Setting.ColorSetting) setting, rect, hovering, leftClicked, rightClicked);
                 break;
             }
+            case BIND: {
+                assert setting instanceof Setting.KeyBind;
+                drawKeybind(matrices, (Setting.KeyBind) setting, rect, mouseX, mouseY);
+                break;
+            }
         }
     }
 
@@ -197,12 +201,12 @@ public class TwoDRenderUtil extends DrawableHelper {
         drawText(matrices, color.getName(), rect.x + 2, rect.y, TEXT_COLOR);
     }
 
-    public static void drawKeybind(MatrixStack matrices, Module module, Rectangle rect, int mouseX, int mouseY, int keyCode, int scanCode, int modifiers){
+    public static void drawKeybind(MatrixStack matrices, Setting.KeyBind keyBind, Rectangle rect, int mouseX, int mouseY){
         final boolean hovering = mouseOverRect(mouseX, mouseY, rect);
         drawRect(matrices, rect.x, rect.y - 2, rect.width - 2, rect.height, (hovering) ? BACKGROUND_COLOR_HOVER : BACKGROUND_COLOR);
         drawRect(matrices, rect.x - 2, rect.y - 3, 2, rect.height + 1, (hovering) ? GENERAL_COLOR_HOVER : GENERAL_COLOR);
         drawText(matrices, "Bind", rect.x + 2, rect.y, TEXT_COLOR);
-        drawValueText(matrices, module.getKeyName(), rect.x + (rect.width - MinecraftClient.getInstance().textRenderer.getWidth(formatValueText(module.getKeyName()))) - 5, rect.y, TEXT_COLOR);
+        drawValueText(matrices, keyBind.getKeyName(), rect.x + (rect.width - mc.textRenderer.getWidth(formatValueText(keyBind.getKeyName()))) - 5, rect.y, TEXT_COLOR);
     }
 
     public static boolean mouseOverRect(double mouseX, double mouseY, Rectangle rect){
