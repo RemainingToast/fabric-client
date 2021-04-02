@@ -24,7 +24,6 @@ public class AutoArmour extends Module {
     @Override
     protected void onTick() {
 
-
     }
 
     private int getProtectionLevel(ItemStack stack) {

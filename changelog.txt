@@ -1,0 +1,60 @@
+Setting Stuff and Sliders..... not working
+Fix
+Small GUI Changes
+Setting Refactor
+Setting Changed Listener
+Added Friends
+Rainbow
+Added ExtraTab
+Added Grouped Settings
+Added AutoWalk + Hidden Settings
+Sort Modules Alphabetically
+NoWeather @Virl
+Added Settings to PacketLogger
+Fixed Events and Velocity
+Added NoRender
+Completely remove unfunctional Events
+Added SafeWalk
+Fixed/finished GuiConfig saving/loading
+Custom Font Sizes
+Start on GuiConfig
+Merge pull request #1 from FaxHax/dev/custom-gui
+Custom Font start
+Small GUI fixes
+Module Loading/Saving
+Broken Sliders
+Show NumberSetting progress in GUI
+Rewrote GUI again
+Added Velocity (PacketEvent not working)
+Mixin Refactor
+Added AutoTotem
+Load Optifine capes
+Added NoFall
+Added FastUtil
+EnumSettings and Added FullBright
+Ported CustomFOV from Forge version
+Fixed GUI Bugs
+Start on Config
+Rewrote GUI Implementation
+Shaders still broken :/
+Fix working outside ide again
+More GUI
+Working outside of IDE
+Added Authentication
+Change Window Title
+Custom Title Screen
+Look better :muscle:
+Improvements (Toggle Mods)
+Start on Category panels
+Category Strings
+Remove redundant friend code
+Fixed Command Suggestions
+Begin on GuiScreen
+No More PanelStudio :see_no_evil:
+Fixed FakePlayer
+Added Events, PacketLogger and command suggestions
+Made BestDamage Hashmap
+Fixed best block algorithm
+CrystalAura place working (need new bestBlock algorithm)
+Update Git Ignore
+Initial
