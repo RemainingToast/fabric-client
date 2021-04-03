@@ -5,11 +5,13 @@ import club.faxhax.client.api.setting.Setting;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.ProtectionEnchantment;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ElytraItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class AutoArmour extends Module {
@@ -20,10 +22,17 @@ public class AutoArmour extends Module {
     public AutoArmour() {
         super("AutoArmour", Category.MOVEMENT);
     }
-    
+
+    private final HashMap<EquipmentSlot, Integer> hashMap = new HashMap<>();
+
     @Override
     protected void onTick() {
-
+        assert mc.player != null;
+        hashMap.put(EquipmentSlot.FEET, getProtectionLevel(mc.player.inventory.getStack(36)));
+        hashMap.put(EquipmentSlot.LEGS, getProtectionLevel(mc.player.inventory.getStack(37)));
+        hashMap.put(EquipmentSlot.CHEST, getProtectionLevel(mc.player.inventory.getStack(38)));
+        hashMap.put(EquipmentSlot.HEAD, getProtectionLevel(mc.player.inventory.getStack(39)));
+        
     }
 
     private int getProtectionLevel(ItemStack stack) {
