@@ -1,11 +1,10 @@
 package club.faxhax.client.impl.modules.render;
 
-import club.faxhax.client.FaxHax;
+import club.faxhax.client.api.event.WorldRenderEvent;
 import club.faxhax.client.api.module.Module;
 import club.faxhax.client.api.setting.Setting;
 import club.faxhax.client.api.util.FaxColor;
 import club.faxhax.client.api.util.RenderUtils;
-import club.faxhax.client.api.event.WorldRenderEvent;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.util.math.Vec3d;
@@ -16,16 +15,6 @@ public class Tracers extends Module {
 
     public Tracers() {
         super("Tracers", Category.RENDER);
-    }
-
-    @Override
-    protected void onEnable() {
-        FaxHax.EVENT_BUS.subscribe(this);
-    }
-
-    @Override
-    protected void onDisable() {
-        FaxHax.EVENT_BUS.unsubscribe(this);
     }
 
     @EventHandler

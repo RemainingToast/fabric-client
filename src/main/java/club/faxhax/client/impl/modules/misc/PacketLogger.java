@@ -1,6 +1,5 @@
 package club.faxhax.client.impl.modules.misc;
 
-import club.faxhax.client.FaxHax;
 import club.faxhax.client.api.event.PacketEvent;
 import club.faxhax.client.api.module.Module;
 import club.faxhax.client.api.setting.Setting;
@@ -28,23 +27,13 @@ public class PacketLogger extends Module {
         super("PacketLogger", Category.MISC);
     }
 
-    @Override
-    protected void onEnable() {
-        FaxHax.EVENT_BUS.subscribe(this);
-    }
-
-    @Override
-    protected void onDisable() {
-        FaxHax.EVENT_BUS.unsubscribe(this);
-    }
-
     @EventHandler
     private void onPacket(PacketEvent.Receive event){
         if(mc.player != null && incoming.enabled()){
             if(hideCommon.enabled()){
                 if(COMMON_PACKETS.contains(event.getPacket().getClass())) return;
             }
-            message(packetText(event.getPacket(), true));
+//            Util.messagePlayer(packetText(event.getPacket(), true));
             if(verbose.enabled()) System.out.println("Incoming Packet : " + event.getPacket().getClass().getSimpleName());
         }
     }
@@ -55,7 +44,7 @@ public class PacketLogger extends Module {
             if(hideCommon.enabled()){
                 if(COMMON_PACKETS.contains(event.getPacket().getClass())) return;
             }
-            message(packetText(event.getPacket(), false));
+//            Util.messagePlayer(packetText(event.getPacket(), false));
             if(verbose.enabled()) System.out.println("Outgoing Packet : " + event.getPacket().getClass().getSimpleName());
         }
     }
@@ -78,7 +67,7 @@ public class PacketLogger extends Module {
         return text;
     }
 
-    private static final List<Class> COMMON_PACKETS = Arrays.asList(new Class[] {
+    private static final List<Class<?>> COMMON_PACKETS = Arrays.asList(new Class<?>[] {
             WorldTimeUpdateS2CPacket.class,
             ChunkDataS2CPacket.class,
             PlayerListHeaderS2CPacket.class,

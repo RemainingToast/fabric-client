@@ -3,6 +3,7 @@ package club.faxhax.client.impl.commands;
 import club.faxhax.client.api.command.CommandManager;
 import club.faxhax.client.api.command.Command;
 import club.faxhax.client.api.config.ConfigManager;
+import club.faxhax.client.api.util.Util;
 import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
 
@@ -29,7 +30,7 @@ public class HelpCommand extends Command {
             for(Text txt : commandsText())
                 text.append(txt);
 
-            message(text);
+            Util.messagePlayer(text);
         }
     }
 

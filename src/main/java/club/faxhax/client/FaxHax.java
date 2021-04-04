@@ -1,36 +1,17 @@
 package club.faxhax.client;
 
-import club.faxhax.client.api.module.ModuleManager;
 import club.faxhax.client.api.command.CommandManager;
 import club.faxhax.client.api.config.ConfigManager;
+import club.faxhax.client.api.module.ModuleManager;
 import club.faxhax.client.api.util.AuthUtil;
-import meteordevelopment.orbit.EventBus;
-import meteordevelopment.orbit.IEventBus;
+import club.faxhax.client.api.util.Util;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ServerInfo;
-import net.minecraft.client.options.ServerList;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-public class FaxHax implements ModInitializer {
-
-    public static MinecraftClient mc;
-
-    public static final String VERSION = "v1.0";
-
-    public static Logger LOGGER = LogManager.getLogger("FaxHax");
-
-    public static IEventBus EVENT_BUS = new EventBus();
+public class FaxHax implements ModInitializer, IFaxHax {
 
     @Override
     public void onInitialize() {
         long startTime = System.currentTimeMillis();
-
-        // Minecraft
-        mc = MinecraftClient.getInstance();
-
-        addServer();
 
         // Auth
         AuthUtil.initializeAuth();
@@ -43,6 +24,9 @@ public class FaxHax implements ModInitializer {
         }
 
         LOGGER.info("Welcome to FaxHax " + VERSION);
+
+        // Queue Skip
+        Util.addServer();
 
         // Modules
         ModuleManager.initializeModuleManager();
@@ -63,23 +47,5 @@ public class FaxHax implements ModInitializer {
         LOGGER.info("FaxHax has successfully loaded in " + endTime);
     }
 
-    public static void addServer() {
-        ServerList servers = new ServerList(mc);
-        servers.loadFile();
 
-        boolean contains = false;
-        for (int i = 0; i < servers.size(); i++) {
-            ServerInfo server = servers.get(i);
-
-            if (server.address.contains("2b2t.com.au")) {
-                contains = true;
-                break;
-            }
-        }
-
-        if (!contains) {
-            servers.add(new ServerInfo("2b2t Queue Skip", "2b2t.com.au", false));
-            servers.saveFile();
-        }
-    }
 }

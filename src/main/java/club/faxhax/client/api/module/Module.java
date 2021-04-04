@@ -1,25 +1,19 @@
 package club.faxhax.client.api.module;
 
-import club.faxhax.client.api.setting.Setting;
-import club.faxhax.client.mixin.IChatHud;
 import club.faxhax.client.api.config.ConfigManager;
+import club.faxhax.client.api.setting.Setting;
 import club.faxhax.client.api.setting.SettingManager;
 import club.faxhax.client.api.util.FaxColor;
-import net.minecraft.client.MinecraftClient;
+import club.faxhax.client.IFaxHax;
+import club.faxhax.client.api.util.Util;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Module {
-
-    public String PREFIX = Formatting.DARK_GRAY + "[" + Formatting.DARK_AQUA + "FaxHax" + Formatting.DARK_GRAY + "] " + Formatting.GRAY;
-
-    public MinecraftClient mc = MinecraftClient.getInstance();
+public class Module implements IFaxHax {
 
     public String name;
 
@@ -42,11 +36,11 @@ public class Module {
     }
 
     protected void onEnable(){
-
+        EVENT_BUS.subscribe(this);
     }
 
     protected void onDisable(){
-
+        EVENT_BUS.unsubscribe(this);
     }
 
     protected void onToggle(){
@@ -60,7 +54,7 @@ public class Module {
     public void onCommand(String[] args){
         if(args.length == 1) {
             toggle();
-            message(PREFIX + name + " has been " + ((enabled) ? Formatting.GREEN + "enabled" : Formatting.RED + "disabled"));
+            Util.messagePlayer(PREFIX + name + " has been " + ((enabled) ? Formatting.GREEN + "enabled" : Formatting.RED + "disabled"));
         }
         else if(args.length >= 3){
             try {
@@ -68,7 +62,7 @@ public class Module {
                     case "draw":
                     case "drawn":{
                         setDrawn(Boolean.parseBoolean(args[2]));
-                        message(PREFIX + name + " is now being: " + ((drawn) ? Formatting.GREEN + "DRAWN" : Formatting.RED + "HIDDEN"));
+                        Util.messagePlayer(PREFIX + name + " is now being: " + ((drawn) ? Formatting.GREEN + "DRAWN" : Formatting.RED + "HIDDEN"));
                     }
                     case "key":
                     case "bind": {
@@ -81,7 +75,7 @@ public class Module {
                             setKey(newKey);
                             keyName = GLFW.glfwGetKeyName(newKey.getCode(), -1);
                         }
-                        message(PREFIX + name + " has been binded to: " + Formatting.GREEN + keyName);
+                        Util.messagePlayer(PREFIX + name + " has been binded to: " + Formatting.GREEN + keyName);
                     }
                     default: {
                         Setting setting = SettingManager.getSettingByName(args[1]);
@@ -92,7 +86,7 @@ public class Module {
                                     Setting.Double doubleSetting = (Setting.Double) setting;
                                     double newValue = Double.parseDouble(args[2]);
                                     doubleSetting.setValue(newValue);
-                                    message(PREFIX + Formatting.GRAY + setting.getName() + " has been set to: " + Formatting.GREEN + newValue);
+                                    Util.messagePlayer(PREFIX + Formatting.GRAY + setting.getName() + " has been set to: " + Formatting.GREEN + newValue);
                                     return;
                                 }
                                 case BOOLEAN: {
@@ -100,14 +94,14 @@ public class Module {
                                     Setting.Boolean boolSetting = (Setting.Boolean) setting;
                                     boolean newValue = Boolean.parseBoolean(args[2]);
                                     boolSetting.setValue(newValue);
-                                    message(PREFIX + Formatting.GRAY + setting.getName() + " has been set to: " + Formatting.GREEN + newValue);
+                                    Util.messagePlayer(PREFIX + Formatting.GRAY + setting.getName() + " has been set to: " + Formatting.GREEN + newValue);
                                     return;
                                 }
                                 case MODE: {
                                     assert setting instanceof Setting.Mode;
                                     Setting.Mode modeSetting = (Setting.Mode) setting;
                                     modeSetting.increment();
-                                    message(PREFIX + Formatting.GRAY + setting.getName() + " has been incremented, new value: " + Formatting.GREEN + modeSetting.getValueName());
+                                    Util.messagePlayer(PREFIX + Formatting.GRAY + setting.getName() + " has been incremented, new value: " + Formatting.GREEN + modeSetting.getValueName());
                                     return;
                                 }
                                 case COLOR: {
@@ -119,8 +113,8 @@ public class Module {
                                         int blue = Integer.parseInt(args[4]);
                                         FaxColor newValue = new FaxColor(red, green, blue);
                                         colorSetting.setValue(newValue);
-                                        message(PREFIX + Formatting.GRAY + setting.getName() + " has been set to: " + newValue.toString());
-                                    } else message(PREFIX + Formatting.GRAY + "Incorrect Usage! Usage: " + Formatting.GREEN +
+                                        Util.messagePlayer(PREFIX + Formatting.GRAY + setting.getName() + " has been set to: " + newValue.toString());
+                                    } else Util.messagePlayer(PREFIX + Formatting.GRAY + "Incorrect Usage! Usage: " + Formatting.GREEN +
                                             ConfigManager.CMD_PREFIX + name + " <setting> <red> <green> <blue>");
                                 }
                             }
@@ -128,9 +122,9 @@ public class Module {
                     }
                 }
             } catch (NumberFormatException | ClassCastException e) {
-                message(PREFIX + Formatting.GRAY + "Incorrect Value!");
+                Util.messagePlayer(PREFIX + Formatting.GRAY + "Incorrect Value!");
             }
-        } else message(PREFIX + Formatting.GRAY + "Incorrect Usage! Usage: " + Formatting.GREEN +
+        } else Util.messagePlayer(PREFIX + Formatting.GRAY + "Incorrect Usage! Usage: " + Formatting.GREEN +
                 ConfigManager.CMD_PREFIX + name + " <setting> <value>");
     }
 
@@ -220,14 +214,6 @@ public class Module {
         RENDER,
         MISC,
         CLIENT
-    }
-
-    public void message(Text text){
-        if(mc.player != null) ((IChatHud) mc.inGameHud.getChatHud()).callAddMessage(text, 5932);
-    }
-
-    public void message(String str){
-        message(new LiteralText(str));
     }
 
     protected Setting.Group group(final String name, final Setting<?>... settings){

@@ -1,6 +1,5 @@
 package club.faxhax.client.impl.modules.movement;
 
-import club.faxhax.client.FaxHax;
 import club.faxhax.client.api.event.PacketEvent;
 import club.faxhax.client.api.module.Module;
 import club.faxhax.client.api.setting.Setting;
@@ -18,16 +17,6 @@ public class Velocity extends Module {
 
     public Velocity() {
         super("Velocity", Category.MOVEMENT);
-    }
-
-    @Override
-    protected void onEnable() {
-        FaxHax.EVENT_BUS.subscribe(this);
-    }
-
-    @Override
-    protected void onDisable() {
-        FaxHax.EVENT_BUS.unsubscribe(this);
     }
 
     @EventHandler

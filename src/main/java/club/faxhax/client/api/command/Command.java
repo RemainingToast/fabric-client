@@ -1,18 +1,11 @@
 package club.faxhax.client.api.command;
 
+import club.faxhax.client.FaxHax;
 import club.faxhax.client.api.config.ConfigManager;
-import club.faxhax.client.mixin.IChatHud;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
+import club.faxhax.client.IFaxHax;
 import net.minecraft.util.Formatting;
 
-public abstract class Command {
-
-    public MinecraftClient mc = MinecraftClient.getInstance();
-
-    public static String PREFIX = Formatting.DARK_GRAY + "[" +
-            Formatting.DARK_AQUA + "FaxHax" + Formatting.DARK_GRAY + "] " + Formatting.GRAY;
+public abstract class Command implements IFaxHax {
 
     public String name; // prefix + name (.prefix)
 
@@ -30,16 +23,8 @@ public abstract class Command {
     }
 
     public String getWrongUsageMsg() {
-        return PREFIX + Formatting.GRAY + "Incorrect Usage! Usage: " + Formatting.GREEN +
+        return FaxHax.PREFIX + Formatting.GRAY + "Incorrect Usage! Usage: " + Formatting.GREEN +
                 ConfigManager.CMD_PREFIX + name + " " + getUsage();
-    }
-
-    public void message(Text text){
-        if(mc.player != null) ((IChatHud) mc.inGameHud.getChatHud()).callAddMessage(text, 5932);
-    }
-
-    public void message(String str){
-        message(new LiteralText(str));
     }
 
 }

@@ -4,6 +4,7 @@ import club.faxhax.client.FaxHax;
 import club.faxhax.client.api.module.Module;
 import club.faxhax.client.api.module.ModuleManager;
 import club.faxhax.client.api.config.ConfigManager;
+import club.faxhax.client.impl.commands.BindCommand;
 import club.faxhax.client.impl.commands.HelpCommand;
 import club.faxhax.client.impl.commands.PrefixCommand;
 
@@ -39,6 +40,7 @@ public class CommandManager {
 
     public static void initializeCommandManager(){
         long startTime = System.currentTimeMillis();
+        COMMANDS.add(new BindCommand());
         COMMANDS.add(new HelpCommand());
         COMMANDS.add(new PrefixCommand());
 

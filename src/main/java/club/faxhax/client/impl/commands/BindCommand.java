@@ -3,6 +3,7 @@ package club.faxhax.client.impl.commands;
 import club.faxhax.client.api.module.Module;
 import club.faxhax.client.api.module.ModuleManager;
 import club.faxhax.client.api.command.Command;
+import club.faxhax.client.api.util.Util;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Formatting;
 import org.lwjgl.glfw.GLFW;
@@ -16,7 +17,7 @@ public class BindCommand extends Command {
     @Override
     public void perform(String[] args) {
         if(!(args.length >= 3)) {
-            message(getWrongUsageMsg());
+            Util.messagePlayer(getWrongUsageMsg());
         } else {
             Module module = ModuleManager.getModule(args[1]);
             String key;
@@ -29,8 +30,8 @@ public class BindCommand extends Command {
                     module.setKey(key1);
                     key = GLFW.glfwGetKeyName(key1.getCode(), -1);
                 }
-                message(PREFIX + module.name + " has been binded to: " + Formatting.GREEN + key);
-            } else message(PREFIX + Formatting.GRAY + "Module: \"" + args[1] + "\" doesn't exist!");
+                Util.messagePlayer(PREFIX + module.name + " has been binded to: " + Formatting.GREEN + key);
+            } else Util.messagePlayer(PREFIX + Formatting.GRAY + "Module: \"" + args[1] + "\" doesn't exist!");
         }
     }
 

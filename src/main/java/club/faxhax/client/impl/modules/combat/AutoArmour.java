@@ -32,7 +32,6 @@ public class AutoArmour extends Module {
         hashMap.put(EquipmentSlot.LEGS, getProtectionLevel(mc.player.inventory.getStack(37)));
         hashMap.put(EquipmentSlot.CHEST, getProtectionLevel(mc.player.inventory.getStack(38)));
         hashMap.put(EquipmentSlot.HEAD, getProtectionLevel(mc.player.inventory.getStack(39)));
-        
     }
 
     private int getProtectionLevel(ItemStack stack) {

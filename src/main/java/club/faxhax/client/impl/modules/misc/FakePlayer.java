@@ -21,11 +21,6 @@ public class FakePlayer extends Module {
     }
 
     @Override
-    protected void onToggle() {
-        super.onToggle();
-    }
-
-    @Override
     protected void onEnable() {
         if(mc.world != null && mc.player != null){
             OtherClientPlayerEntity player = new OtherClientPlayerEntity(mc.world, new GameProfile(UUID.fromString("6e7514e8-78a9-4cfd-80de-d400b97fece4"), "FaxMachine5781"));

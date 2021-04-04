@@ -3,6 +3,7 @@ package club.faxhax.client.impl.modules.combat;
 import club.faxhax.client.api.module.Module;
 import club.faxhax.client.api.setting.Setting;
 import club.faxhax.client.api.util.DamageUtil;
+import club.faxhax.client.api.util.Util;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -72,7 +73,7 @@ public class CrystalAura extends Module {
 
     @Override
     protected void onToggle() {
-        if(announce.getValue()) message(toggleMessage());
+        if(announce.getValue()) Util.messagePlayer(toggleMessage());
     }
 
     private void clearCache(){
