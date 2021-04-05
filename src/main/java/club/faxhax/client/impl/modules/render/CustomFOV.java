@@ -32,7 +32,6 @@ public class CustomFOV extends Module {
 
     @Override
     protected void onToggle() {
-        
         if(enabled) {
             oldFov = (int) mc.options.fov;
             updateFov();

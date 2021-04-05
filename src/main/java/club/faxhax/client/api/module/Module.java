@@ -1,6 +1,9 @@
 package club.faxhax.client.api.module;
 
 import club.faxhax.client.api.config.ConfigManager;
+import club.faxhax.client.api.notification.Notification;
+import club.faxhax.client.api.notification.NotificationManager;
+import club.faxhax.client.api.notification.NotificationType;
 import club.faxhax.client.api.setting.Setting;
 import club.faxhax.client.api.setting.SettingManager;
 import club.faxhax.client.api.util.FaxColor;
@@ -44,7 +47,7 @@ public class Module implements IFaxHax {
     }
 
     protected void onToggle(){
-
+        NotificationManager.show(new Notification(NotificationType.INFO, name, (enabled) ? "enabled" : "disabled", 1));
     }
 
     protected void onTick(){

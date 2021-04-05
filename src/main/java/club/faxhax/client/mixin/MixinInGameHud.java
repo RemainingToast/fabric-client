@@ -1,8 +1,10 @@
 package club.faxhax.client.mixin;
 
 import club.faxhax.client.api.module.ModuleManager;
+import club.faxhax.client.api.notification.NotificationManager;
 import club.faxhax.client.impl.modules.render.NoRender;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,4 +27,12 @@ public class MixinInGameHud {
         }
     }
 
+
+    @Inject(
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerInventory;getArmorStack(I)Lnet/minecraft/item/ItemStack;"),
+            method = {"render"}
+    )
+    private void onRender(MatrixStack matrixStack, float tickDelta, CallbackInfo info) {
+        NotificationManager.render(matrixStack);
+    }
 }
